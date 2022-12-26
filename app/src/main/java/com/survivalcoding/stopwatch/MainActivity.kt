@@ -2,6 +2,8 @@ package com.survivalcoding.stopwatch
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.survivalcoding.stopwatch.Config.Companion.KEY_IS_RUNNING
+import com.survivalcoding.stopwatch.Config.Companion.KEY_TIME
 import com.survivalcoding.stopwatch.Config.Companion.PERIOD_TIMER
 import com.survivalcoding.stopwatch.databinding.ActivityMainBinding
 import java.util.*
@@ -19,21 +21,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(view)
 
         binding.playButton.setOnClickListener {
-            if (isRunning) {
-                binding.playButton.setImageResource(R.drawable.icon_play)
-                timer.cancel()
-            } else {
-                binding.playButton.setImageResource(R.drawable.icon_pause)
-                timer = kotlin.concurrent.timer(period = PERIOD_TIMER) {
-                    time += PERIOD_TIMER
-                    val sec = time / 1000
-                    val milliSec = (time % 1000) / PERIOD_TIMER
-                    runOnUiThread {
-                        binding.secTextView.text = sec.toString()
-                        binding.milliSecTextView.text = String.format("%02d", milliSec)
-                    }
-                }
-            }
+            if (isRunning) pause()
+            else play()
             isRunning = !isRunning
         }
         binding.refreshButton.setOnClickListener {
@@ -46,9 +35,40 @@ class MainActivity : AppCompatActivity() {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
+
+        outState.putLong(KEY_TIME, time)
+        outState.putBoolean(KEY_IS_RUNNING, isRunning)
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
+
+        time = savedInstanceState.getLong(KEY_TIME)
+        isRunning = savedInstanceState.getBoolean(KEY_IS_RUNNING)
+        if (isRunning) play()
+    }
+
+    private fun play() {
+        binding.playButton.setImageResource(R.drawable.icon_pause)
+        timer = kotlin.concurrent.timer(period = PERIOD_TIMER) {
+            time += PERIOD_TIMER
+            val milliSecond = time % 1000
+            val second = (time / 1000) % 60
+            val minute = (time / (1000 * 60)) % 60
+            val hour = (time / (1000 * 60 * 60)) % 24
+
+            runOnUiThread {
+                binding.secTextView.text =
+                    if (hour > 0) String.format("%d:%02d:%02d", hour, minute, second)
+                    else if (minute > 0) String.format("%02d:%02d", minute, second)
+                    else second.toString()
+                binding.milliSecTextView.text = String.format("%02d", milliSecond / 10)
+            }
+        }
+    }
+
+    private fun pause() {
+        binding.playButton.setImageResource(R.drawable.icon_play)
+        timer.cancel()
     }
 }
