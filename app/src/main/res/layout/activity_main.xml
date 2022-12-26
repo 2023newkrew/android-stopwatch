@@ -48,5 +48,19 @@
         app:layout_constraintEnd_toEndOf="@+id/imageView"
         app:layout_constraintTop_toTopOf="@+id/textView" />
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floatingActionButton3"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
+        app:fabCustomSize="72dp"
+        android:layout_marginBottom="60dp"
+        android:clickable="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        android:backgroundTint="@color/light_purple"
+        app:srcCompat="@drawable/ic_baseline_play_arrow_24" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
