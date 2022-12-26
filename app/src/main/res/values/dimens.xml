@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="text_size_default">64sp</dimen>
+    <dimen name="text_size_large">128sp</dimen>
+
+    <dimen name="button_size_default">64dp</dimen>
+    <dimen name="button_size_large">128dp</dimen>
+
+    <dimen name="margin_default">16dp</dimen>
+</resources>
