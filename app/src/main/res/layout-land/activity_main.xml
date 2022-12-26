@@ -15,7 +15,7 @@
         app:layout_constraintEnd_toEndOf="@+id/rounded_timer_button"
         app:layout_constraintStart_toStartOf="@+id/rounded_timer_button"
         app:layout_constraintTop_toTopOf="@+id/rounded_timer_button"
-        android:layout_marginBottom="35dp">
+        android:layout_marginBottom="20dp">
 
         <TextView
             android:id="@+id/hour_text"
@@ -70,24 +70,26 @@
         android:layout_width="350dp"
         android:layout_height="350dp"
         android:background="@drawable/circule_outlined_gray_button"
+        android:visibility="invisible"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintHorizontal_bias="0.191"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.356" />
+        app:layout_constraintVertical_bias="0.491" />
 
     <ImageButton
         android:id="@+id/start_pause_button"
-        android:layout_width="150dp"
+        android:layout_width="110dp"
         android:layout_height="88dp"
         android:background="@drawable/rounded_purple_button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rounded_timer_button"
-        app:layout_constraintVertical_bias="0.573"
+        app:layout_constraintHorizontal_bias="0.767"
+        app:layout_constraintStart_toEndOf="@+id/rounded_timer_button"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.5"
         app:srcCompat="@drawable/ic_baseline_play_arrow_24"
         android:contentDescription="시작 또는 정지 버튼"/>
 
@@ -96,11 +98,11 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:background="@drawable/circle_pink_button"
-        app:layout_constraintBottom_toBottomOf="@+id/start_pause_button"
-        app:layout_constraintEnd_toStartOf="@+id/start_pause_button"
-        app:layout_constraintHorizontal_bias="0.6"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/start_pause_button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/start_pause_button"
+        app:layout_constraintStart_toStartOf="@+id/start_pause_button"
+        app:layout_constraintTop_toBottomOf="@+id/start_pause_button"
+        app:layout_constraintVertical_bias="0.2"
         app:srcCompat="@drawable/ic_baseline_refresh_24"
         android:contentDescription="초기화 버튼"/>
 
@@ -109,11 +111,11 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:background="@drawable/circle_pink_button"
-        app:layout_constraintBottom_toBottomOf="@+id/start_pause_button"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.4"
-        app:layout_constraintStart_toEndOf="@+id/start_pause_button"
-        app:layout_constraintTop_toTopOf="@+id/start_pause_button"
+        app:layout_constraintBottom_toTopOf="@+id/start_pause_button"
+        app:layout_constraintEnd_toEndOf="@+id/start_pause_button"
+        app:layout_constraintStart_toStartOf="@+id/start_pause_button"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.8"
         app:srcCompat="@drawable/ic_outline_timer_24"
         android:contentDescription="기록 버튼"/>
 
