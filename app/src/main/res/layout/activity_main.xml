@@ -23,6 +23,7 @@
         android:layout_height="wrap_content"
         android:textSize="@dimen/text_size_default"
         app:layout_constraintEnd_toEndOf="@id/sec_text_view"
+        app:layout_constraintStart_toStartOf="@id/sec_text_view"
         app:layout_constraintTop_toBottomOf="@id/sec_text_view"
         tools:text="12" />
 
