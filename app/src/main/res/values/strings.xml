@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">스톱워치</string>
+    <string name="border_circle">테두리만 있는 원</string>
 </resources>

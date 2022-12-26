@@ -10,4 +10,6 @@
     <color name="blue">#8189D0</color>
     <color name="transparent">#00000000</color>
     <color name="gray">#454650</color>
+    <color name="dark_white">#E3DADB</color>
+    <color name="light_black">#1B1A1F</color>
 </resources>
