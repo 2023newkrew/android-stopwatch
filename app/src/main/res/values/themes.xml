@@ -13,4 +13,12 @@
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
     </style>
+    <style name="time_text_main" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">70sp</item>
+        <item name="android:textColor">#FEFEFE</item>
+    </style>
+    <style name="time_text_secondary" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">55sp</item>
+        <item name="android:textColor">#FEFEFE</item>
+    </style>
 </resources>

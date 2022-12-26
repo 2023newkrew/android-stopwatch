@@ -4,57 +4,60 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background_main"
     tools:context=".MainActivity">
 
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView"
-        app:layout_constraintEnd_toEndOf="@+id/imageView"
-        app:layout_constraintStart_toStartOf="@+id/imageView"
-        app:layout_constraintTop_toTopOf="@+id/imageView"
-        android:layout_marginBottom="20dp">
+        app:layout_constraintBottom_toBottomOf="@+id/rounded_timer_button"
+        app:layout_constraintEnd_toEndOf="@+id/rounded_timer_button"
+        app:layout_constraintStart_toStartOf="@+id/rounded_timer_button"
+        app:layout_constraintTop_toTopOf="@+id/rounded_timer_button"
+        android:layout_marginBottom="35dp">
 
         <TextView
             android:id="@+id/hour_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="1"
-            android:textSize="50sp" />
+            style="@style/time_text_main" />
 
         <TextView
+            android:id="@+id/hour_colon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text=":"
-            android:textSize="50sp" />
+            style="@style/time_text_main" />
 
         <TextView
             android:id="@+id/minute_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="53"
-            android:textSize="50sp" />
+            style="@style/time_text_main" />
 
         <TextView
+            android:id="@+id/minute_colon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text=":"
-            android:textSize="50sp" />
+            style="@style/time_text_main" />
 
         <TextView
             android:id="@+id/second_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="35"
-            android:textSize="50sp" />
+            style="@style/time_text_main" />
 
     </LinearLayout>
 
     <TextView
         android:id="@+id/millisecond_text"
         android:text="32"
-        android:textSize="45sp"
+        style="@style/time_text_secondary"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="@+id/linearLayout"
@@ -63,48 +66,52 @@
     </TextView>
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/rounded_timer_button"
         android:layout_width="350dp"
         android:layout_height="350dp"
+        android:background="@drawable/circule_outlined_gray_button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.491"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:background="@drawable/circule_outlined_gray_button" />
+        app:layout_constraintVertical_bias="0.356" />
 
     <ImageButton
-        android:id="@+id/imageButton"
+        android:id="@+id/start_pause_button"
         android:layout_width="150dp"
         android:layout_height="88dp"
         android:background="@drawable/rounded_purple_button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView"
+        app:layout_constraintTop_toBottomOf="@+id/rounded_timer_button"
+        app:layout_constraintVertical_bias="0.573"
         app:srcCompat="@drawable/ic_baseline_play_arrow_24" />
 
     <ImageButton
-        android:id="@+id/imageButton2"
+        android:id="@+id/reset_button"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:background="@drawable/circle_pink_button"
-        app:layout_constraintBottom_toBottomOf="@+id/imageButton"
-        app:layout_constraintEnd_toStartOf="@+id/imageButton"
+        app:layout_constraintBottom_toBottomOf="@+id/start_pause_button"
+        app:layout_constraintEnd_toStartOf="@+id/start_pause_button"
         app:layout_constraintHorizontal_bias="0.6"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/imageButton"
+        app:layout_constraintTop_toTopOf="@+id/start_pause_button"
         app:srcCompat="@drawable/ic_baseline_refresh_24" />
 
     <ImageButton
-        android:id="@+id/imageButton3"
+        android:id="@+id/record_button"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:background="@drawable/circle_pink_button"
-        app:layout_constraintBottom_toBottomOf="@+id/imageButton"
+        app:layout_constraintBottom_toBottomOf="@+id/start_pause_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.4"
-        app:layout_constraintStart_toEndOf="@+id/imageButton"
-        app:layout_constraintTop_toTopOf="@+id/imageButton"
+        app:layout_constraintStart_toEndOf="@+id/start_pause_button"
+        app:layout_constraintTop_toTopOf="@+id/start_pause_button"
         app:srcCompat="@drawable/ic_outline_timer_24" />
 
 
