@@ -35,11 +35,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     // onDestroy 가기 전에 호출
-//    override fun onSaveInstanceState(outState: Bundle) {
-//        super.onSaveInstanceState(outState)
-//
-//        outState.putInt("count", count)
-//    }
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+
+        outState.putInt("count", count)
+    }
 
     // 다시 재생성 될 때 onCreate 다음에 호출
 //    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
