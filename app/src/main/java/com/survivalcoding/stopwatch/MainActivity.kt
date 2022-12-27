@@ -6,60 +6,65 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
+import androidx.activity.viewModels
+import com.survivalcoding.stopwatch.databinding.ActivityMainBinding
+import java.text.DecimalFormat
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
-    private var isPaused = true
-    private var timerWork: Timer? = null
-    private var time = 0
-    private var hour_text: TextView? = null
-    private var minute_text: TextView? = null
-    private var second_text: TextView? = null
-    private var millisecond_text: TextView? = null
-    private var start_pause_button: ImageButton? = null
+    private val binding: ActivityMainBinding by lazy {
+        ActivityMainBinding.inflate(layoutInflater)
+    }
+    private val viewModel: MainViewModel by viewModels()
+    val df00 = DecimalFormat("00")
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        hour_text = findViewById<TextView>(R.id.hour_text)
-        minute_text = findViewById<TextView>(R.id.minute_text)
-        second_text = findViewById<TextView>(R.id.second_text)
-        millisecond_text = findViewById<TextView>(R.id.millisecond_text)
-        start_pause_button = findViewById<ImageButton>(R.id.start_pause_button)
-        if (savedInstanceState == null) {
-            second_text?.text = "00"
-            millisecond_text?.text = "00"
-        }
-        start_pause_button?.setOnClickListener {
-            if (isPaused) {
-                start()
+        val view = binding.root
+        setContentView(view)
+
+        viewModel.liveHourData.observe(this) { hour ->
+            if (hour > 0) {
+                binding.hourText.text = "$hour"
+                binding.hourColon.text = ":"
             } else {
-                pause()
+                binding.hourText.text = ""
+                binding.hourColon.text = ""
             }
 
         }
-    }
-    private fun start() {
-
-        start_pause_button?.setImageResource(R.drawable.ic_baseline_pause_24)	// 시작버튼을 일시정지 이미지로 변경
-        isPaused = false
-
-        timerWork = kotlin.concurrent.timer(period = 10) {	// timer() 호출
-            time++	// period=10, 0.01초마다 time를 1씩 증가
-            //val minute = if (time > 6000) time / 6000 else -1
-            val sec = time / 100 % 60	// time/100, 나눗셈의 몫 (초 부분)
-            val milli = time % 100	// time%100, 나눗셈의 나머지 (밀리초 부분)
-
-            // UI조작을 위한 메서드
-            runOnUiThread {
-                second_text?.text = "$sec"	// TextView 세팅
-                millisecond_text?.text = "$milli"	// Textview 세팅
+        viewModel.liveMinuteData.observe(this) { minute ->
+            if (minute > 0) {
+                binding.minuteText.text = "$minute"
+                binding.minuteColon.text = ":"
+            } else {
+                binding.minuteText.text = ""
+                binding.minuteColon.text = ""
             }
         }
-    }
-    private fun pause() {
-        start_pause_button?.setImageResource(R.drawable.ic_baseline_play_arrow_24)
-        isPaused = true
+        viewModel.liveSecData.observe(this) { sec ->
+            binding.secondText.text = df00.format(sec)
+        }
+        viewModel.liveMilliSecData.observe(this) { milliSec ->
+            binding.millisecondText.text = df00.format(milliSec)
+        }
 
-        timerWork?.cancel()
+        binding.startPauseButton.setOnClickListener {
+            if (viewModel.isPaused) {
+                binding.startPauseButton.setImageResource(R.drawable.ic_baseline_pause_24)
+                viewModel.start()
+            } else {
+                // TODO 시간 깜빡거리게 하기
+                binding.startPauseButton.setImageResource(R.drawable.ic_baseline_play_arrow_24)
+                viewModel.pause()
+            }
+
+        }
+        binding.resetButton.setOnClickListener {
+            binding.startPauseButton.setImageResource(R.drawable.ic_baseline_play_arrow_24)
+            viewModel.reset()
+        }
     }
+
 }
