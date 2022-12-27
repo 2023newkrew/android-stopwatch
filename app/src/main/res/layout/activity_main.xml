@@ -67,10 +67,10 @@
 
     <androidx.constraintlayout.motion.widget.MotionLayout
         android:id="@+id/start_pause_motion"
-        android:layout_width= "wrap_content"
+        android:layout_width="wrap_content"
         android:layout_height="90dp"
-        app:layout_constrainedWidth="true"
         app:layoutDescription="@xml/activity_main_scene"
+        app:layout_constrainedWidth="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -117,7 +117,6 @@
         app:layout_constraintStart_toEndOf="@+id/start_pause_motion"
         app:layout_constraintTop_toBottomOf="@+id/progressive_timer_button"
         app:srcCompat="@drawable/ic_outline_timer_24" />
-
 
 
     <ProgressBar

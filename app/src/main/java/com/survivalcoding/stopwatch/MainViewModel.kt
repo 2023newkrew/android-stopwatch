@@ -30,8 +30,8 @@ class MainViewModel : ViewModel() {
             minute = time / 6000 % 60
             sec = time / 100 % 60    // time/100, 나눗셈의 몫 (초 부분)
             milliSec = time % 100    // time%100, 나눗셈의 나머지 (밀리초 부분)
-            if(standardLapTime>0){
-                progressPercent = (time - startLapTime)*100/standardLapTime
+            if (standardLapTime > 0) {
+                progressPercent = (time - startLapTime) * 100 / standardLapTime
             }
 
             liveHourData.postValue(hour)
@@ -48,7 +48,7 @@ class MainViewModel : ViewModel() {
     }
 
     fun lapTime() {
-        if(standardLapTime==0) standardLapTime = time
+        if (standardLapTime == 0) standardLapTime = time
         startLapTime = time
 
         //TODO laptime 기록 저장
