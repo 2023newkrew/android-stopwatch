@@ -3,8 +3,11 @@ package com.survivalcoding.stopwatch
 import android.media.Image
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import android.widget.Button
 import android.widget.ImageButton
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.activity.viewModels
 import com.survivalcoding.stopwatch.databinding.ActivityMainBinding
@@ -23,6 +26,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         val view = binding.root
         setContentView(view)
+        val blinkAnim = AnimationUtils.loadAnimation(this, R.anim.blink_animation)
 
         viewModel.liveHourData.observe(this) { hour ->
             if (hour > 0) {
@@ -49,25 +53,41 @@ class MainActivity : AppCompatActivity() {
         viewModel.liveMilliSecData.observe(this) { milliSec ->
             binding.millisecondText.text = df00.format(milliSec)
         }
+        viewModel.liveProgressPercent.observe(this){ percent ->
+            binding.progressiveTimerButton.progress= percent
+        }
 
         binding.startPauseButton.setOnClickListener {
             if (viewModel.isPaused) {
+                stopAnimation(blinkAnim)
                 binding.startPauseButton.setImageResource(R.drawable.ic_baseline_pause_24)
                 viewModel.start()
             } else {
-                // TODO 시간 깜빡거리게 하기
+                startAnimation(blinkAnim)
+                // TODO Progressive bar 추가
                 binding.startPauseButton.setImageResource(R.drawable.ic_baseline_play_arrow_24)
                 viewModel.pause()
             }
 
         }
         binding.resetButton.setOnClickListener {
+            stopAnimation(blinkAnim)
             binding.startPauseButton.setImageResource(R.drawable.ic_baseline_play_arrow_24)
             viewModel.reset()
         }
         binding.recordButton.setOnClickListener {
-
+            viewModel.lapTime()
         }
+    }
+
+    private fun startAnimation(anim: Animation) {
+        binding.timeLayout.startAnimation(anim)
+        binding.millisecondText.startAnimation(anim)
+    }
+
+    private fun stopAnimation(anim: Animation) {
+        binding.timeLayout.clearAnimation()
+        binding.millisecondText.clearAnimation()
     }
 
 }

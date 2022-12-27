@@ -8,13 +8,13 @@
     tools:context=".MainActivity">
 
     <LinearLayout
-        android:id="@+id/linearLayout"
+        android:id="@+id/time_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@+id/rounded_timer_button"
-        app:layout_constraintEnd_toEndOf="@+id/rounded_timer_button"
-        app:layout_constraintStart_toStartOf="@+id/rounded_timer_button"
-        app:layout_constraintTop_toTopOf="@+id/rounded_timer_button"
+        app:layout_constraintBottom_toBottomOf="@+id/progressive_timer_button"
+        app:layout_constraintEnd_toEndOf="@+id/progressive_timer_button"
+        app:layout_constraintStart_toStartOf="@+id/progressive_timer_button"
+        app:layout_constraintTop_toTopOf="@+id/progressive_timer_button"
         android:layout_marginBottom="20dp">
 
         <TextView
@@ -60,18 +60,24 @@
         style="@style/time_text_secondary"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="@+id/linearLayout"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+        app:layout_constraintEnd_toEndOf="@+id/time_layout"
+        app:layout_constraintTop_toBottomOf="@+id/time_layout">
 
     </TextView>
 
-    <ImageView
-        android:id="@+id/rounded_timer_button"
+    <ProgressBar
+        android:id="@+id/progressive_timer_button"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
         android:layout_width="350dp"
         android:layout_height="350dp"
-        android:background="@drawable/circule_outlined_gray_button"
+        android:layout_gravity="center"
+        android:indeterminate="false"
+        android:max="100"
+        android:progress="30"
+        android:progressBackgroundTint="@color/progressive_background"
+        android:progressDrawable="@drawable/circle_progressbar"
+        android:progressTint="@color/progressive_foreground"
         android:visibility="invisible"
-        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.191"
@@ -87,7 +93,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.767"
-        app:layout_constraintStart_toEndOf="@+id/rounded_timer_button"
+        app:layout_constraintStart_toEndOf="@+id/progressive_timer_button"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.5"
         app:srcCompat="@drawable/ic_baseline_play_arrow_24"
