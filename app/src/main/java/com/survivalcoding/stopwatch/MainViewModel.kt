@@ -3,7 +3,6 @@ package com.survivalcoding.stopwatch
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import java.util.*
-import kotlin.math.min
 
 class MainViewModel : ViewModel() {
     var isPaused = true
