@@ -27,13 +27,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="80dp"
-        tools:text="00:00:00"
         android:textColor="@color/dark_white"
         android:textSize="70sp"
         app:layout_constraintEnd_toEndOf="@+id/border_circle"
         app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="@+id/border_circle"
-        app:layout_constraintTop_toTopOf="@+id/border_circle" />
+        app:layout_constraintTop_toTopOf="@+id/border_circle"
+        tools:text="00:00:00" />
 
     <TextView
         android:id="@+id/mil_second_text_view"
@@ -41,11 +41,11 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="88dp"
         android:layout_marginEnd="124dp"
-        tools:text="00"
         android:textColor="@color/dark_white"
         android:textSize="50sp"
         app:layout_constraintEnd_toEndOf="@+id/border_circle"
-        app:layout_constraintTop_toTopOf="@+id/second_text_view" />
+        app:layout_constraintTop_toTopOf="@+id/second_text_view"
+        tools:text="00" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/play_pause_button_view"
@@ -72,14 +72,15 @@
         android:clickable="true"
         android:contentDescription="@string/init_button"
         android:focusable="true"
+        android:visibility="invisible"
         app:borderWidth="0dp"
-
         app:layout_constraintBottom_toBottomOf="@+id/play_pause_button_view"
         app:layout_constraintEnd_toStartOf="@+id/play_pause_button_view"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/play_pause_button_view"
         app:srcCompat="@drawable/ic_baseline_restart_alt_24"
-        app:tint="@color/dark_white" />
+        app:tint="@color/dark_white"
+        tools:visibility="visible" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/record_button_view"
@@ -89,13 +90,15 @@
         android:clickable="true"
         android:contentDescription="@string/record_button"
         android:focusable="true"
+        android:visibility="invisible"
         app:borderWidth="0dp"
         app:layout_constraintBottom_toBottomOf="@+id/play_pause_button_view"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/play_pause_button_view"
         app:layout_constraintTop_toTopOf="@+id/play_pause_button_view"
         app:srcCompat="@drawable/ic_outline_timer_24"
-        app:tint="@color/dark_white" />
+        app:tint="@color/dark_white"
+        tools:visibility="visible" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
