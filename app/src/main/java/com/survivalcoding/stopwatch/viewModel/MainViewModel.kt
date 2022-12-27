@@ -6,23 +6,40 @@ import java.util.*
 import kotlin.concurrent.timer
 
 class MainViewModel : ViewModel() {
-    private var milSec:Long = 0
+    private var milSec: Long = 0
+    private var isPlaying: Boolean = false
 
-    companion object{
+    companion object {
         const val TIMER_PERIOD = 10L
     }
+
     private var timer: Timer? = null
 
-    val milSecLiveData = MutableLiveData<Long>(milSec)
+    val milSecLiveData = MutableLiveData(milSec)
+    val isPlayingLiveData = MutableLiveData(isPlaying)
+    val isFirstPlayLiveData = MutableLiveData(false)
 
-    fun timerPlay(){
-        timer = timer(period = TIMER_PERIOD){
+    fun playPauseBtnClicked() =
+        if (isPlaying) timerStop() else timerPlay()
+
+
+    private fun timerPlay() {
+        if (isPlaying) return
+        isPlaying = true
+        isPlayingLiveData.postValue(true)
+        isFirstPlayLiveData.postValue(true)
+
+        timer = timer(period = TIMER_PERIOD) {
             milSec += TIMER_PERIOD
             milSecLiveData.postValue(milSec)
         }
     }
 
-    fun timerStop(){
+    private fun timerStop() {
+        if (!isPlaying) return
+        isPlaying = false
+        isPlayingLiveData.postValue(false)
+
         timer?.cancel()
     }
 }
