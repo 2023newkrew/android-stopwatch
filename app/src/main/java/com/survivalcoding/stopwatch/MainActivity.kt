@@ -65,6 +65,9 @@ class MainActivity : AppCompatActivity() {
             binding.startPauseButton.setImageResource(R.drawable.ic_baseline_play_arrow_24)
             viewModel.reset()
         }
+        binding.recordButton.setOnClickListener {
+
+        }
     }
 
 }
