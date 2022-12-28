@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">스톱워치</string>
-    <string name="border_circle">테두리만 있는 원</string>
     <string name="play_pause_button">재생, 일시정지 버튼</string>
     <string name="init_button">초기화 버튼</string>
     <string name="record_button">기록 버튼</string>
