@@ -5,14 +5,14 @@ plugins {
 
 android {
     namespace 'com.survivalcoding.stopwatch'
-    compileSdk 32
+    compileSdk 33
 
     defaultConfig {
         applicationId "com.survivalcoding.stopwatch"
         minSdk 21
-        targetSdk 32
+        targetSdk 33
         versionCode 1
-        versionName "1.0"
+        versionName "1.0.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -30,6 +30,10 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+
+    buildFeatures {
+        viewBinding = true
+    }
 }
 
 dependencies {
@@ -41,4 +45,7 @@ dependencies {
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.4'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.0'
+
+    implementation "androidx.activity:activity-ktx:1.6.1"
+    implementation "androidx.fragment:fragment-ktx:1.5.5"
 }

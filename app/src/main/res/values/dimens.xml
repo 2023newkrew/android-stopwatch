@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="text_size_default">48sp</dimen>
+    <dimen name="text_size_large">96sp</dimen>
+
+    <dimen name="button_size_default">64dp</dimen>
+    <dimen name="button_size_large">96dp</dimen>
+
+    <dimen name="margin_default">16dp</dimen>
+
+    <dimen name="progress_size_small">320dp</dimen>
+    <dimen name="progress_size_default">360dp</dimen>
+</resources>
