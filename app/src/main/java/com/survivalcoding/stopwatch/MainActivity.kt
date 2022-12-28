@@ -17,6 +17,7 @@ class MainActivity : AppCompatActivity() {
     private val viewModel: MainViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        supportFragmentManager.fragmentFactory = MyFragmentFactory()
         super.onCreate(savedInstanceState)
         val view = binding.root
         setContentView(view)
