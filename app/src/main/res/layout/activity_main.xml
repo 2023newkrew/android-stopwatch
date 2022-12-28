@@ -5,9 +5,14 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+<!--    <androidx.fragment.app.FragmentContainerView-->
+<!--        android:id="@+id/container"-->
+<!--        android:name="com.survivalcoding.stopwatch.MainFragment"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent" />-->
+
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/container"
-        android:name="com.survivalcoding.stopwatch.MainFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
