@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.survivalcoding.stopwatch.R
@@ -31,15 +32,21 @@ class StopWatchFragment : Fragment() {
                 else second.toString()
             binding.milliSecTextView.text = String.format("%02d", milliSecond / 10)
         }
-        if (viewModel.isRunning) binding.playButton.setImageResource(R.drawable.icon_pause)
+        if (viewModel.isRunning) {
+            binding.playButton.setImageResource(R.drawable.icon_pause)
+        } else if ((viewModel.timeLiveData.value ?: 0) > 0) {
+            binding.timeLayout.startAnimation(AnimationUtils.loadAnimation(requireContext(), R.anim.animation_blink))
+        }
 
         binding.playButton.setOnClickListener {
             if (viewModel.isRunning) {
                 viewModel.pause()
                 binding.playButton.setImageResource(R.drawable.icon_play)
+                binding.timeLayout.startAnimation(AnimationUtils.loadAnimation(requireContext(), R.anim.animation_blink))
             } else {
                 viewModel.play()
                 binding.playButton.setImageResource(R.drawable.icon_pause)
+                binding.timeLayout.clearAnimation()
             }
             viewModel.isRunning = !viewModel.isRunning
         }
