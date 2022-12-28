@@ -1,25 +1,18 @@
 package com.survivalcoding.stopwatch.activity
 
 import android.os.Bundle
-import android.view.MotionEvent
-import android.view.animation.Animation
-import android.view.animation.AnimationUtils
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
-import androidx.core.view.isVisible
+import androidx.fragment.app.commit
+import androidx.fragment.app.replace
 import com.survivalcoding.stopwatch.R
 import com.survivalcoding.stopwatch.databinding.ActivityMainBinding
-import com.survivalcoding.stopwatch.viewmodel.MainViewModel
+import com.survivalcoding.stopwatch.fragment.BlankFragment
+import com.survivalcoding.stopwatch.fragment.StopWatchFragment
 
 class MainActivity : AppCompatActivity() {
 
     private val binding: ActivityMainBinding by lazy {
         ActivityMainBinding.inflate(layoutInflater)
-    }
-    private val viewModel: MainViewModel by viewModels()
-    private val blinkAnim: Animation by lazy {
-        AnimationUtils.loadAnimation(this, R.anim.blink_animation)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,53 +22,33 @@ class MainActivity : AppCompatActivity() {
         setContentView(view)
 
 
-        viewModel.milSecLiveData.observe(this) { milSec ->
-            binding.milSecondTextView.text = "${(milSec % 1000) / 10}"
-            val sec = milSec / 1000
-            val secText = String.format("%02d", sec % 60)
-            val minuteText = if (sec >= 60) String.format("%02d:", (sec / 60) % 60) else ""
-            val hourText = if (sec >= 3600) String.format("%02d:", (sec / 3600)) else ""
-            val newText = hourText + minuteText + secText
-            binding.secondTextView.text = newText
-        }
-
-        updateUI()
-        binding.playPauseButtonView.setOnClickListener {
-            if (viewModel.isPlaying) viewModel.timerStop() else viewModel.timerPlay()
-            updateUI()
-        }
-
-    }
-
-    private fun updateUI() {
-        if (viewModel.isPlayedOneMore) {
-            binding.recordButtonView.isVisible = true
-            binding.initButtonView.isVisible = true
-        }
-
-        if (viewModel.isPlaying) {
-            binding.milSecondTextView.clearAnimation()
-            binding.secondTextView.clearAnimation()
 
 
-            binding.playPauseButtonView.setImageResource(R.drawable.ic_baseline_pause_24)
-            binding.borderCircle.setColorFilter(
-                ContextCompat.getColor(this, R.color.blue)
-            )
-            binding.motionLayout.transitionToEnd()
-        } else {
+        binding.bottomNavigation.setOnItemSelectedListener { item ->
+            when(item.itemId) {
+                R.id.stopwatch_page->{
+                    if (savedInstanceState == null) {
+                        supportFragmentManager.commit {
+                            setReorderingAllowed(true)
+                            replace<StopWatchFragment>(R.id.container)
 
-            if (viewModel.isPlayedOneMore) {
-                binding.milSecondTextView.startAnimation(blinkAnim)
-                binding.secondTextView.startAnimation(blinkAnim)
+                        }
+                    }
+                }
+
+                else->{
+                    if (savedInstanceState == null) {
+                        supportFragmentManager.commit {
+                            setReorderingAllowed(true)
+                            replace<BlankFragment>(R.id.container)
+
+                        }
+                    }
+                }
             }
-
-            binding.playPauseButtonView.setImageResource(R.drawable.ic_baseline_play_arrow_24)
-            binding.borderCircle.setColorFilter(
-                ContextCompat.getColor(this, R.color.gray)
-            )
-            binding.motionLayout.transitionToStart()
+            return@setOnItemSelectedListener true
         }
-
     }
+
+
 }

@@ -24,7 +24,7 @@
 
         <Constraint
             android:id="@+id/play_pause_button_view"
-            android:layout_width="150dp"
+            android:layout_width="130dp"
             android:layout_height="80dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -37,5 +37,5 @@
     <Transition
         app:constraintSetEnd="@id/end"
         app:constraintSetStart="@+id/start"
-        app:duration="100"></Transition>
+        app:duration="100" />
 </MotionScene>
