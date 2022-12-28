@@ -9,7 +9,7 @@ import kotlin.concurrent.timer
 class MainViewModel : ViewModel() {
     private var timer: Timer? = null
 
-    var isRunning: Boolean = false
+    var runningLiveData = MutableLiveData(false)
     val timeLiveData = MutableLiveData(0L)
 
     fun play() {

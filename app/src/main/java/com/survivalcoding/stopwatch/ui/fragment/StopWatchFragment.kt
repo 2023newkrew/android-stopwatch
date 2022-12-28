@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.survivalcoding.stopwatch.R
@@ -32,23 +33,34 @@ class StopWatchFragment : Fragment() {
                 else second.toString()
             binding.milliSecTextView.text = String.format("%02d", milliSecond / 10)
         }
-        if (viewModel.isRunning) {
-            binding.playButton.setImageResource(R.drawable.icon_pause)
-        } else if ((viewModel.timeLiveData.value ?: 0) > 0) {
-            binding.timeLayout.startAnimation(AnimationUtils.loadAnimation(requireContext(), R.anim.animation_blink))
-        }
+
+        if (viewModel.runningLiveData.value == true) binding.playButton.setImageResource(R.drawable.icon_pause)
+        else if ((viewModel.timeLiveData.value ?: 0) > 0) binding.timeLayout.startAnimation(AnimationUtils.loadAnimation(requireContext(), R.anim.animation_blink))
 
         binding.playButton.setOnClickListener {
-            if (viewModel.isRunning) {
+            if (viewModel.runningLiveData.value == true) {
                 viewModel.pause()
                 binding.playButton.setImageResource(R.drawable.icon_play)
                 binding.timeLayout.startAnimation(AnimationUtils.loadAnimation(requireContext(), R.anim.animation_blink))
+                binding.lapButton.isVisible = false
+                viewModel.runningLiveData.value = false
             } else {
                 viewModel.play()
                 binding.playButton.setImageResource(R.drawable.icon_pause)
                 binding.timeLayout.clearAnimation()
+                binding.refreshButton.isVisible = true
+                binding.lapButton.isVisible = true
+                viewModel.runningLiveData.value = true
             }
-            viewModel.isRunning = !viewModel.isRunning
+        }
+        binding.refreshButton.setOnClickListener {
+            viewModel.pause()
+            viewModel.runningLiveData.value = false
+            binding.playButton.setImageResource(R.drawable.icon_play)
+            viewModel.timeLiveData.value = 0L
+            binding.timeLayout.clearAnimation()
+            binding.refreshButton.isVisible = false
+            binding.lapButton.isVisible = false
         }
 
         return root
