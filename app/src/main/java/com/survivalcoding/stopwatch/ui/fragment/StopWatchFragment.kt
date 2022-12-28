@@ -1,22 +1,25 @@
-package com.survivalcoding.stopwatch
+package com.survivalcoding.stopwatch.ui.fragment
 
 import android.os.Bundle
-import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
-import com.survivalcoding.stopwatch.databinding.ActivityMainBinding
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import com.survivalcoding.stopwatch.R
+import com.survivalcoding.stopwatch.databinding.FragmentStopWatchBinding
+import com.survivalcoding.stopwatch.ui.MainViewModel
 
-class MainActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityMainBinding
+class StopWatchFragment : Fragment() {
+    private var _binding: FragmentStopWatchBinding? = null
+    private val binding get() = _binding!!
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        _binding = FragmentStopWatchBinding.inflate(inflater, container, false)
+        val root: View = binding.root
 
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        val view = binding.root
-        setContentView(view)
-
-        val viewModel: MainViewModel by viewModels()
-        viewModel.timeLiveData.observe(this) { time ->
+        val viewModel: MainViewModel by activityViewModels()
+        viewModel.timeLiveData.observe(viewLifecycleOwner) { time ->
             val milliSecond = time % 1000
             val second = (time / 1000) % 60
             val minute = (time / (1000 * 60)) % 60
@@ -40,5 +43,12 @@ class MainActivity : AppCompatActivity() {
             }
             viewModel.isRunning = !viewModel.isRunning
         }
+
+        return root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

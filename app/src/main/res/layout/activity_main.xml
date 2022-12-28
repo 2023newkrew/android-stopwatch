@@ -4,86 +4,35 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:background="@color/black"
+    tools:context=".ui.MainActivity">
 
-    <androidx.appcompat.widget.LinearLayoutCompat
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="vertical"
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/navigation"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_navigation"
+        android:background="@color/dark_gray"
+        android:padding="@dimen/margin_small"
+        app:itemBackground="@drawable/selector_navigation_item_background"
+        app:itemIconTint="@drawable/selector_navigation_item_tint"
+        app:itemRippleColor="@null"
+        app:itemTextColor="@color/white"
+        app:labelVisibilityMode="labeled"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:menu="@menu/navigation_menu" />
 
-        <TextView
-            android:id="@+id/sec_text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@android:color/white"
-            android:textSize="@dimen/text_size_large"
-            tools:text="12" />
-
-        <TextView
-            android:id="@+id/milli_sec_text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@android:color/white"
-            android:textSize="@dimen/text_size_default"
-            tools:text="12" />
-    </androidx.appcompat.widget.LinearLayoutCompat>
-
-    <ProgressBar
-        android:id="@+id/progress_bar"
-        android:layout_width="@dimen/progress_size_default"
-        android:layout_height="@dimen/progress_size_default"
-        android:background="@drawable/shape_progress_background"
-        android:indeterminateOnly="false"
-        android:max="120"
-        android:progress="0"
-        android:progressDrawable="@drawable/shape_progress_drawable"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/container"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:defaultNavHost="true"
+        app:layout_constraintBottom_toTopOf="@id/navigation"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/refresh_button"
-        android:layout_width="@dimen/button_size_default"
-        android:layout_height="@dimen/button_size_default"
-        android:contentDescription="@string/description_refresh_button"
-        android:src="@drawable/icon_refresh"
-        app:backgroundTint="@color/pink"
-        app:fabCustomSize="@dimen/button_size_default"
-        app:layout_constraintBottom_toBottomOf="@id/play_button"
-        app:layout_constraintEnd_toStartOf="@id/play_button"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/play_button" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/play_button"
-        android:layout_width="@dimen/button_size_large"
-        android:layout_height="@dimen/button_size_large"
-        android:layout_marginBottom="@dimen/margin_default"
-        android:contentDescription="@string/description_play_button"
-        android:src="@drawable/icon_play"
-        app:backgroundTint="@color/blue"
-        app:fabCustomSize="@dimen/button_size_large"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/lap_button"
-        android:layout_width="@dimen/button_size_default"
-        android:layout_height="@dimen/button_size_default"
-        android:contentDescription="@string/description_lap_button"
-        android:src="@drawable/icon_lap"
-        app:backgroundTint="@color/pink"
-        app:fabCustomSize="@dimen/button_size_default"
-        app:layout_constraintBottom_toBottomOf="@id/play_button"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/play_button"
-        app:layout_constraintTop_toTopOf="@id/play_button" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:navGraph="@navigation/navigation_graph" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
