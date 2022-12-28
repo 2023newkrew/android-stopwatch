@@ -29,7 +29,7 @@ class stopWatchFragment : Fragment() {
         _binding = FragmentStopWatchBinding.inflate(inflater, container, false)
         val view = binding.root
         val blinkAnim = AnimationUtils.loadAnimation(context, R.anim.blink_animation)
-
+        buttonRecover(blinkAnim)
         viewModel.liveStateData.observe(viewLifecycleOwner) { state ->
             if (state.hour > 0) {
                 binding.hourText.text = "${state.hour}"
@@ -54,6 +54,7 @@ class stopWatchFragment : Fragment() {
         }
 
         binding.startPauseButton.setOnClickListener {
+            viewModel.isWorking = true
             binding.resetButton.isVisible = true
             if (viewModel.isPaused) {
                 stopAnimation()
@@ -62,7 +63,6 @@ class stopWatchFragment : Fragment() {
                 binding.recordButton.isVisible = true
             } else {
                 startAnimation(blinkAnim)
-                // TODO Progressive bar 추가
                 binding.startPauseButton.setImageResource(R.drawable.ic_baseline_play_arrow_24)
                 viewModel.pause()
                 binding.recordButton.isVisible = false
@@ -81,6 +81,7 @@ class stopWatchFragment : Fragment() {
             viewModel.reset()
             binding.resetButton.visibility = View.INVISIBLE
             binding.recordButton.visibility = View.INVISIBLE
+            viewModel.isWorking = false
         }
         binding.recordButton.setOnClickListener {
             viewModel.lapTime()
@@ -101,5 +102,23 @@ class stopWatchFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun buttonRecover(blinkAnim: Animation) {
+        if (viewModel.isWorking) {
+            binding.resetButton.isVisible = true
+            if (!viewModel.isPaused) {
+                stopAnimation()
+                binding.startPauseButton.setImageResource(R.drawable.ic_baseline_pause_24)
+                binding.recordButton.isVisible = true
+                binding.startPauseMotion?.transitionToEnd()
+            } else {
+                startAnimation(blinkAnim)
+                binding.startPauseButton.setImageResource(R.drawable.ic_baseline_play_arrow_24)
+                binding.recordButton.isVisible = false
+                binding.startPauseMotion?.transitionToStart()
+            }
+        }
+
     }
 }

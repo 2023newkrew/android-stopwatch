@@ -6,13 +6,14 @@ import java.util.*
 
 class MainViewModel : ViewModel() {
     var isPaused = true
+    var isWorking = false
     private var timerWork: Timer? = null
     private var time = 0
     private var standardLapTime = 0
     private var progressPercent = 0
     private var startLapTime = 0
 
-    private val state = mainUiState()
+    private val state = MainUiState()
 
     val liveStateData = MutableLiveData(state)
     val liveProgressPercent = MutableLiveData(progressPercent)
@@ -53,8 +54,8 @@ class MainViewModel : ViewModel() {
         startLapTime = 0
         progressPercent = 0
         isPaused = true
-
-        liveStateData.value = mainUiState()
+        state.setZero()
+        liveStateData.value = state
         liveProgressPercent.value = 0
 
         // TODO laptime 기록 삭제
@@ -64,11 +65,19 @@ class MainViewModel : ViewModel() {
         super.onCleared()
         timerWork?.cancel()
     }
+
 }
 
-data class mainUiState(
+data class MainUiState(
     var hour: Int = 0,
     var minute: Int = 0,
     var sec: Int = 0,
     var milliSec: Int = 0
-)
+) {
+    fun setZero() {
+        hour = 0
+        minute = 0
+        sec = 0
+        milliSec = 0
+    }
+}
