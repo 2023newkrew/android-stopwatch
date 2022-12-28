@@ -1,10 +1,13 @@
 package com.survivalcoding.stopwatch.activity
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View.VISIBLE
+import android.view.MotionEvent
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import com.survivalcoding.stopwatch.R
 import com.survivalcoding.stopwatch.databinding.ActivityMainBinding
 import com.survivalcoding.stopwatch.viewmodel.MainViewModel
@@ -15,6 +18,9 @@ class MainActivity : AppCompatActivity() {
         ActivityMainBinding.inflate(layoutInflater)
     }
     private val viewModel: MainViewModel by viewModels()
+    private val blinkAnim: Animation by lazy {
+        AnimationUtils.loadAnimation(this, R.anim.blink_animation)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,36 +39,43 @@ class MainActivity : AppCompatActivity() {
             binding.secondTextView.text = newText
         }
 
-        // 최초 시작 버튼 클릭 시에 기록, 초기화 버튼 생기도록
-        viewModel.isFirstPlayLiveData.observe(this) { isFirstPlay ->
-            if (isFirstPlay) {
-                binding.recordButtonView.visibility = VISIBLE
-                binding.initButtonView.visibility = VISIBLE
-            }
-        }
-
-        viewModel.isPlayingLiveData.observe(this) { isPlaying ->
-
-            if (isPlaying) {
-                binding.playPauseButtonView.setImageResource(R.drawable.ic_baseline_pause_24)
-                binding.borderCircle?.setColorFilter(
-                    ContextCompat.getColor(this, R.color.blue)
-                )
-
-            } else {
-                binding.playPauseButtonView.setImageResource(R.drawable.ic_baseline_play_arrow_24)
-                binding.borderCircle?.setColorFilter(
-                    ContextCompat.getColor(this, R.color.gray)
-                )
-            }
-
-
-        }
-
-
-
+        updateUI()
         binding.playPauseButtonView.setOnClickListener {
-            viewModel.playPauseBtnClicked()
+            if (viewModel.isPlaying) viewModel.timerStop() else viewModel.timerPlay()
+            updateUI()
         }
+
+    }
+
+    private fun updateUI() {
+        if (viewModel.isPlayedOneMore) {
+            binding.recordButtonView.isVisible = true
+            binding.initButtonView.isVisible = true
+        }
+
+        if (viewModel.isPlaying) {
+            binding.milSecondTextView.clearAnimation()
+            binding.secondTextView.clearAnimation()
+
+
+            binding.playPauseButtonView.setImageResource(R.drawable.ic_baseline_pause_24)
+            binding.borderCircle.setColorFilter(
+                ContextCompat.getColor(this, R.color.blue)
+            )
+            binding.motionLayout.transitionToEnd()
+        } else {
+
+            if (viewModel.isPlayedOneMore) {
+                binding.milSecondTextView.startAnimation(blinkAnim)
+                binding.secondTextView.startAnimation(blinkAnim)
+            }
+
+            binding.playPauseButtonView.setImageResource(R.drawable.ic_baseline_play_arrow_24)
+            binding.borderCircle.setColorFilter(
+                ContextCompat.getColor(this, R.color.gray)
+            )
+            binding.motionLayout.transitionToStart()
+        }
+
     }
 }

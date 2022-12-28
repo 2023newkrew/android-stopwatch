@@ -5,51 +5,75 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/light_black"
+
     tools:context=".activity.MainActivity">
 
+    <ImageView
+        android:id="@+id/border_circle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.238"
+        app:srcCompat="@drawable/my_border_circle"
+
+        tools:ignore="ContentDescription">
+
+    </ImageView>
 
     <TextView
         android:id="@+id/second_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="36dp"
         android:textColor="@color/dark_white"
-        android:textSize="90sp"
+        android:textSize="70sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.155"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.34"
-        tools:text="00" />
+        app:layout_constraintVertical_bias="0.349"
+        tools:text="00:00:00" />
 
     <TextView
         android:id="@+id/mil_second_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="52dp"
-        android:layout_marginTop="92dp"
+        android:layout_marginTop="80dp"
         android:textColor="@color/dark_white"
-        android:textSize="50sp"
-        app:layout_constraintStart_toStartOf="@+id/second_text_view"
+        android:textSize="60sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/second_text_view"
         app:layout_constraintTop_toTopOf="@+id/second_text_view"
+        app:layout_constraintVertical_bias="0.092"
         tools:text="00" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/play_pause_button_view"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_marginEnd="60dp"
-        android:backgroundTint="@color/light_purple"
-        android:clickable="true"
-        android:contentDescription="@string/play_pause_button"
-        android:focusable="true"
-        app:borderWidth="0dp"
-        app:fabCustomSize="80dp"
+    <androidx.constraintlayout.motion.widget.MotionLayout
+        android:id="@+id/motion_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="80dp"
+        app:layoutDescription="@xml/activity_main_scene"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.498"
-        app:srcCompat="@drawable/ic_baseline_play_arrow_24" />
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <androidx.constraintlayout.utils.widget.ImageFilterButton
+            android:id="@+id/play_pause_button_view"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:background="@drawable/my_round_rect_shape"
+            android:clickable="true"
+            android:contentDescription="@string/play_pause_button"
+            android:focusable="true"
+            app:borderWidth="0dp"
+            app:srcCompat="@drawable/ic_baseline_play_arrow_24" />
+
+    </androidx.constraintlayout.motion.widget.MotionLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/init_button_view"
@@ -59,13 +83,12 @@
         android:clickable="true"
         android:contentDescription="@string/init_button"
         android:focusable="true"
-        android:visibility="invisible"
+        android:visibility="gone"
         app:borderWidth="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/play_pause_button_view"
-        app:layout_constraintStart_toStartOf="@+id/play_pause_button_view"
-        app:layout_constraintTop_toBottomOf="@+id/play_pause_button_view"
-        app:layout_constraintVertical_bias="0.275"
+        app:layout_constraintEnd_toEndOf="@+id/motion_layout"
+        app:layout_constraintStart_toStartOf="@+id/motion_layout"
+        app:layout_constraintTop_toBottomOf="@+id/motion_layout"
         app:srcCompat="@drawable/ic_baseline_restart_alt_24"
         app:tint="@color/dark_white"
         tools:visibility="visible" />
@@ -78,13 +101,12 @@
         android:clickable="true"
         android:contentDescription="@string/record_button"
         android:focusable="true"
-        android:visibility="invisible"
+        android:visibility="gone"
         app:borderWidth="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/play_pause_button_view"
-        app:layout_constraintEnd_toEndOf="@+id/play_pause_button_view"
-        app:layout_constraintStart_toStartOf="@+id/play_pause_button_view"
+        app:layout_constraintBottom_toTopOf="@+id/motion_layout"
+        app:layout_constraintEnd_toEndOf="@+id/motion_layout"
+        app:layout_constraintStart_toStartOf="@+id/motion_layout"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.727"
         app:srcCompat="@drawable/ic_outline_timer_24"
         app:tint="@color/dark_white"
         tools:visibility="visible" />
