@@ -1,17 +1,13 @@
 package com.survivalcoding.stopwatch.activity
 
-import android.graphics.drawable.AnimatedVectorDrawable
-import android.graphics.drawable.AnimationDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
-import androidx.core.content.res.ResourcesCompat
 import com.survivalcoding.stopwatch.R
 import com.survivalcoding.stopwatch.databinding.ActivityMainBinding
-import com.survivalcoding.stopwatch.viewModel.MainViewModel
+import com.survivalcoding.stopwatch.viewmodel.MainViewModel
 
 class MainActivity : AppCompatActivity() {
 

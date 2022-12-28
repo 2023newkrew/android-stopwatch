@@ -1,4 +1,4 @@
-package com.survivalcoding.stopwatch.viewModel
+package com.survivalcoding.stopwatch.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
