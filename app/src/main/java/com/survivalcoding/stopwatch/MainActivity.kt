@@ -10,11 +10,12 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         binding = ActivityMainBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
-        val viewModel: MainViewModel by viewModels()
 
+        val viewModel: MainViewModel by viewModels()
         viewModel.timeLiveData.observe(this) { time ->
             val milliSecond = time % 1000
             val second = (time / 1000) % 60
@@ -27,6 +28,7 @@ class MainActivity : AppCompatActivity() {
                 else second.toString()
             binding.milliSecTextView.text = String.format("%02d", milliSecond / 10)
         }
+        if (viewModel.isRunning) binding.playButton.setImageResource(R.drawable.icon_pause)
 
         binding.playButton.setOnClickListener {
             if (viewModel.isRunning) {
