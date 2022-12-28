@@ -1,6 +1,7 @@
 package com.survivalcoding.stopwatch.ui.fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -32,6 +33,8 @@ class StopWatchFragment : Fragment() {
                 else if (minute > 0) String.format("%02d:%02d", minute, second)
                 else second.toString()
             binding.milliSecTextView.text = String.format("%02d", milliSecond / 10)
+
+            Log.d("testtest", time.toString())
         }
 
         if (viewModel.runningLiveData.value == true) binding.playButton.setImageResource(R.drawable.icon_pause)
@@ -57,10 +60,11 @@ class StopWatchFragment : Fragment() {
             viewModel.pause()
             viewModel.runningLiveData.value = false
             binding.playButton.setImageResource(R.drawable.icon_play)
-            viewModel.timeLiveData.value = 0L
             binding.timeLayout.clearAnimation()
             binding.refreshButton.isVisible = false
             binding.lapButton.isVisible = false
+
+            viewModel.timeLiveData.postValue(0L) // why?
         }
 
         return root
