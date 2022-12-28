@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/alarm_page"
+        android:enabled="true"
+        android:icon="@drawable/ic_baseline_alarm_24"
+
+        android:title="@string/alarm" />
+    <item
+        android:id="@+id/clock_page"
+        android:enabled="true"
+        android:icon="@drawable/ic_baseline_access_time_24"
+        android:title="@string/clock" />
+    <item
+        android:id="@+id/timer_page"
+        android:enabled="true"
+        android:icon="@drawable/ic_baseline_hourglass_bottom_24"
+        android:title="@string/timer" />
+    <item
+        android:id="@+id/stopwatch_page"
+        android:enabled="true"
+        android:icon="@drawable/ic_outline_timer_24"
+        android:title="@string/stopwatch" />
+    <item
+        android:id="@+id/sleep_time_page"
+        android:enabled="true"
+        android:icon="@drawable/ic_baseline_local_hotel_24"
+        android:title="@string/sleep_time" />
+</menu>

@@ -3,4 +3,11 @@
     <string name="play_pause_button">재생, 일시정지 버튼</string>
     <string name="init_button">초기화 버튼</string>
     <string name="record_button">기록 버튼</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="alarm">알람</string>
+    <string name="clock">시계</string>
+    <string name="timer">타이머</string>
+    <string name="stopwatch">스톱워치</string>
+    <string name="sleep_time">취침 시간</string>
 </resources>
