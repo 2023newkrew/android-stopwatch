@@ -2,4 +2,6 @@
     <string name="app_name">StopWatch</string>
     <string name="count">0</string>
     <string name="add_button">더하기 버튼</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

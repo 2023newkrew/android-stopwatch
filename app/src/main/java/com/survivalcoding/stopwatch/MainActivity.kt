@@ -20,12 +20,12 @@ class MainActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
-        viewModel.countLiveData.observe(this) { count ->
-            binding.countTextView.text = "$count"
-        }
-
-        binding.addButton.setOnClickListener {
-            viewModel.increase()
-        }
+//        viewModel.countLiveData.observe(this) { count ->
+//            binding.countTextView.text = "$count"
+//        }
+//
+//        binding.addButton.setOnClickListener {
+//            viewModel.increase()
+//        }
     }
 }
