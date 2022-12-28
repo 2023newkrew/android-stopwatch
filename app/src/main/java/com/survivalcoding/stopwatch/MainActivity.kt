@@ -7,6 +7,7 @@ import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import com.survivalcoding.stopwatch.databinding.ActivityMainBinding
 import java.text.DecimalFormat
 
@@ -25,49 +26,42 @@ class MainActivity : AppCompatActivity() {
         setContentView(view)
         val blinkAnim = AnimationUtils.loadAnimation(this, R.anim.blink_animation)
 
-        viewModel.liveHourData.observe(this) { hour ->
-            if (hour > 0) {
-                binding.hourText.text = "$hour"
+        viewModel.liveStateData.observe(this) { state ->
+            if (state.hour > 0) {
+                binding.hourText.text = "${state.hour}"
                 binding.hourColon.text = ":"
             } else {
                 binding.hourText.text = ""
                 binding.hourColon.text = ""
             }
-
-        }
-        viewModel.liveMinuteData.observe(this) { minute ->
-            if (minute > 0) {
-                binding.minuteText.text = "$minute"
+            if (state.minute > 0) {
+                binding.minuteText.text = "${state.minute}"
                 binding.minuteColon.text = ":"
             } else {
                 binding.minuteText.text = ""
                 binding.minuteColon.text = ""
             }
+            binding.secondText.text = df00.format(state.sec)
+            binding.millisecondText.text = df00.format(state.milliSec)
         }
-        viewModel.liveSecData.observe(this) { sec ->
-            binding.secondText.text = df00.format(sec)
-        }
-        viewModel.liveMilliSecData.observe(this) { milliSec ->
-            binding.millisecondText.text = df00.format(milliSec)
-        }
+
         viewModel.liveProgressPercent.observe(this) { percent ->
             binding.progressiveTimerButton.progress = percent
         }
 
-
         binding.startPauseButton.setOnClickListener {
-            binding.resetButton.visibility = View.VISIBLE
+            binding.resetButton.isVisible = true
             if (viewModel.isPaused) {
                 stopAnimation(blinkAnim)
                 binding.startPauseButton.setImageResource(R.drawable.ic_baseline_pause_24)
                 viewModel.start()
-                binding.recordButton.visibility = View.VISIBLE
+                binding.recordButton.isVisible = true
             } else {
                 startAnimation(blinkAnim)
                 // TODO Progressive bar 추가
                 binding.startPauseButton.setImageResource(R.drawable.ic_baseline_play_arrow_24)
                 viewModel.pause()
-                binding.recordButton.visibility = View.INVISIBLE
+                binding.recordButton.isVisible = false
             }
             if (binding.startPauseMotion?.progress == 0.0F) {
                 binding.startPauseMotion?.transitionToEnd()
@@ -98,5 +92,6 @@ class MainActivity : AppCompatActivity() {
         binding.timeLayout.clearAnimation()
         binding.millisecondText.clearAnimation()
     }
+
 
 }
