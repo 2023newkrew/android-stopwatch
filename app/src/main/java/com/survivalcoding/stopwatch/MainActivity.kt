@@ -32,12 +32,13 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-//        viewModel.countLiveData.observe(this) { count ->
-//            binding.countTextView.text = "$count"
-//        }
-//
-//        binding.addButton.setOnClickListener {
-//            viewModel.increase()
-//        }
+
+        viewModel.countLiveData.observe(this) { count ->
+            binding.countTextView.text = "$count"
+        }
+
+        binding.addButton.setOnClickListener {
+            viewModel.increase()
+        }
     }
 }

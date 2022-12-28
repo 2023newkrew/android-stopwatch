@@ -5,9 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.commit
-import androidx.fragment.app.replace
+import androidx.fragment.app.*
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.survivalcoding.stopwatch.databinding.FragmentMainBinding
 
@@ -17,6 +15,8 @@ class MainFragment(val init: Int) : Fragment() {
     // This property is only valid between onCreateView and
 // onDestroyView.
     private val binding get() = _binding!!
+
+    private val viewModel: MainViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -37,11 +37,21 @@ class MainFragment(val init: Int) : Fragment() {
         binding.countTextView.text = "$init"
 
         view.findViewById<FloatingActionButton>(R.id.add_button).setOnClickListener {
-            parentFragmentManager.commit {
-                setReorderingAllowed(true)
-                replace<TargetFragment>(R.id.container)
-                addToBackStack(null)
-            }
+
+
+//            parentFragmentManager.commit {
+//                setReorderingAllowed(true)
+//                replace<TargetFragment>(R.id.container)
+//                addToBackStack(null)
+//            }
+        }
+
+        viewModel.countLiveData.observe(viewLifecycleOwner) { count ->
+            binding.countTextView.text = "$count"
+        }
+
+        binding.addButton.setOnClickListener {
+            viewModel.increase()
         }
     }
 
