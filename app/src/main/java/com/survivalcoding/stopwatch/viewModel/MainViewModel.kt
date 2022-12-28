@@ -6,7 +6,7 @@ import java.util.*
 import kotlin.concurrent.timer
 
 class MainViewModel : ViewModel() {
-    private var milSec: Long = 0
+    private var milSec: Long = 0L
     private var isPlaying: Boolean = false
 
     companion object {
@@ -41,5 +41,10 @@ class MainViewModel : ViewModel() {
         isPlayingLiveData.postValue(false)
 
         timer?.cancel()
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        timerStop()
     }
 }
