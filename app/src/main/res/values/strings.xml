@@ -4,4 +4,10 @@
     <string name="description_play_button">Play Button</string>
     <string name="description_refresh_button">Refresh Button</string>
     <string name="description_lap_button">Lap Button</string>
+
+    <string name="menu_alarm">Alarm</string>
+    <string name="menu_clock">Clock</string>
+    <string name="menu_timer">Timer</string>
+    <string name="menu_stopwatch">Stopwatch</string>
+    <string name="menu_bedtime">Bedtime</string>
 </resources>
