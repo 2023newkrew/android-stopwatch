@@ -19,6 +19,14 @@ class MainViewModel : ViewModel() {
     var isPlaying: Boolean = false
     var isPlayedOneMore: Boolean = false
 
+    fun init() {
+        timerStop()
+        milSec = 0
+        milSecLiveData.postValue(milSec)
+        isPlayedOneMore = false
+    }
+
+
     fun timerPlay() {
         if (isPlaying) return
         isPlaying = true

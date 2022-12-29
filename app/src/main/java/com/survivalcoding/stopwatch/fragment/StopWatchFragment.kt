@@ -54,6 +54,10 @@ class StopWatchFragment : Fragment() {
             if (viewModel.isPlaying) viewModel.timerStop() else viewModel.timerPlay()
             updateUI()
         }
+        binding.initButtonView.setOnClickListener {
+            viewModel.init()
+            updateUI()
+        }
     }
 
     private fun updateUI() {
