@@ -25,7 +25,7 @@ abstract class StopWatchDatabase : RoomDatabase() {
                     context.applicationContext,
                     StopWatchDatabase::class.java,
                     "stopwatch_database"
-                ).allowMainThreadQueries().build()
+                ).build()
                 INSTANCE = instance
                 // return instance
                 instance
