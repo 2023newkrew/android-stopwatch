@@ -64,6 +64,25 @@
             app:layout_constraintTop_toTopOf="@+id/second_text_view"
             tools:text="00" />
 
+        <ScrollView
+            android:layout_width="200dp"
+            android:layout_height="100dp"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toTopOf="@+id/motion_layout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.497"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/border_circle"
+            app:layout_constraintVertical_bias="0.338">
+
+            <LinearLayout
+                android:id="@+id/lab_stack"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
+        </ScrollView>
+
+
         <androidx.constraintlayout.motion.widget.MotionLayout
             android:id="@+id/motion_layout"
             android:layout_width="wrap_content"
