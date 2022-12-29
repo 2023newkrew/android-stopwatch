@@ -8,6 +8,7 @@ import android.view.animation.AnimationUtils
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import com.survivalcoding.stopwatch.Config.Companion.THICK_CHECKER
 import com.survivalcoding.stopwatch.R
 import com.survivalcoding.stopwatch.databinding.FragmentStopWatchBinding
 import com.survivalcoding.stopwatch.ui.MainViewModel
@@ -32,6 +33,10 @@ class StopWatchFragment : Fragment() {
                 else if (minute > 0) String.format("%02d:%02d", minute, second)
                 else second.toString()
             binding.milliSecTextView.text = String.format("%02d", milliSecond / 10)
+
+            viewModel.backupTime?.let {
+                binding.timeProgressBar?.progress = (binding.timeProgressBar?.max ?: 0).coerceAtMost((time - it).toInt())
+            }
         }
 
         if (viewModel.runningLiveData.value == true) binding.playButton.setImageResource(R.drawable.icon_pause)
@@ -41,27 +46,47 @@ class StopWatchFragment : Fragment() {
             if (viewModel.runningLiveData.value == true) {
                 viewModel.pause()
                 binding.playButton.setImageResource(R.drawable.icon_play)
-                binding.timeLayout.startAnimation(AnimationUtils.loadAnimation(requireContext(), R.anim.animation_blink))
                 binding.lapButton.isVisible = false
+                binding.timeLayout.startAnimation(AnimationUtils.loadAnimation(requireContext(), R.anim.animation_blink))
                 viewModel.runningLiveData.value = false
             } else {
                 viewModel.play()
                 binding.playButton.setImageResource(R.drawable.icon_pause)
-                binding.timeLayout.clearAnimation()
                 binding.refreshButton.isVisible = true
                 binding.lapButton.isVisible = true
+                binding.timeLayout.clearAnimation()
                 viewModel.runningLiveData.value = true
             }
         }
         binding.refreshButton.setOnClickListener {
             viewModel.pause()
-            viewModel.runningLiveData.value = false
             binding.playButton.setImageResource(R.drawable.icon_play)
-            binding.timeLayout.clearAnimation()
             binding.refreshButton.isVisible = false
             binding.lapButton.isVisible = false
-
+            viewModel.runningLiveData.value = false
+            binding.timeLayout.clearAnimation()
             viewModel.timeLiveData.postValue(0L)
+
+            viewModel.backupTime = 0L
+            binding.timeProgressBar?.progress = 0
+            binding.checkBackProgressBar?.progress = 0
+        }
+        binding.lapButton.setOnClickListener {
+            viewModel.timeLiveData.value?.let {
+                if (viewModel.backupTime == null) {
+                    binding.timeProgressBar?.max = it.toInt()
+                    binding.checkBackProgressBar?.max = it.toInt()
+                    binding.checkFrontProgressBar?.max = it.toInt()
+                } else {
+                    val progress = binding.timeProgressBar?.progress ?: 0
+                    val max = binding.timeProgressBar?.max ?: 0
+
+                    binding.checkBackProgressBar?.progress = progress
+                    binding.checkFrontProgressBar?.progress = progress - (max * THICK_CHECKER).toInt()
+                    binding.timeProgressBar?.progress = 0
+                }
+                viewModel.backupTime = it
+            }
         }
 
         return root

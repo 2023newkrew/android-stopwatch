@@ -12,6 +12,8 @@ class MainViewModel : ViewModel() {
     var runningLiveData = MutableLiveData(false)
     val timeLiveData = MutableLiveData(0L)
 
+    var backupTime :Long? = null
+
     fun play() {
         timer = timer(period = PERIOD_TIMER) {
             timeLiveData.value?.let {

@@ -37,14 +37,36 @@
     </androidx.appcompat.widget.LinearLayoutCompat>
 
     <ProgressBar
-        android:id="@+id/progress_bar"
+        android:id="@+id/check_back_progress_bar"
         android:layout_width="@dimen/progress_size_default"
         android:layout_height="@dimen/progress_size_default"
-        android:background="@drawable/shape_progress_background"
+        android:background="@drawable/shape_progress_background_time"
         android:indeterminateOnly="false"
-        android:max="120"
-        android:progress="0"
-        android:progressDrawable="@drawable/shape_progress_drawable"
+        android:progressDrawable="@drawable/shape_progress_drawable_check_back"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ProgressBar
+        android:id="@+id/check_front_progress_bar"
+        android:layout_width="@dimen/progress_size_default"
+        android:layout_height="@dimen/progress_size_default"
+        android:background="@android:color/transparent"
+        android:indeterminateOnly="false"
+        android:progressDrawable="@drawable/shape_progress_drawable_check_front"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ProgressBar
+        android:id="@+id/time_progress_bar"
+        android:layout_width="@dimen/progress_size_default"
+        android:layout_height="@dimen/progress_size_default"
+        android:background="@android:color/transparent"
+        android:indeterminateOnly="false"
+        android:progressDrawable="@drawable/shape_progress_drawable_time"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
