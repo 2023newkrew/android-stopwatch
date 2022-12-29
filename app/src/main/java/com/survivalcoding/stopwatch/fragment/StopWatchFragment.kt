@@ -72,6 +72,7 @@ class StopWatchFragment : Fragment() {
         viewModel.milSecLiveData.observe(this.viewLifecycleOwner) { milSec ->
             binding.milSecondTextView.text = String.format("%02d", (milSec % 1000) / 10)
             binding.secondTextView.text = secFormatLambda(milSec / 1000)
+            viewModel.saveLatestMilSec()
         }
 
         viewModel.allLabTimes.observe(this.viewLifecycleOwner) { labTimes ->
@@ -147,7 +148,6 @@ class StopWatchFragment : Fragment() {
     }
 
     override fun onDestroyView() {
-        viewModel.saveLatestMilSec()
         super.onDestroyView()
         _binding = null
     }

@@ -51,12 +51,6 @@ class MainViewModel(application: StopWatchApplication) : AndroidViewModel(applic
         repository.deleteAll()
     }
 
-    fun milSecInitialize(milSec: Long = 0L) {
-        this.milSec = milSec
-        if (this.milSec > 0) isPlayedOneMore = false
-        milSecLiveData.postValue(milSec)
-    }
-
     fun init() {
         timerStop()
         milSec = 0
