@@ -9,8 +9,11 @@ import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.survivalcoding.stopwatch.MainViewModel
 import com.survivalcoding.stopwatch.R
+import com.survivalcoding.stopwatch.adapter.LaptimeRecordAdapter
+import com.survivalcoding.stopwatch.database.LaptimeRecord
 import com.survivalcoding.stopwatch.databinding.FragmentStopWatchBinding
 import java.text.DecimalFormat
 
@@ -20,16 +23,36 @@ class StopWatchFragment : Fragment() {
     private val binding get() = _binding!!
     private val df00 = DecimalFormat("00")
     private val viewModel: MainViewModel by activityViewModels()
+    private lateinit var recordList: ArrayList<LaptimeRecord>
+    private lateinit var laptimeRecordAdapter:LaptimeRecordAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        viewModel.deleteAll()//테스트용으로 일단 DB 모두 지움
         _binding = FragmentStopWatchBinding.inflate(inflater, container, false)
         val view = binding.root
+        recordList = viewModel.recordList
+        viewModel.getLaptimeRecordList()
+        laptimeRecordAdapter = LaptimeRecordAdapter(recordList, binding.root.context)
+        binding.recordRecyclerView?.layoutManager = LinearLayoutManager(view.context)
+        binding.recordRecyclerView?.adapter = laptimeRecordAdapter
+        binding.recordRecyclerView?.setHasFixedSize(true)
+        laptimeRecordAdapter.submitList(recordList)
+
+
         val blinkAnim = AnimationUtils.loadAnimation(context, R.anim.blink_animation)
-        buttonRecover(blinkAnim)
+        recover(blinkAnim)
+
+        viewModel.liveRecordList.observe(viewLifecycleOwner) { recordList ->
+            println(recordList)
+            laptimeRecordAdapter.submitList(recordList)
+            println(laptimeRecordAdapter.currentList)
+            println(laptimeRecordAdapter.itemCount)
+        }
+
         viewModel.liveStateData.observe(viewLifecycleOwner) { state ->
             if (state.hour > 0) {
                 binding.hourText.text = "${state.hour}"
@@ -75,6 +98,8 @@ class StopWatchFragment : Fragment() {
 
         }
         binding.resetButton.setOnClickListener {
+            recordList.clear()
+            laptimeRecordAdapter.submitList(recordList)
             stopAnimation()
             binding.startPauseButton.setImageResource(R.drawable.ic_baseline_play_arrow_24)
             binding.startPauseMotion?.transitionToStart()
@@ -84,7 +109,8 @@ class StopWatchFragment : Fragment() {
             viewModel.isWorking = false
         }
         binding.recordButton.setOnClickListener {
-            viewModel.lapTime()
+            //recordList.add(LaptimeRecord())
+            viewModel.lapTime(recordList)
         }
         return view
     }
@@ -104,8 +130,10 @@ class StopWatchFragment : Fragment() {
         _binding = null
     }
 
-    private fun buttonRecover(blinkAnim: Animation) {
+    private fun recover(blinkAnim: Animation) {
         if (viewModel.isWorking) {
+            viewModel.initTime(recordList.last().endTime)
+            laptimeRecordAdapter.submitList(recordList)
             binding.resetButton.isVisible = true
             if (!viewModel.isPaused) {
                 stopAnimation()

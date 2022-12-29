@@ -69,6 +69,7 @@
         android:id="@+id/start_pause_motion"
         android:layout_width="wrap_content"
         android:layout_height="90dp"
+        android:elevation="2dp"
         app:layoutDescription="@xml/activity_main_scene"
         app:layout_constrainedWidth="true"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -136,5 +137,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.332" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/record_recycler_view"
+        android:layout_width="215dp"
+        android:layout_height="300dp"
+        tools:listitem="@layout/laptime_row_item"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/progressive_timer_button"
+        app:layout_constraintVertical_bias="0.191" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

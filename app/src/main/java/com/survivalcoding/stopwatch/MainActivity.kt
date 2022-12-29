@@ -47,4 +47,9 @@ class MainActivity : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         return navController.navigateUp(appBarConfiguration)
     }
+
+    override fun onPause() {
+        viewModel.onPausedAction()
+        super.onPause()
+    }
 }
