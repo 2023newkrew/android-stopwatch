@@ -13,6 +13,7 @@ class MainViewModel : ViewModel() {
     val timeLiveData = MutableLiveData(0L)
 
     var backupTime :Long? = null
+    var logArrayList = ArrayList<Long>()
 
     fun play() {
         timer = timer(period = PERIOD_TIMER) {
