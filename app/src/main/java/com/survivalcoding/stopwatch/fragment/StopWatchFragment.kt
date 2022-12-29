@@ -24,7 +24,7 @@ class StopWatchFragment : Fragment() {
     private var _binding: FragmentStopWatchBinding? = null
     private val binding get() = _binding!!
     private val viewModel: MainViewModel by activityViewModels {
-        MainViewModelFactory((requireActivity().application as StopWatchApplication).repository)
+        MainViewModelFactory((requireActivity().application as StopWatchApplication))
     }
 
 
@@ -44,6 +44,7 @@ class StopWatchFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
 
         val secFormatLambda = { sec: Long ->
             val secText = String.format("%02d", sec % 60)
@@ -91,8 +92,6 @@ class StopWatchFragment : Fragment() {
                 binding.labStack.addView(textView, 0)
                 preLabTime = labTime.time
             }
-            // 앱을 처음 실행했을 때 기존 랩타입 기록이 있으면 초기화 버튼 활성화
-            if (labTimes?.isNotEmpty() == true) binding.initButtonView.isVisible = true
         }
 
         updateUI()
@@ -148,6 +147,7 @@ class StopWatchFragment : Fragment() {
     }
 
     override fun onDestroyView() {
+        viewModel.saveLatestMilSec()
         super.onDestroyView()
         _binding = null
     }
