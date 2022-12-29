@@ -1,12 +1,12 @@
 package com.survivalcoding.stopwatch
 
 import android.os.Bundle
+import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
 import androidx.fragment.app.add
 import androidx.fragment.app.commit
-import androidx.fragment.app.replace
 import com.survivalcoding.stopwatch.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -27,8 +27,6 @@ class MainActivity : AppCompatActivity() {
                 val bundle = bundleOf("init22222" to 0, "name2" to "홍길동")
                 setReorderingAllowed(true)
                 add<MainFragment>(R.id.container, args = bundle)
-                //
-
             }
         }
 
@@ -39,6 +37,10 @@ class MainActivity : AppCompatActivity() {
 
         binding.addButton.setOnClickListener {
             viewModel.increase()
+
+            val textView = TextView(this)
+            textView.text = "10:00"
+            binding.labTimeLayout.addView(textView)
         }
     }
 }
