@@ -14,7 +14,7 @@ import com.survivalcoding.stopwatch.R
 import com.survivalcoding.stopwatch.databinding.FragmentStopWatchBinding
 import java.text.DecimalFormat
 
-class stopWatchFragment : Fragment() {
+class StopWatchFragment : Fragment() {
 
     private var _binding: FragmentStopWatchBinding? = null
     private val binding get() = _binding!!
