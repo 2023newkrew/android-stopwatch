@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/clockFragment"
-        android:name="com.survivalcoding.stopwatch.fragment.clockFragment"
+        android:name="com.survivalcoding.stopwatch.fragment.ClockFragment"
         android:label="Clock"
         tools:layout="@layout/fragment_clock" />
 </navigation>

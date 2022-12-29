@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/alarmFragment"
-        android:name="com.survivalcoding.stopwatch.fragment.alarmFragment"
+        android:name="com.survivalcoding.stopwatch.fragment.AlarmFragment"
         android:label="Alarm"
         tools:layout="@layout/fragment_alarm" />
 </navigation>

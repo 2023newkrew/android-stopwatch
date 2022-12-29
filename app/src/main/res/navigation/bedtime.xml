@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/bedtimeFragment"
-        android:name="com.survivalcoding.stopwatch.fragment.bedtimeFragment"
+        android:name="com.survivalcoding.stopwatch.fragment.BedtimeFragment"
         android:label="Bedtime"
         tools:layout="@layout/fragment_bedtime" />
 </navigation>

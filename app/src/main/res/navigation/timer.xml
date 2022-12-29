@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/timerFragment"
-        android:name="com.survivalcoding.stopwatch.fragment.timerFragment"
+        android:name="com.survivalcoding.stopwatch.fragment.TimerFragment"
         android:label="Timer"
         tools:layout="@layout/fragment_timer" />
 </navigation>
