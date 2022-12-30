@@ -11,10 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.survivalcoding.stopwatch.R
 import com.survivalcoding.stopwatch.database.LaptimeRecord
 
-class LaptimeRecordAdapter(
-    private val dataSet: ArrayList<LaptimeRecord>,
-    private val context: Context
-) :
+class LaptimeRecordAdapter(val context: Context) :
     ListAdapter<LaptimeRecord, LaptimeRecordAdapter.ViewHolder>(diffUtil) {
 
     companion object {
@@ -43,6 +40,7 @@ class LaptimeRecordAdapter(
             recordIdTextview = view.findViewById(R.id.record_id)
             elapsedTimeTextView = view.findViewById(R.id.elapsed_time)
             endTimeTextView = view.findViewById(R.id.end_time)
+
         }
     }
 
@@ -59,23 +57,23 @@ class LaptimeRecordAdapter(
             context.getString(R.string.laptime_record_id_format, position + 1)
         viewHolder.elapsedTimeTextView.text = context.getString(
             R.string.laptime_record_format,
-            dataSet[position].elapsedTime / 6000 % 60,
-            dataSet[position].elapsedTime / 100 % 60,
-            dataSet[position].elapsedTime % 100
+            currentList[position].elapsedTime / 6000 % 60,
+            currentList[position].elapsedTime / 100 % 60,
+            currentList[position].elapsedTime % 100
         )
         viewHolder.endTimeTextView.text = context.getString(
             R.string.laptime_record_format,
-            dataSet[position].endTime / 6000 % 60,
-            dataSet[position].endTime / 100 % 60,
-            dataSet[position].endTime % 100
+            currentList[position].endTime / 6000 % 60,
+            currentList[position].endTime / 100 % 60,
+            currentList[position].endTime % 100
         )
     }
 
     // Return the size of your dataset (invoked by the layout manager)
-    override fun getItemCount() = dataSet.size
+    override fun getItemCount() = currentList.size
 
-    override fun submitList(list: List<LaptimeRecord>?) {
-        println("[디버그 Adapter] current: $currentList  new: $list")
-        super.submitList(list?.let { ArrayList(it) })
-    }
+//    override fun submitList(list: List<LaptimeRecord>?) {
+//        println("[디버그 Adapter] current: $currentList  new: $list")
+//        super.submitList(list?.let { ArrayList(it) })
+//    }
 }

@@ -3,7 +3,6 @@ package com.survivalcoding.stopwatch
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.WindowCompat
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
@@ -48,8 +47,14 @@ class MainActivity : AppCompatActivity() {
         return navController.navigateUp(appBarConfiguration)
     }
 
-    override fun onPause() {
-        viewModel.onPausedAction()
-        super.onPause()
+    override fun onStop() {
+        viewModel.onStoppedAction()
+        super.onStop()
+    }
+
+    override fun onDestroy() {
+        //viewModel.onDestroyAction()
+        println("onDestory 호출")
+        super.onDestroy()
     }
 }

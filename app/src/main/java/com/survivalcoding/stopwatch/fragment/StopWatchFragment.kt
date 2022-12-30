@@ -22,7 +22,6 @@ class StopWatchFragment : Fragment() {
     private val binding get() = _binding!!
     private val df00 = DecimalFormat("00")
     private val viewModel: MainViewModel by activityViewModels()
-    //private lateinit var recordList: ArrayList<LaptimeRecord>
     private lateinit var laptimeRecordAdapter:LaptimeRecordAdapter
 
     override fun onCreateView(
@@ -34,9 +33,8 @@ class StopWatchFragment : Fragment() {
 
         _binding = FragmentStopWatchBinding.inflate(inflater, container, false)
         val view = binding.root
-        //recordList = viewModel.recordList
         viewModel.getLaptimeRecordList()
-        laptimeRecordAdapter = LaptimeRecordAdapter(viewModel.recordList, binding.root.context)
+        laptimeRecordAdapter = LaptimeRecordAdapter(view.context)
         val linearLayoutManager = LinearLayoutManager(view.context)
         linearLayoutManager.reverseLayout = true
         linearLayoutManager.stackFromEnd = true
@@ -52,9 +50,6 @@ class StopWatchFragment : Fragment() {
                 binding.progressiveTimerButtonWrapper?.transitionToEnd()
             }
             laptimeRecordAdapter.submitList(recordList.toMutableList())
-            println("[디버그] $recordList size: ${recordList.size}")
-            println("[디버그] ${laptimeRecordAdapter.currentList}")
-            println("[디버그] ${laptimeRecordAdapter.itemCount}")
         }
 
         viewModel.liveStateData.observe(viewLifecycleOwner) { state ->
@@ -139,7 +134,6 @@ class StopWatchFragment : Fragment() {
     }
 
     private fun recover(blinkAnim: Animation) {
-        println("레코드리스트다" + viewModel.recordList)
         if (viewModel.isWorking) {
             viewModel.initTime()
             binding.resetButton.isVisible = true

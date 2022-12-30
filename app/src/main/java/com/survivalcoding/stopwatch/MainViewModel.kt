@@ -124,7 +124,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         timerWork?.cancel()
     }
 
-    fun onPausedAction() {
+    fun onStoppedAction() {
         exitTime = time
         // 현재 기록 데이터 저장
         if (standardLapTime != 0) {
@@ -144,8 +144,9 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         editor.apply()
     }
 
-    fun onCreateAction() {
-
+    fun onDestroyAction() {
+        pause()
+        onStoppedAction()
     }
 
     fun initTime() {
