@@ -101,19 +101,24 @@ class StopWatchFragment : Fragment() {
 
         }
         binding.resetButton.setOnClickListener {
+            if (viewModel.standardLapTime > 0) {
+                binding.progressiveTimerButtonWrapper?.transitionToStart()
+            }
             recordList.clear()
             laptimeRecordAdapter.submitList(recordList)
             stopAnimation()
             binding.startPauseButton.setImageResource(R.drawable.ic_baseline_play_arrow_24)
             binding.startPauseMotion?.transitionToStart()
             viewModel.reset()
-            binding.resetButton.visibility = View.INVISIBLE
-            binding.recordButton.visibility = View.INVISIBLE
+            binding.resetButton.isVisible = false
+            binding.recordButton.isVisible = false
             viewModel.isWorking = false
         }
         binding.recordButton.setOnClickListener {
-            //recordList.add(LaptimeRecord())
             viewModel.lapTime(recordList)
+            if (viewModel.standardLapTime > 0) {
+                binding.progressiveTimerButtonWrapper?.transitionToEnd()
+            }
         }
         return view
     }

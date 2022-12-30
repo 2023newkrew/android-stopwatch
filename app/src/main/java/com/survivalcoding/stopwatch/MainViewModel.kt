@@ -22,7 +22,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     var isWorking = false // TODO 데이터 저장해야함
     private var timerWork: Timer? = null
     private var time = 0
-    private var standardLapTime = 0 // TODO 데이터 저장해야함
+    var standardLapTime = 0 // TODO 데이터 저장해야함
     private var progressPercent = 0
     private var startLapTime = 0
 
