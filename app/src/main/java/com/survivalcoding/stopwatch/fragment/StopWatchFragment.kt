@@ -22,7 +22,7 @@ class StopWatchFragment : Fragment() {
     private val binding get() = _binding!!
     private val df00 = DecimalFormat("00")
     private val viewModel: MainViewModel by activityViewModels()
-    private lateinit var laptimeRecordAdapter:LaptimeRecordAdapter
+    private lateinit var laptimeRecordAdapter: LaptimeRecordAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -38,6 +38,7 @@ class StopWatchFragment : Fragment() {
         val linearLayoutManager = LinearLayoutManager(view.context)
         linearLayoutManager.reverseLayout = true
         linearLayoutManager.stackFromEnd = true
+        //linearLayoutManager.isSmoothScrollbarEnabled = true
         binding.recordRecyclerView?.layoutManager = linearLayoutManager
         binding.recordRecyclerView?.adapter = laptimeRecordAdapter
         binding.recordRecyclerView?.setHasFixedSize(true)
@@ -50,6 +51,12 @@ class StopWatchFragment : Fragment() {
                 binding.progressiveTimerButtonWrapper?.transitionToEnd()
             }
             laptimeRecordAdapter.submitList(recordList.toMutableList())
+//            linearLayoutManager.smoothScrollToPosition(
+//                binding.recordRecyclerView,
+//                RecyclerView.State(),
+//                0
+//            )
+            linearLayoutManager.scrollToPosition(laptimeRecordAdapter.itemCount - 1)
         }
 
         viewModel.liveStateData.observe(viewLifecycleOwner) { state ->
