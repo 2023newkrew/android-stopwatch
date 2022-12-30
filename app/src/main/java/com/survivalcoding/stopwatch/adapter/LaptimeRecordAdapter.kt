@@ -59,19 +59,23 @@ class LaptimeRecordAdapter(
             context.getString(R.string.laptime_record_id_format, position + 1)
         viewHolder.elapsedTimeTextView.text = context.getString(
             R.string.laptime_record_format,
-            currentList[position].elapsedTime / 6000 % 60,
-            currentList[position].elapsedTime / 100 % 60,
-            currentList[position].elapsedTime % 100
+            dataSet[position].elapsedTime / 6000 % 60,
+            dataSet[position].elapsedTime / 100 % 60,
+            dataSet[position].elapsedTime % 100
         )
         viewHolder.endTimeTextView.text = context.getString(
             R.string.laptime_record_format,
-            currentList[position].endTime / 6000 % 60,
-            currentList[position].endTime / 100 % 60,
-            currentList[position].endTime % 100
+            dataSet[position].endTime / 6000 % 60,
+            dataSet[position].endTime / 100 % 60,
+            dataSet[position].endTime % 100
         )
     }
 
     // Return the size of your dataset (invoked by the layout manager)
     override fun getItemCount() = dataSet.size
 
+    override fun submitList(list: List<LaptimeRecord>?) {
+        println("[디버그 Adapter] current: $currentList  new: $list")
+        super.submitList(list?.let { ArrayList(it) })
+    }
 }

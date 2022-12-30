@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.survivalcoding.stopwatch.MainViewModel
 import com.survivalcoding.stopwatch.R
 import com.survivalcoding.stopwatch.adapter.LaptimeRecordAdapter
-import com.survivalcoding.stopwatch.database.LaptimeRecord
 import com.survivalcoding.stopwatch.databinding.FragmentStopWatchBinding
 import java.text.DecimalFormat
 
@@ -23,7 +22,7 @@ class StopWatchFragment : Fragment() {
     private val binding get() = _binding!!
     private val df00 = DecimalFormat("00")
     private val viewModel: MainViewModel by activityViewModels()
-    private lateinit var recordList: ArrayList<LaptimeRecord>
+    //private lateinit var recordList: ArrayList<LaptimeRecord>
     private lateinit var laptimeRecordAdapter:LaptimeRecordAdapter
 
     override fun onCreateView(
@@ -31,29 +30,31 @@ class StopWatchFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        viewModel.deleteAll()//테스트용으로 일단 DB 모두 지움
+        //viewModel.deleteAll() // 테스트용으로 일단 DB 모두 지움
+
         _binding = FragmentStopWatchBinding.inflate(inflater, container, false)
         val view = binding.root
-        recordList = viewModel.recordList
+        //recordList = viewModel.recordList
         viewModel.getLaptimeRecordList()
-        laptimeRecordAdapter = LaptimeRecordAdapter(recordList, binding.root.context)
+        laptimeRecordAdapter = LaptimeRecordAdapter(viewModel.recordList, binding.root.context)
         val linearLayoutManager = LinearLayoutManager(view.context)
         linearLayoutManager.reverseLayout = true
         linearLayoutManager.stackFromEnd = true
         binding.recordRecyclerView?.layoutManager = linearLayoutManager
         binding.recordRecyclerView?.adapter = laptimeRecordAdapter
         binding.recordRecyclerView?.setHasFixedSize(true)
-        laptimeRecordAdapter.submitList(recordList)
-
 
         val blinkAnim = AnimationUtils.loadAnimation(context, R.anim.blink_animation)
         recover(blinkAnim)
 
         viewModel.liveRecordList.observe(viewLifecycleOwner) { recordList ->
-            println(recordList)
+            if (recordList.size > 0) {
+                binding.progressiveTimerButtonWrapper?.transitionToEnd()
+            }
             laptimeRecordAdapter.submitList(recordList.toMutableList())
-            println(laptimeRecordAdapter.currentList)
-            println(laptimeRecordAdapter.itemCount)
+            println("[디버그] $recordList size: ${recordList.size}")
+            println("[디버그] ${laptimeRecordAdapter.currentList}")
+            println("[디버그] ${laptimeRecordAdapter.itemCount}")
         }
 
         viewModel.liveStateData.observe(viewLifecycleOwner) { state ->
@@ -101,9 +102,6 @@ class StopWatchFragment : Fragment() {
 
         }
         binding.resetButton.setOnClickListener {
-
-            recordList.clear()
-            laptimeRecordAdapter.submitList(recordList)
             stopAnimation()
             binding.startPauseButton.setImageResource(R.drawable.ic_baseline_play_arrow_24)
             binding.startPauseMotion?.transitionToStart()
@@ -117,7 +115,7 @@ class StopWatchFragment : Fragment() {
 
         }
         binding.recordButton.setOnClickListener {
-            viewModel.lapTime(recordList)
+            viewModel.lapTime()
             if (viewModel.standardLapTime > 0) {
                 binding.progressiveTimerButtonWrapper?.transitionToEnd()
             }
@@ -141,9 +139,9 @@ class StopWatchFragment : Fragment() {
     }
 
     private fun recover(blinkAnim: Animation) {
+        println("레코드리스트다" + viewModel.recordList)
         if (viewModel.isWorking) {
-            viewModel.initTime(recordList.last().endTime)
-            laptimeRecordAdapter.submitList(recordList)
+            viewModel.initTime()
             binding.resetButton.isVisible = true
             if (!viewModel.isPaused) {
                 stopAnimation()
@@ -156,7 +154,12 @@ class StopWatchFragment : Fragment() {
                 binding.recordButton.isVisible = false
                 binding.startPauseMotion?.transitionToStart()
             }
+//            if (viewModel.recordList.size > 0) {
+//                binding.progressiveTimerButtonWrapper?.transitionToEnd()
+//                laptimeRecordAdapter.submitList(viewModel.recordList.toMutableList())
+//            }
         }
+
 
     }
 }
