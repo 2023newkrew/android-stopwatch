@@ -9,10 +9,8 @@
             android:layout_height="90dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/progressive_timer_button"
-            app:layout_constraintVertical_bias="0.573">
+            app:layout_constraintTop_toTopOf="parent">
             <CustomAttribute
                 app:attributeName="round"
                 app:customDimension="4dp" />
@@ -22,6 +20,16 @@
             <CustomAttribute
                 app:attributeName="backgroundColor"
                 app:customColorValue="#B1C4FE" />
+        </Constraint>
+        <Constraint android:id="@+id/reset_button">
+            <PropertySet
+                app:applyMotionScene="false"
+                app:visibilityMode="ignore" />
+        </Constraint>
+        <Constraint android:id="@+id/record_button">
+            <PropertySet
+                app:applyMotionScene="false"
+                app:visibilityMode="ignore" />
         </Constraint>
     </ConstraintSet>
 
@@ -33,13 +41,24 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/progressive_timer_button">
+            app:layout_constraintTop_toTopOf="parent">
             <CustomAttribute
                 app:attributeName="round"
                 app:customDimension="4dp" />
             <CustomAttribute
                 app:attributeName="roundPercent"
                 app:customFloatValue="0.5" />
+        </Constraint>
+
+        <Constraint android:id="@+id/reset_button">
+            <PropertySet
+                app:applyMotionScene="false"
+                app:visibilityMode="ignore" />
+        </Constraint>
+        <Constraint android:id="@+id/record_button">
+            <PropertySet
+                app:applyMotionScene="false"
+                app:visibilityMode="ignore" />
         </Constraint>
     </ConstraintSet>
 
