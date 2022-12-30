@@ -1,13 +1,13 @@
 package com.survivalcoding.stopwatch.fragment
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.survivalcoding.stopwatch.MainViewModel
@@ -37,7 +37,10 @@ class StopWatchFragment : Fragment() {
         recordList = viewModel.recordList
         viewModel.getLaptimeRecordList()
         laptimeRecordAdapter = LaptimeRecordAdapter(recordList, binding.root.context)
-        binding.recordRecyclerView?.layoutManager = LinearLayoutManager(view.context)
+        val linearLayoutManager = LinearLayoutManager(view.context)
+        linearLayoutManager.reverseLayout = true
+        linearLayoutManager.stackFromEnd = true
+        binding.recordRecyclerView?.layoutManager = linearLayoutManager
         binding.recordRecyclerView?.adapter = laptimeRecordAdapter
         binding.recordRecyclerView?.setHasFixedSize(true)
         laptimeRecordAdapter.submitList(recordList)
@@ -48,7 +51,7 @@ class StopWatchFragment : Fragment() {
 
         viewModel.liveRecordList.observe(viewLifecycleOwner) { recordList ->
             println(recordList)
-            laptimeRecordAdapter.submitList(recordList)
+            laptimeRecordAdapter.submitList(recordList.toMutableList())
             println(laptimeRecordAdapter.currentList)
             println(laptimeRecordAdapter.itemCount)
         }

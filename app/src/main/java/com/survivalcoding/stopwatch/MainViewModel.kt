@@ -3,16 +3,12 @@ package com.survivalcoding.stopwatch
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.room.Room
 import com.survivalcoding.stopwatch.database.AppDatabase
 import com.survivalcoding.stopwatch.database.LaptimeRecord
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.*
-import kotlin.collections.ArrayList
-import kotlin.concurrent.thread
 
 class MainViewModel(application: Application) : AndroidViewModel(application) {
     //    val db = Room.databaseBuilder(
@@ -67,9 +63,12 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun lapTime(recordList: ArrayList<LaptimeRecord>) {
-        if (standardLapTime == 0) standardLapTime = time
+        val elapsedTime = if (standardLapTime == 0) {
+            standardLapTime = time
+            startLapTime
+        } else startLapTime - lastEndTime
         startLapTime = time
-        val elapsedTime = if (lastEndTime == 0) startLapTime else startLapTime - lastEndTime
+
         val laptimeRecord = LaptimeRecord(elapsedTime = elapsedTime, endTime = time)
         println("레코드 id: ${laptimeRecord.rid}")
         // TODO 화면에 리스트 뿌리기
