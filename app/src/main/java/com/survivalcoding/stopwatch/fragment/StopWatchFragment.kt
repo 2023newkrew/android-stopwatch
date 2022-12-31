@@ -149,6 +149,7 @@ class StopWatchFragment : Fragment() {
                 binding.startPauseButton.setImageResource(R.drawable.ic_baseline_pause_24)
                 binding.recordButton.isVisible = true
                 binding.startPauseMotion?.transitionToEnd()
+                viewModel.start()
             } else {
                 startAnimation(blinkAnim)
                 binding.startPauseButton.setImageResource(R.drawable.ic_baseline_play_arrow_24)

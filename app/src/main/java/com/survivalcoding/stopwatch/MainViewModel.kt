@@ -21,6 +21,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     var isWorking = false // TODO 데이터 저장해야함
     var standardLapTime = 0 // TODO 데이터 저장해야함
     var exitTime = 0
+    private var startLapTime = 0
     private val mPreferences: SharedPreferences =
         PreferenceManager.getDefaultSharedPreferences(application)
     val editor = mPreferences.edit() // 에디터 객체 얻기
@@ -31,14 +32,17 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         isWorking = mPreferences.getBoolean("isWorking", false)
         standardLapTime = mPreferences.getInt("standardLapTime", 0)
         time = mPreferences.getInt("exitTime", 0)
+        startLapTime = mPreferences.getInt("startLapTime", 0)
+
     }
 
-    private var lastEndTime = 0
+    //종료시 마지막 시간 저장 안하면 필요 없을 듯
+    //private var lastEndTime = 0
+
     val laptimeRecordDao = AppDatabase.getDatabase(application).laptimeRecordDao()
 
     private var timerWork: Timer? = null
     private var progressPercent = 0
-    private var startLapTime = 0
     var recordList: ArrayList<LaptimeRecord> = arrayListOf<LaptimeRecord>()
     private val state = MainUiState()
 
@@ -78,7 +82,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         val elapsedTime = if (standardLapTime == 0) {
             standardLapTime = time
             startLapTime
-        } else startLapTime - lastEndTime
+        } else time - startLapTime//startLapTime - lastEndTime
         startLapTime = time
 
         val laptimeRecord = LaptimeRecord(elapsedTime = elapsedTime, endTime = time)
@@ -103,7 +107,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         isPaused = true
         state.setZero()
         liveStateData.value = state
-        liveProgressPercent.value = 0
+        liveProgressPercent.postValue(progressPercent)
 
         // TODO laptime 기록 삭제
         CoroutineScope(Dispatchers.IO).launch {
@@ -127,19 +131,22 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     fun onStoppedAction() {
         exitTime = time
         // 현재 기록 데이터 저장
-        if (standardLapTime != 0) {
-            startLapTime = exitTime
-            val elapsedTime = if (lastEndTime == 0) startLapTime else startLapTime - lastEndTime
-            CoroutineScope(Dispatchers.IO).launch {
-                val laptimeRecord = LaptimeRecord(elapsedTime = elapsedTime, endTime = exitTime)
-                laptimeRecordDao.insert(laptimeRecord)
-                recordList.add(laptimeRecord)
-                liveRecordList.postValue(recordList)
-            }
-        }
+
+        //종료시 현재 기록할 필요 없어보임
+//        if (standardLapTime != 0) {
+//            startLapTime = exitTime
+//            val elapsedTime = if (lastEndTime == 0) startLapTime else startLapTime - lastEndTime
+//            CoroutineScope(Dispatchers.IO).launch {
+//                val laptimeRecord = LaptimeRecord(elapsedTime = elapsedTime, endTime = exitTime)
+//                laptimeRecordDao.insert(laptimeRecord)
+//                recordList.add(laptimeRecord)
+//                liveRecordList.postValue(recordList)
+//            }
+//        }
         editor.putBoolean("isPaused", isPaused)
         editor.putBoolean("isWorking", isWorking)
         editor.putInt("standardLapTime", standardLapTime)
+        editor.putInt("startLapTime", startLapTime)
         editor.putInt("exitTime", exitTime)
         editor.apply()
     }
