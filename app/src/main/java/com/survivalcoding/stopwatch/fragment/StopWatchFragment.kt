@@ -39,9 +39,9 @@ class StopWatchFragment : Fragment() {
         linearLayoutManager.reverseLayout = true
         linearLayoutManager.stackFromEnd = true
         //linearLayoutManager.isSmoothScrollbarEnabled = true
-        binding.recordRecyclerView?.layoutManager = linearLayoutManager
-        binding.recordRecyclerView?.adapter = laptimeRecordAdapter
-        binding.recordRecyclerView?.setHasFixedSize(true)
+        binding.recordRecyclerView.layoutManager = linearLayoutManager
+        binding.recordRecyclerView.adapter = laptimeRecordAdapter
+        binding.recordRecyclerView.setHasFixedSize(true)
 
         val blinkAnim = AnimationUtils.loadAnimation(context, R.anim.blink_animation)
         recover(blinkAnim)
@@ -50,13 +50,9 @@ class StopWatchFragment : Fragment() {
             if (recordList.size > 0) {
                 binding.progressiveTimerButtonWrapper?.transitionToEnd()
             }
-            laptimeRecordAdapter.submitList(recordList.toMutableList())
-//            linearLayoutManager.smoothScrollToPosition(
-//                binding.recordRecyclerView,
-//                RecyclerView.State(),
-//                0
-//            )
-            linearLayoutManager.scrollToPosition(laptimeRecordAdapter.itemCount - 1)
+            laptimeRecordAdapter.submitList(recordList.toMutableList()) {
+                binding.recordRecyclerView.scrollToPosition(laptimeRecordAdapter.itemCount - 1)
+            }
         }
 
         viewModel.liveStateData.observe(viewLifecycleOwner) { state ->
@@ -149,7 +145,7 @@ class StopWatchFragment : Fragment() {
                 binding.startPauseButton.setImageResource(R.drawable.ic_baseline_pause_24)
                 binding.recordButton.isVisible = true
                 binding.startPauseMotion?.transitionToEnd()
-                viewModel.start()
+                //viewModel.start() // TODO: 화면 회전 부분 고려해야 함
             } else {
                 startAnimation(blinkAnim)
                 binding.startPauseButton.setImageResource(R.drawable.ic_baseline_play_arrow_24)

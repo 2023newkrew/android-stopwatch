@@ -33,7 +33,9 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         standardLapTime = mPreferences.getInt("standardLapTime", 0)
         time = mPreferences.getInt("exitTime", 0)
         startLapTime = mPreferences.getInt("startLapTime", 0)
-
+        if (!isPaused) {
+            start()
+        }
     }
 
     //종료시 마지막 시간 저장 안하면 필요 없을 듯

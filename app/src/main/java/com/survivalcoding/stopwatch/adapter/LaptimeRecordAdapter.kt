@@ -40,7 +40,6 @@ class LaptimeRecordAdapter(val context: Context) :
             recordIdTextview = view.findViewById(R.id.record_id)
             elapsedTimeTextView = view.findViewById(R.id.elapsed_time)
             endTimeTextView = view.findViewById(R.id.end_time)
-
         }
     }
 
