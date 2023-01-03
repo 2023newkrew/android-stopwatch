@@ -46,4 +46,15 @@ class MainActivity : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         return navController.navigateUp(appBarConfiguration)
     }
+
+    override fun onStop() {
+        viewModel.onStoppedAction()
+        super.onStop()
+    }
+
+    override fun onDestroy() {
+        //viewModel.onDestroyAction()
+        println("onDestory 호출")
+        super.onDestroy()
+    }
 }
