@@ -10,4 +10,5 @@
     <string name="timer">타이머</string>
     <string name="stopwatch">스톱워치</string>
     <string name="sleep_time">취침 시간</string>
+    <string name="test">test</string>
 </resources>
