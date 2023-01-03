@@ -22,8 +22,8 @@
         android:name="com.survivalcoding.stopwatch.ui.fragment.TimerFragment"
         android:label="@string/menu_timer"
         tools:layout="@layout/fragment_timer" />
-    <fragment
 
+    <fragment
         android:id="@+id/stopwatch"
         android:name="com.survivalcoding.stopwatch.ui.fragment.StopWatchFragment"
         android:label="@string/menu_stopwatch"

@@ -14,4 +14,5 @@
     <dimen name="progress_size_default">360dp</dimen>
 
     <dimen name="height_navigation">80dp</dimen>
+    <dimen name="height_scroll_view">160dp</dimen>
 </resources>

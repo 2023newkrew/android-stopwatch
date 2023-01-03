@@ -3,10 +3,12 @@ package com.survivalcoding.stopwatch
 class Config {
     companion object{
         const val PERIOD_TIMER :Long = 10L
+        const val THICK_CHECKER :Double = 0.005
 
+        const val KEY_PREFS = "prefs"
         const val KEY_TIME = "time"
-        const val KEY_IS_RUNNING = "is_running"
-        const val KEY_TEXT_SEC = "text_sec"
-        const val KEY_TEXT_MILLI_SEC = "text_milli_sec"
+        const val KEY_BACKUP_TIME = "backup_time"
+        const val KEY_LOG_ARRAY_LIST = "log_array_list"
+        const val KEY_PROGRESS_MAX = "progress_max"
     }
 }
