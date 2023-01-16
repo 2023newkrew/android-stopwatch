@@ -1,4 +1,4 @@
-package com.survivalcoding.stopwatch.fragment
+package com.survivalcoding.stopwatch.presentation.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,7 +12,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.survivalcoding.stopwatch.MainViewModel
 import com.survivalcoding.stopwatch.R
-import com.survivalcoding.stopwatch.adapter.LaptimeRecordAdapter
+import com.survivalcoding.stopwatch.presentation.adapter.LaptimeRecordAdapter
 import com.survivalcoding.stopwatch.databinding.FragmentStopWatchBinding
 import java.text.DecimalFormat
 

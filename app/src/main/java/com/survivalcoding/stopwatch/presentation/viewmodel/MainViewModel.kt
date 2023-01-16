@@ -5,8 +5,9 @@ import android.content.SharedPreferences
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.preference.PreferenceManager
-import com.survivalcoding.stopwatch.database.AppDatabase
-import com.survivalcoding.stopwatch.database.LaptimeRecord
+import com.survivalcoding.stopwatch.data.database.data_source.LaptimeDatabase
+import com.survivalcoding.stopwatch.domain.model.LapTimeRecord
+import com.survivalcoding.stopwatch.presentation.ui_state.MainUiState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -41,11 +42,11 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     //종료시 마지막 시간 저장 안하면 필요 없을 듯
     //private var lastEndTime = 0
 
-    val laptimeRecordDao = AppDatabase.getDatabase(application).laptimeRecordDao()
+    val laptimeRecordDao = LaptimeDatabase.getDatabase(application).laptimeRecordDao()
 
     private var timerWork: Timer? = null
     private var progressPercent = 0
-    var recordList: ArrayList<LaptimeRecord> = arrayListOf<LaptimeRecord>()
+    var recordList: ArrayList<LapTimeRecord> = arrayListOf<LapTimeRecord>()
     private val state = MainUiState()
 
     val liveStateData = MutableLiveData(state)
@@ -54,7 +55,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     fun getLaptimeRecordList() {
         CoroutineScope(Dispatchers.IO).launch {
-            recordList = laptimeRecordDao.getAll() as ArrayList
+            recordList = laptimeRecordDao.getAll()
             liveRecordList.postValue(recordList)
         }
     }
@@ -87,7 +88,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         } else time - startLapTime//startLapTime - lastEndTime
         startLapTime = time
 
-        val laptimeRecord = LaptimeRecord(elapsedTime = elapsedTime, endTime = time)
+        val laptimeRecord = LapTimeRecord(elapsedTime = elapsedTime, endTime = time)
         // TODO 화면에 리스트 뿌리기
 
         //TODO laptime 기록 저장
@@ -118,13 +119,6 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         // TODO 화면 초기화
     }
 
-    fun deleteAll() {
-        CoroutineScope(Dispatchers.IO).launch {
-            laptimeRecordDao.deleteAll()
-            liveRecordList.postValue(recordList)
-        }
-    }
-
     override fun onCleared() {
         super.onCleared()
         timerWork?.cancel()
@@ -134,17 +128,6 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         exitTime = time
         // 현재 기록 데이터 저장
 
-        //종료시 현재 기록할 필요 없어보임
-//        if (standardLapTime != 0) {
-//            startLapTime = exitTime
-//            val elapsedTime = if (lastEndTime == 0) startLapTime else startLapTime - lastEndTime
-//            CoroutineScope(Dispatchers.IO).launch {
-//                val laptimeRecord = LaptimeRecord(elapsedTime = elapsedTime, endTime = exitTime)
-//                laptimeRecordDao.insert(laptimeRecord)
-//                recordList.add(laptimeRecord)
-//                liveRecordList.postValue(recordList)
-//            }
-//        }
         editor.putBoolean("isPaused", isPaused)
         editor.putBoolean("isWorking", isWorking)
         editor.putInt("standardLapTime", standardLapTime)
@@ -172,16 +155,3 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
 }
 
-data class MainUiState(
-    var hour: Int = 0,
-    var minute: Int = 0,
-    var sec: Int = 0,
-    var milliSec: Int = 0
-) {
-    fun setZero() {
-        hour = 0
-        minute = 0
-        sec = 0
-        milliSec = 0
-    }
-}

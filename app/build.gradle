@@ -37,6 +37,8 @@ android {
 }
 
 dependencies {
+    implementation 'androidx.core:core-ktx:+'
+    implementation 'androidx.core:core-ktx:+'
     def room_version = "2.4.3"
 
     implementation 'androidx.core:core-ktx:1.9.0'
