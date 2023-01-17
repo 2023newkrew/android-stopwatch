@@ -1,12 +1,12 @@
-package com.survivalcoding.stopwatch
+package com.survivalcoding.stopwatch.presentation
 
 import android.app.Application
 import android.content.SharedPreferences
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.preference.PreferenceManager
-import com.survivalcoding.stopwatch.database.AppDatabase
-import com.survivalcoding.stopwatch.database.LaptimeRecord
+import com.survivalcoding.stopwatch.data.database.AppDatabase
+import com.survivalcoding.stopwatch.domain.model.LapTimeRecord
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -45,7 +45,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     private var timerWork: Timer? = null
     private var progressPercent = 0
-    var recordList: ArrayList<LaptimeRecord> = arrayListOf<LaptimeRecord>()
+    var recordList: ArrayList<LapTimeRecord> = arrayListOf<LapTimeRecord>()
     private val state = MainUiState()
 
     val liveStateData = MutableLiveData(state)
@@ -87,7 +87,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         } else time - startLapTime//startLapTime - lastEndTime
         startLapTime = time
 
-        val laptimeRecord = LaptimeRecord(elapsedTime = elapsedTime, endTime = time)
+        val laptimeRecord = LapTimeRecord(elapsedTime = elapsedTime, endTime = time)
         // TODO 화면에 리스트 뿌리기
 
         //TODO laptime 기록 저장

@@ -1,4 +1,4 @@
-package com.survivalcoding.stopwatch.adapter
+package com.survivalcoding.stopwatch.presentation.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -9,22 +9,22 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.survivalcoding.stopwatch.R
-import com.survivalcoding.stopwatch.database.LaptimeRecord
+import com.survivalcoding.stopwatch.domain.model.LapTimeRecord
 
 class LaptimeRecordAdapter(val context: Context) :
-    ListAdapter<LaptimeRecord, LaptimeRecordAdapter.ViewHolder>(diffUtil) {
+    ListAdapter<LapTimeRecord, LaptimeRecordAdapter.ViewHolder>(diffUtil) {
 
     companion object {
-        val diffUtil = object : DiffUtil.ItemCallback<LaptimeRecord>() {
+        val diffUtil = object : DiffUtil.ItemCallback<LapTimeRecord>() {
             // 아이디가 같은가? => 같으면 areContentsTheSame 으로, 다르면 갱신
-            override fun areItemsTheSame(oldItem: LaptimeRecord, newItem: LaptimeRecord): Boolean {
+            override fun areItemsTheSame(oldItem: LapTimeRecord, newItem: LapTimeRecord): Boolean {
                 return oldItem.endTime == newItem.endTime
             }
 
             // 모든 속성이 같은가? => 다르면 갱신
             override fun areContentsTheSame(
-                oldItem: LaptimeRecord,
-                newItem: LaptimeRecord
+                oldItem: LapTimeRecord,
+                newItem: LapTimeRecord
             ): Boolean {
                 return oldItem == newItem
             }

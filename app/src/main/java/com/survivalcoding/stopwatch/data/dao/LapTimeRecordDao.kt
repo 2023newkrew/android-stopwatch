@@ -1,20 +1,21 @@
-package com.survivalcoding.stopwatch.database
+package com.survivalcoding.stopwatch.data.dao
 
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
+import com.survivalcoding.stopwatch.domain.model.LapTimeRecord
 
 @Dao
-interface LaptimeRecordDao {
+interface LapTimeRecordDao {
     @Query("SELECT * FROM laptimerecord")
-    suspend fun getAll(): List<LaptimeRecord>
+    suspend fun getAll(): List<LapTimeRecord>
 
     @Insert
-    suspend fun insert(laptimeRecord: LaptimeRecord)
+    suspend fun insert(lapTimeRecord: LapTimeRecord)
 
     @Delete
-    suspend fun delete(laptimeRecord: LaptimeRecord)
+    suspend fun delete(lapTimeRecord: LapTimeRecord)
 
     @Query("DELETE FROM laptimerecord")
     suspend fun deleteAll()

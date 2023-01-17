@@ -1,13 +1,15 @@
-package com.survivalcoding.stopwatch.database
+package com.survivalcoding.stopwatch.data.database
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.survivalcoding.stopwatch.data.dao.LapTimeRecordDao
+import com.survivalcoding.stopwatch.domain.model.LapTimeRecord
 
-@Database(entities = [LaptimeRecord::class], version = 1, exportSchema = false)
+@Database(entities = [LapTimeRecord::class], version = 1, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
-    abstract fun laptimeRecordDao(): LaptimeRecordDao
+    abstract fun laptimeRecordDao(): LapTimeRecordDao
 
     companion object {
         // Singleton prevents multiple instances of database opening at the
