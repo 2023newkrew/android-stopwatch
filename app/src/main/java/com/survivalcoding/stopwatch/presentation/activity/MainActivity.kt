@@ -28,10 +28,11 @@ class MainActivity : AppCompatActivity() {
         )
 
         // set navigation bar color
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             window.navigationBarColor = ContextCompat.getColor(this, R.color.dark_gray)
         }
 
+        // initialize bottom navigation
         val navView: BottomNavigationView = findViewById(R.id.navigation)
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.container) as NavHostFragment
