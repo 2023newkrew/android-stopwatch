@@ -13,13 +13,19 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.survivalcoding.stopwatch.R
 
 class MainActivity : AppCompatActivity() {
-    // branch test
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         // set action bar color
-        supportActionBar?.setBackgroundDrawable(ColorDrawable(ContextCompat.getColor(this, R.color.black)))
+        supportActionBar?.setBackgroundDrawable(
+            ColorDrawable(
+                ContextCompat.getColor(
+                    this,
+                    R.color.black
+                )
+            )
+        )
 
         // set navigation bar color
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
@@ -27,9 +33,18 @@ class MainActivity : AppCompatActivity() {
         }
 
         val navView: BottomNavigationView = findViewById(R.id.navigation)
-        val navHostFragment = supportFragmentManager.findFragmentById(R.id.container) as NavHostFragment
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.container) as NavHostFragment
         val navController = navHostFragment.navController
-        val appBarConfiguration = AppBarConfiguration(setOf(R.id.alarm, R.id.clock, R.id.timer, R.id.stopwatch, R.id.bedtime))
+        val appBarConfiguration = AppBarConfiguration(
+            setOf(
+                R.id.alarm,
+                R.id.clock,
+                R.id.timer,
+                R.id.stopwatch,
+                R.id.bedtime
+            )
+        )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
     }

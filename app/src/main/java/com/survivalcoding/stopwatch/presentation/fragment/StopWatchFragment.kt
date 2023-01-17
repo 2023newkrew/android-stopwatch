@@ -28,7 +28,11 @@ class StopWatchFragment : Fragment() {
 
     private val viewModel: MainViewModel by activityViewModels()
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         _binding = FragmentStopWatchBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
@@ -47,14 +51,24 @@ class StopWatchFragment : Fragment() {
         for (i in viewModel.logArrayList.indices) {
             val time = viewModel.logArrayList[i]
             val splitRight = splitTime(time)
-            val logRight = String.format("%01d %02d.%02d", splitRight.minute, splitRight.second, splitRight.milliSecond / 10)
+            val logRight = String.format(
+                "%01d %02d.%02d",
+                splitRight.minute,
+                splitRight.second,
+                splitRight.milliSecond / 10
+            )
             val logLeft =
                 if (i == 0) {
                     logRight
                 } else {
                     val gap = time - viewModel.logArrayList[i - 1]
                     val splitLeft = splitTime(gap)
-                    String.format("%01d %02d.%02d", splitLeft.minute, splitLeft.second, splitLeft.milliSecond / 10)
+                    String.format(
+                        "%01d %02d.%02d",
+                        splitLeft.minute,
+                        splitLeft.second,
+                        splitLeft.milliSecond / 10
+                    )
                 }
             val log = "# ${String.format("%02d", i + 1)}   $logLeft   $logRight"
             val textView = TextView(requireContext()).apply {
@@ -69,25 +83,38 @@ class StopWatchFragment : Fragment() {
         viewModel.timeLiveData.observe(viewLifecycleOwner) { time ->
             val split = splitTime(time)
             binding.secTextView.text =
-                if (split.hour > 0) String.format("%d:%02d:%02d", split.hour, split.minute, split.second)
+                if (split.hour > 0) String.format(
+                    "%d:%02d:%02d",
+                    split.hour,
+                    split.minute,
+                    split.second
+                )
                 else if (split.minute > 0) String.format("%02d:%02d", split.minute, split.second)
                 else split.second.toString()
             binding.milliSecTextView.text = String.format("%02d", split.milliSecond / 10)
 
             viewModel.backupTime?.let {
-                binding.timeProgressBar?.progress = (binding.timeProgressBar?.max ?: 0).coerceAtMost((time - it).toInt())
+                binding.timeProgressBar?.progress =
+                    (binding.timeProgressBar?.max ?: 0).coerceAtMost((time - it).toInt())
             }
         }
 
         if (viewModel.runningLiveData.value == true) binding.playButton.setImageResource(R.drawable.icon_pause)
-        else if ((viewModel.timeLiveData.value ?: 0) > 0) binding.timeLayout.startAnimation(AnimationUtils.loadAnimation(requireContext(), R.anim.animation_blink))
+        else if ((viewModel.timeLiveData.value ?: 0) > 0) binding.timeLayout.startAnimation(
+            AnimationUtils.loadAnimation(requireContext(), R.anim.animation_blink)
+        )
 
         binding.playButton.setOnClickListener {
             if (viewModel.runningLiveData.value == true) {
                 viewModel.pause()
                 binding.playButton.setImageResource(R.drawable.icon_play)
                 binding.lapButton.isVisible = false
-                binding.timeLayout.startAnimation(AnimationUtils.loadAnimation(requireContext(), R.anim.animation_blink))
+                binding.timeLayout.startAnimation(
+                    AnimationUtils.loadAnimation(
+                        requireContext(),
+                        R.anim.animation_blink
+                    )
+                )
                 viewModel.runningLiveData.value = false
             } else {
                 viewModel.play()
@@ -128,7 +155,8 @@ class StopWatchFragment : Fragment() {
                     val max = binding.timeProgressBar?.max ?: 0
 
                     binding.checkBackProgressBar?.progress = progress
-                    binding.checkFrontProgressBar?.progress = progress - (max * THICK_CHECKER).toInt()
+                    binding.checkFrontProgressBar?.progress =
+                        progress - (max * THICK_CHECKER).toInt()
                     binding.timeProgressBar?.progress = 0
                 }
                 viewModel.backupTime = it
@@ -136,14 +164,24 @@ class StopWatchFragment : Fragment() {
                 viewModel.logArrayList.add(it)
                 val index = viewModel.logArrayList.size
                 val splitRight = splitTime(it)
-                val logRight = String.format("%01d %02d.%02d", splitRight.minute, splitRight.second, splitRight.milliSecond / 10)
+                val logRight = String.format(
+                    "%01d %02d.%02d",
+                    splitRight.minute,
+                    splitRight.second,
+                    splitRight.milliSecond / 10
+                )
                 val logLeft =
                     if (index == 1) {
                         logRight
                     } else {
                         val gap = it - viewModel.logArrayList[index - 2]
                         val splitLeft = splitTime(gap)
-                        String.format("%01d %02d.%02d", splitLeft.minute, splitLeft.second, splitLeft.milliSecond / 10)
+                        String.format(
+                            "%01d %02d.%02d",
+                            splitLeft.minute,
+                            splitLeft.second,
+                            splitLeft.milliSecond / 10
+                        )
                     }
                 val log = "# ${String.format("%02d", index)}   $logLeft   $logRight"
                 val textView = TextView(requireContext()).apply {

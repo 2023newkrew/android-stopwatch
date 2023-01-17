@@ -6,7 +6,6 @@ import com.google.gson.reflect.TypeToken
 import com.survivalcoding.stopwatch.Config.Companion.KEY_LOG_ARRAY_LIST
 import java.lang.reflect.Type
 
-
 class PrefsController(val context: Context) {
     fun putLogArrayList(arrayList: ArrayList<Long>) {
         val prefs = context.getSharedPreferences(Config.KEY_PREFS, Context.MODE_PRIVATE)
