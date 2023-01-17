@@ -1,4 +1,4 @@
-package com.survivalcoding.stopwatch.ui.fragment
+package com.survivalcoding.stopwatch.presentation.fragment
 
 import android.content.Context.MODE_PRIVATE
 import android.os.Bundle
@@ -20,7 +20,7 @@ import com.survivalcoding.stopwatch.Config.Companion.THICK_CHECKER
 import com.survivalcoding.stopwatch.PrefsController
 import com.survivalcoding.stopwatch.R
 import com.survivalcoding.stopwatch.databinding.FragmentStopWatchBinding
-import com.survivalcoding.stopwatch.ui.MainViewModel
+import com.survivalcoding.stopwatch.presentation.viewmodel.MainViewModel
 
 class StopWatchFragment : Fragment() {
     private var _binding: FragmentStopWatchBinding? = null
