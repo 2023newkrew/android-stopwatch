@@ -4,6 +4,8 @@ import android.content.Context.MODE_PRIVATE
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.widget.TextView
@@ -11,7 +13,9 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import com.survivalcoding.stopwatch.Config
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.survivalcoding.stopwatch.Config.Companion.KEY_BACKUP_TIME
 import com.survivalcoding.stopwatch.Config.Companion.KEY_PREFS
 import com.survivalcoding.stopwatch.Config.Companion.KEY_PROGRESS_MAX
@@ -19,7 +23,9 @@ import com.survivalcoding.stopwatch.Config.Companion.KEY_TIME
 import com.survivalcoding.stopwatch.PrefsController
 import com.survivalcoding.stopwatch.R
 import com.survivalcoding.stopwatch.databinding.FragmentStopWatchBinding
+import com.survivalcoding.stopwatch.presentation.util.TimeSplit
 import com.survivalcoding.stopwatch.presentation.viewmodel.MainViewModel
+import kotlinx.coroutines.launch
 
 class StopWatchFragment : Fragment() {
     private var _binding: FragmentStopWatchBinding? = null
@@ -38,176 +44,125 @@ class StopWatchFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // observe time live data
-        viewModel.timeLiveData.observe(viewLifecycleOwner) { time ->
-            val split = TimeSplit(time)
-            binding.secTextView.text =
-                if (split.hour > 0) String.format(
-                    "%d:%02d:%02d",
-                    split.hour,
-                    split.minute,
-                    split.second
-                )
-                else if (split.minute > 0) String.format("%02d:%02d", split.minute, split.second)
-                else split.second.toString()
-            binding.milliSecTextView.text = String.format("%02d", split.milliSecond / 10)
+        // observe state
+        lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.state.collect { state ->
+                    val timeSplit = TimeSplit(state.time)
 
-            viewModel.backupTime?.let {
-                binding.timeProgressBar?.progress =
-                    (binding.timeProgressBar?.max ?: 0).coerceAtMost((time - it).toInt())
+                    // update text view
+                    binding.secTextView.text =
+                        if (timeSplit.hour > 0) {
+                            String.format(
+                                "%d:%02d:%02d",
+                                timeSplit.hour,
+                                timeSplit.minute,
+                                timeSplit.second
+                            )
+                        } else if (timeSplit.minute > 0) {
+                            String.format(
+                                "%02d:%02d",
+                                timeSplit.minute,
+                                timeSplit.second
+                            )
+                        } else {
+                            timeSplit.second.toString()
+                        }
+                    binding.milliSecTextView.text =
+                        String.format("%02d", timeSplit.milliSecond / 10)
+
+                    // update time progress bar
+                    binding.timeProgressBar?.max = state.timeProgressMax
+                    state.backupTime?.let {
+                        binding.timeProgressBar?.progress =
+                            (binding.timeProgressBar?.max ?: 0)
+                                .coerceAtMost((state.time - it).toInt())
+                    }
+
+                    // update check front progress bar
+                    binding.checkFrontProgressBar?.let {
+                        it.max = state.checkFrontProgressMax
+                        it.progress = state.checkFrontProgress
+                    }
+
+                    // update check back progress bar
+                    binding.checkBackProgressBar?.let {
+                        it.max = state.checkBackProgressMax
+                        it.progress = state.checkBackProgress
+                    }
+
+                    // update button image
+                    binding.playButton.setImageResource(
+                        if (state.isRunning) R.drawable.icon_pause
+                        else R.drawable.icon_play
+                    )
+
+                    // update refresh button visibility
+                    binding.refreshButton.isVisible = state.time != 0L
+
+                    // update lap button visibility
+                    binding.lapButton.isVisible = state.isRunning
+
+                    // update scroll view visibility
+                    binding.scrollView.visibility =
+                        if (state.logList.isNotEmpty()) VISIBLE
+                        else GONE
+
+                    // update time layout animation
+                    if (!state.isRunning && (state.time) > 0) {
+                        binding.timeLayout.startAnimation(
+                            AnimationUtils.loadAnimation(requireContext(), R.anim.animation_blink)
+                        )
+                    } else
+                        binding.timeLayout.clearAnimation()
+
+                    // update lap layout
+                    if (state.logList.isEmpty()) {
+                        binding.lapLayout.removeAllViews()
+                        requireContext().getSharedPreferences(KEY_PREFS, MODE_PRIVATE)
+                            .edit()
+                            .clear()
+                            .apply()
+                    }
+                }
             }
         }
 
         // set on click listener
         binding.playButton.setOnClickListener {
-            if (viewModel.runningLiveData.value == true) {
-                viewModel.pause()
-                binding.playButton.setImageResource(R.drawable.icon_play)
-                binding.lapButton.isVisible = false
-                binding.timeLayout.startAnimation(
-                    AnimationUtils.loadAnimation(
-                        requireContext(),
-                        R.anim.animation_blink
-                    )
-                )
-                viewModel.runningLiveData.value = false
-            } else {
-                viewModel.play()
-                binding.playButton.setImageResource(R.drawable.icon_pause)
-                binding.refreshButton.isVisible = true
-                binding.lapButton.isVisible = true
-                binding.timeLayout.clearAnimation()
-                viewModel.runningLiveData.value = true
-            }
+            if (viewModel.state.value.isRunning) viewModel.pause()
+            else viewModel.play()
         }
         binding.refreshButton.setOnClickListener {
-            viewModel.pause()
-            binding.playButton.setImageResource(R.drawable.icon_play)
-            binding.refreshButton.isVisible = false
-            binding.lapButton.isVisible = false
-            viewModel.runningLiveData.value = false
-            binding.timeLayout.clearAnimation()
-            viewModel.timeLiveData.postValue(0L)
-
-            viewModel.backupTime = null
-            binding.timeProgressBar?.progress = 0
-            binding.checkBackProgressBar?.progress = 0
-
-            binding.scrollView.visibility = View.GONE
-            binding.lapLayout.removeAllViews()
-            viewModel.logArrayList = ArrayList()
-            requireContext().getSharedPreferences(KEY_PREFS, MODE_PRIVATE)
-                .edit()
-                .clear()
-                .apply()
+            viewModel.refresh()
         }
         binding.lapButton.setOnClickListener {
-            viewModel.timeLiveData.value?.let {
-                if (viewModel.backupTime == null) {
-                    binding.timeProgressBar?.max = it.toInt()
-                    binding.checkBackProgressBar?.max = it.toInt()
-                    binding.checkFrontProgressBar?.max = it.toInt()
-                    binding.scrollView.isVisible = true
-                } else {
-                    val progress = binding.timeProgressBar?.progress ?: 0
-                    val max = binding.timeProgressBar?.max ?: 0
+            viewModel.lap(
+                binding.timeProgressBar?.progress ?: 0,
+                binding.timeProgressBar?.max ?: 0
+            )
 
-                    binding.checkBackProgressBar?.progress = progress
-                    binding.checkFrontProgressBar?.progress =
-                        progress - (max * Config.THICK_CHECKER).toInt()
-                    binding.timeProgressBar?.progress = 0
-                }
-                viewModel.backupTime = it
-
-                viewModel.logArrayList.add(it)
-                val index = viewModel.logArrayList.size
-                val splitRight = TimeSplit(it)
-                val logRight = String.format(
-                    "%01d %02d.%02d",
-                    splitRight.minute,
-                    splitRight.second,
-                    splitRight.milliSecond / 10
-                )
-                val logLeft =
-                    if (index == 1) {
-                        logRight
-                    } else {
-                        val gap = it - viewModel.logArrayList[index - 2]
-                        val splitLeft = TimeSplit(gap)
-                        String.format(
-                            "%01d %02d.%02d",
-                            splitLeft.minute,
-                            splitLeft.second,
-                            splitLeft.milliSecond / 10
-                        )
-                    }
-                val log = "# ${String.format("%02d", index)}   $logLeft   $logRight"
-                val textView = TextView(requireContext()).apply {
-                    setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
-                    text = log
-                    textSize = 16f
-                    setLineSpacing(0f, 1.5f)
-                }
-                binding.lapLayout.addView(textView, 0)
-            }
+            // add lap time log
+            viewModel.addLog()
+            addLapView(viewModel.getLogText())
         }
     }
-
 
     override fun onResume() {
         super.onResume()
 
         // restore primitive data
         val prefs = requireContext().getSharedPreferences(KEY_PREFS, MODE_PRIVATE)
-        viewModel.timeLiveData.value = prefs.getLong(KEY_TIME, 0L)
-        viewModel.backupTime =
+        viewModel.initTime(prefs.getLong(KEY_TIME, 0L))
+        viewModel.initBackupTime(
             if (prefs.getLong(KEY_BACKUP_TIME, 0L) == 0L) null
             else prefs.getLong(KEY_BACKUP_TIME, 0L)
-        prefs.getInt(KEY_PROGRESS_MAX, 0).let {
-            binding.timeProgressBar?.max = it
-            binding.checkBackProgressBar?.max = it
-            binding.checkFrontProgressBar?.max = it
-        }
+        )
+        viewModel.initProgressMax(prefs.getInt(KEY_PROGRESS_MAX, 0))
 
         // restore custom data
-        viewModel.logArrayList = PrefsController(requireContext()).restoreLogArrayList()
-        if (viewModel.logArrayList.size > 0) binding.scrollView.isVisible = true
-        for (i in viewModel.logArrayList.indices) {
-            val time = viewModel.logArrayList[i]
-            val splitRight = TimeSplit(time)
-            val logRight = String.format(
-                "%01d %02d.%02d",
-                splitRight.minute,
-                splitRight.second,
-                splitRight.milliSecond / 10
-            )
-            val logLeft =
-                if (i == 0) {
-                    logRight
-                } else {
-                    val gap = time - viewModel.logArrayList[i - 1]
-                    val splitLeft = TimeSplit(gap)
-                    String.format(
-                        "%01d %02d.%02d",
-                        splitLeft.minute,
-                        splitLeft.second,
-                        splitLeft.milliSecond / 10
-                    )
-                }
-            val log = "# ${String.format("%02d", i + 1)}   $logLeft   $logRight"
-            val textView = TextView(requireContext()).apply {
-                setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
-                text = log
-                textSize = 16f
-                setLineSpacing(0f, 1.5f)
-            }
-            binding.lapLayout.addView(textView, 0)
-        }
-
-        if (viewModel.runningLiveData.value == true) binding.playButton.setImageResource(R.drawable.icon_pause)
-        else if ((viewModel.timeLiveData.value ?: 0) > 0) binding.timeLayout.startAnimation(
-            AnimationUtils.loadAnimation(requireContext(), R.anim.animation_blink)
-        )
+        viewModel.initLogList(PrefsController(requireContext()).restoreLogArrayList())
+        for (i in viewModel.state.value.logList.indices) addLapView(viewModel.getLogText(i))
     }
 
     override fun onPause() {
@@ -216,13 +171,13 @@ class StopWatchFragment : Fragment() {
         // backup primitive data
         val prefs = requireContext().getSharedPreferences(KEY_PREFS, MODE_PRIVATE)
         val editor = prefs.edit()
-        editor.putLong(KEY_TIME, viewModel.timeLiveData.value ?: 0L)
-        editor.putLong(KEY_BACKUP_TIME, viewModel.backupTime ?: 0L)
+        editor.putLong(KEY_TIME, viewModel.state.value.time)
+        editor.putLong(KEY_BACKUP_TIME, viewModel.state.value.backupTime ?: 0L)
         editor.putInt(KEY_PROGRESS_MAX, binding.timeProgressBar?.max ?: 0)
         editor.apply()
 
-        // restore custom data
-        PrefsController(requireContext()).putLogArrayList(viewModel.logArrayList)
+        // backup custom data
+        PrefsController(requireContext()).putLogArrayList(viewModel.state.value.logList)
     }
 
     override fun onDestroyView() {
@@ -230,12 +185,13 @@ class StopWatchFragment : Fragment() {
         _binding = null
     }
 
-    private data class TimeSplit(
-        val time: Long
-    ) {
-        val milliSecond: Long by lazy { time % 1000 }
-        val second: Long by lazy { (time / 1000) % 60 }
-        val minute: Long by lazy { (time / (1000 * 60)) % 60 }
-        val hour: Long by lazy { (time / (1000 * 60 * 60)) % 24 }
+    private fun addLapView(string: String) {
+        val textView = TextView(requireContext()).apply {
+            setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
+            text = string
+            textSize = 16f
+            setLineSpacing(0f, 1.5f)
+        }
+        binding.lapLayout.addView(textView, 0)
     }
 }

@@ -6,23 +6,22 @@ import com.google.gson.reflect.TypeToken
 import com.survivalcoding.stopwatch.Config.Companion.KEY_LOG_ARRAY_LIST
 import java.lang.reflect.Type
 
-class PrefsController(val context: Context) {
-    fun putLogArrayList(arrayList: ArrayList<Long>) {
+class PrefsController(private val context: Context) {
+    fun putLogArrayList(logList: List<Long>) {
         val prefs = context.getSharedPreferences(Config.KEY_PREFS, Context.MODE_PRIVATE)
         val editor = prefs.edit()
-
-        val json = Gson().toJson(arrayList)
+        val json = Gson().toJson(logList)
         editor.putString(KEY_LOG_ARRAY_LIST, json)
         editor.apply()
     }
 
-    fun restoreLogArrayList(): ArrayList<Long> {
+    fun restoreLogArrayList(): List<Long> {
         val prefs = context.getSharedPreferences(Config.KEY_PREFS, Context.MODE_PRIVATE)
         val json = prefs.getString(KEY_LOG_ARRAY_LIST, null)
         return if (json == null) {
-            ArrayList()
+            listOf()
         } else {
-            val type: Type = object : TypeToken<ArrayList<Long>?>() {}.type
+            val type: Type = object : TypeToken<List<Long>?>() {}.type
             Gson().fromJson(json, type)
         }
     }
