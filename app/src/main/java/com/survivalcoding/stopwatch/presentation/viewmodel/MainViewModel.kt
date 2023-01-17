@@ -97,7 +97,11 @@ class MainViewModel : ViewModel() {
         initLogList(listOf())
         _state.value = state.value.copy(
             timeProgress = 0,
-            checkBackProgress = 0
+            timeProgressMax = 0,
+            checkBackProgress = 0,
+            checkBackProgressMax = 0,
+            checkFrontProgress = 0,
+            checkFrontProgressMax = 0
         )
     }
 
