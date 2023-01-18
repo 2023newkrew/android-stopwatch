@@ -4,8 +4,8 @@ import android.content.SharedPreferences
 import androidx.lifecycle.*
 import androidx.preference.PreferenceManager
 import com.survivalcoding.stopwatch.StopWatchApplication
-import com.survivalcoding.stopwatch.entity.LabTime
-import com.survivalcoding.stopwatch.repository.LabTimeRepository
+import com.survivalcoding.stopwatch.data.repository.LabTimeRepositoryImpl
+import com.survivalcoding.stopwatch.domain.model.LabTime
 import kotlinx.coroutines.launch
 import java.util.*
 import kotlin.concurrent.timer
@@ -14,7 +14,7 @@ class MainViewModel(application: StopWatchApplication) : AndroidViewModel(applic
     private val sharedPref: SharedPreferences by lazy {
         PreferenceManager.getDefaultSharedPreferences(application)
     }
-    private val repository: LabTimeRepository = application.repository
+    private val repository: LabTimeRepositoryImpl = application.repository
 
 
     companion object {

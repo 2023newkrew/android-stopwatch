@@ -1,4 +1,4 @@
-package com.survivalcoding.stopwatch.entity
+package com.survivalcoding.stopwatch.domain.model
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

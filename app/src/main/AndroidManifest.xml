@@ -14,7 +14,7 @@
         android:theme="@style/Theme.StopWatch"
         tools:targetApi="33">
         <activity
-            android:name=".activity.MainActivity"
+            android:name=".presentation.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

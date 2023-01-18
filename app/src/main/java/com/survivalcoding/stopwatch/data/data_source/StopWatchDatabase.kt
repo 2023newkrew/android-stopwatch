@@ -1,11 +1,10 @@
-package com.survivalcoding.stopwatch.database
+package com.survivalcoding.stopwatch.data.data_source
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.survivalcoding.stopwatch.dao.LabTimeDao
-import com.survivalcoding.stopwatch.entity.LabTime
+import com.survivalcoding.stopwatch.domain.model.LabTime
 
 @Database(entities = [LabTime::class], version = 1, exportSchema = false)
 abstract class StopWatchDatabase : RoomDatabase() {
