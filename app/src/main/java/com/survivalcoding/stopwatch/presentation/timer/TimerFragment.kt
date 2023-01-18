@@ -1,9 +1,10 @@
-package com.survivalcoding.stopwatch.presentation.fragment
+package com.survivalcoding.stopwatch.presentation.timer
 
 import androidx.fragment.app.Fragment
 import dagger.hilt.android.AndroidEntryPoint
 
+
 @AndroidEntryPoint
-class BedtimeFragment : Fragment() {
+class TimerFragment : Fragment() {
 
 }

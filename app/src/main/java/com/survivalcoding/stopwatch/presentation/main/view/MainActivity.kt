@@ -1,4 +1,4 @@
-package com.survivalcoding.stopwatch.presentation.activity
+package com.survivalcoding.stopwatch.presentation.main.view
 
 import android.os.Bundle
 import androidx.activity.viewModels
@@ -9,9 +9,9 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.survivalcoding.stopwatch.MainViewModel
 import com.survivalcoding.stopwatch.R
 import com.survivalcoding.stopwatch.databinding.ActivityMainBinding
+import com.survivalcoding.stopwatch.presentation.main.view_model.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 

@@ -1,9 +1,9 @@
-package com.survivalcoding.stopwatch.presentation.fragment
+package com.survivalcoding.stopwatch.presentation.bedtime
 
 import androidx.fragment.app.Fragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class AlarmFragment : Fragment() {
+class BedtimeFragment : Fragment() {
 
 }

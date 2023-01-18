@@ -1,4 +1,4 @@
-package com.survivalcoding.stopwatch.presentation.fragment
+package com.survivalcoding.stopwatch.presentation.stopwatch.view
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,12 +9,17 @@ import android.view.animation.AnimationUtils
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.survivalcoding.stopwatch.MainViewModel
+import com.survivalcoding.stopwatch.presentation.main.view_model.MainViewModel
 import com.survivalcoding.stopwatch.R
-import com.survivalcoding.stopwatch.presentation.adapter.LaptimeRecordAdapter
 import com.survivalcoding.stopwatch.databinding.FragmentStopWatchBinding
+import com.survivalcoding.stopwatch.presentation.stopwatch.adapter.LaptimeRecordAdapter
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import java.text.DecimalFormat
 @AndroidEntryPoint
 class StopWatchFragment : Fragment() {
@@ -23,38 +28,40 @@ class StopWatchFragment : Fragment() {
     private val binding get() = _binding!!
     private val df00 = DecimalFormat("00")
     private val viewModel: MainViewModel by activityViewModels()
-    private lateinit var laptimeRecordAdapter: LaptimeRecordAdapter
+    private lateinit var lapTimeRecordAdapter: LaptimeRecordAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        //viewModel.deleteAll() // 테스트용으로 일단 DB 모두 지움
+    ): View {
 
         _binding = FragmentStopWatchBinding.inflate(inflater, container, false)
         val view = binding.root
-        //viewModel.getLaptimeRecordList()
-        laptimeRecordAdapter = LaptimeRecordAdapter(view.context)
+        lapTimeRecordAdapter = LaptimeRecordAdapter(view.context)
         val linearLayoutManager = LinearLayoutManager(view.context)
         linearLayoutManager.reverseLayout = true
         linearLayoutManager.stackFromEnd = true
-        //linearLayoutManager.isSmoothScrollbarEnabled = true
         binding.recordRecyclerView.layoutManager = linearLayoutManager
-        binding.recordRecyclerView.adapter = laptimeRecordAdapter
+        binding.recordRecyclerView.adapter = lapTimeRecordAdapter
         binding.recordRecyclerView.setHasFixedSize(true)
 
         val blinkAnim = AnimationUtils.loadAnimation(context, R.anim.blink_animation)
         recover(blinkAnim)
 
-        viewModel.liveRecordList.observe(viewLifecycleOwner) { recordList ->
-            if (recordList.size > 0) {
-                binding.progressiveTimerButtonWrapper?.transitionToEnd()
-            }
-            laptimeRecordAdapter.submitList(recordList.toMutableList()) {
-                binding.recordRecyclerView.scrollToPosition(laptimeRecordAdapter.itemCount - 1)
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED){
+                viewModel.lapTimeLists.collectLatest {
+                    if (it.isNotEmpty()) {
+                        binding.progressiveTimerButtonWrapper?.transitionToEnd()
+                    }
+                    lapTimeRecordAdapter.submitList(it.toMutableList()) {
+                        binding.recordRecyclerView.scrollToPosition(lapTimeRecordAdapter.itemCount - 1)
+                    }
+                }
             }
         }
+
 
         viewModel.liveStateData.observe(viewLifecycleOwner) { state ->
             if (state.hour > 0) {

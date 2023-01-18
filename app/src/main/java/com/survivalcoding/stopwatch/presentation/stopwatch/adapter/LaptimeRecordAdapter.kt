@@ -1,4 +1,4 @@
-package com.survivalcoding.stopwatch.presentation.adapter
+package com.survivalcoding.stopwatch.presentation.stopwatch.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
