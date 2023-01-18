@@ -5,8 +5,8 @@ import android.content.SharedPreferences
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.preference.PreferenceManager
-import com.survivalcoding.stopwatch.domain.model.LapTimeRecord
-import com.survivalcoding.stopwatch.domain.use_case.bundle.LapTimeRecordUseCaseBundle
+import com.survivalcoding.stopwatch.domain.stopwatch.model.LapTimeRecord
+import com.survivalcoding.stopwatch.domain.stopwatch.use_case.bundle.LapTimeRecordUseCaseBundle
 import com.survivalcoding.stopwatch.presentation.stopwatch.state.MainUiState
 import com.survivalcoding.stopwatch.presentation.stopwatch.state.ProgressBarState
 import com.survivalcoding.stopwatch.presentation.stopwatch.state.StopWatchState

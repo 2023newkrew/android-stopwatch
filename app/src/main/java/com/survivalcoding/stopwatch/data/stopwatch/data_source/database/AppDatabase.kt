@@ -1,12 +1,12 @@
-package com.survivalcoding.stopwatch.data.data_source.database
+package com.survivalcoding.stopwatch.data.stopwatch.data_source.database
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.survivalcoding.stopwatch.Config.Companion.DATABASE_NAME
-import com.survivalcoding.stopwatch.data.data_source.dao.LapTimeRecordDao
-import com.survivalcoding.stopwatch.domain.model.LapTimeRecord
+import com.survivalcoding.stopwatch.DATABASE_NAME
+import com.survivalcoding.stopwatch.data.stopwatch.data_source.dao.LapTimeRecordDao
+import com.survivalcoding.stopwatch.domain.stopwatch.model.LapTimeRecord
 
 @Database(entities = [LapTimeRecord::class], version = 1, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {

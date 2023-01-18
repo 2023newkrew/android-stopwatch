@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.survivalcoding.stopwatch.R
-import com.survivalcoding.stopwatch.domain.model.LapTimeRecord
+import com.survivalcoding.stopwatch.domain.stopwatch.model.LapTimeRecord
 
 class LaptimeRecordAdapter(val context: Context) :
     ListAdapter<LapTimeRecord, LaptimeRecordAdapter.ViewHolder>(diffUtil) {

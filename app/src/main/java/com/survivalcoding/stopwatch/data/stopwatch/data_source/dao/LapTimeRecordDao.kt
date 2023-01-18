@@ -1,10 +1,10 @@
-package com.survivalcoding.stopwatch.data.data_source.dao
+package com.survivalcoding.stopwatch.data.stopwatch.data_source.dao
 
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
-import com.survivalcoding.stopwatch.domain.model.LapTimeRecord
+import com.survivalcoding.stopwatch.domain.stopwatch.model.LapTimeRecord
 import kotlinx.coroutines.flow.Flow
 
 @Dao

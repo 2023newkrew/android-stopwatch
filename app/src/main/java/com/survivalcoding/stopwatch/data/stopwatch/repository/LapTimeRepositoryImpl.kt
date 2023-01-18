@@ -1,9 +1,9 @@
-package com.survivalcoding.stopwatch.data.repository
+package com.survivalcoding.stopwatch.data.stopwatch.repository
 
 import androidx.annotation.WorkerThread
-import com.survivalcoding.stopwatch.data.data_source.dao.LapTimeRecordDao
-import com.survivalcoding.stopwatch.domain.model.LapTimeRecord
-import com.survivalcoding.stopwatch.domain.repository.LapTimeRepository
+import com.survivalcoding.stopwatch.data.stopwatch.data_source.dao.LapTimeRecordDao
+import com.survivalcoding.stopwatch.domain.stopwatch.model.LapTimeRecord
+import com.survivalcoding.stopwatch.domain.stopwatch.repository.LapTimeRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 

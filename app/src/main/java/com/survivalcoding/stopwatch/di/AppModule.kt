@@ -1,15 +1,15 @@
 package com.survivalcoding.stopwatch.di
 
 import android.content.Context
-import com.survivalcoding.stopwatch.data.data_source.dao.LapTimeRecordDao
-import com.survivalcoding.stopwatch.data.data_source.database.AppDatabase
-import com.survivalcoding.stopwatch.data.repository.LapTimeRepositoryImpl
-import com.survivalcoding.stopwatch.domain.repository.LapTimeRepository
-import com.survivalcoding.stopwatch.domain.use_case.DeleteAllLapTimesUseCase
-import com.survivalcoding.stopwatch.domain.use_case.DeleteLapTimeUseCase
-import com.survivalcoding.stopwatch.domain.use_case.GetLapTimesUseCase
-import com.survivalcoding.stopwatch.domain.use_case.InsertLapTimeUseCase
-import com.survivalcoding.stopwatch.domain.use_case.bundle.LapTimeRecordUseCaseBundle
+import com.survivalcoding.stopwatch.data.stopwatch.data_source.dao.LapTimeRecordDao
+import com.survivalcoding.stopwatch.data.stopwatch.data_source.database.AppDatabase
+import com.survivalcoding.stopwatch.data.stopwatch.repository.LapTimeRepositoryImpl
+import com.survivalcoding.stopwatch.domain.stopwatch.repository.LapTimeRepository
+import com.survivalcoding.stopwatch.domain.stopwatch.use_case.DeleteAllLapTimesUseCase
+import com.survivalcoding.stopwatch.domain.stopwatch.use_case.DeleteLapTimeUseCase
+import com.survivalcoding.stopwatch.domain.stopwatch.use_case.GetLapTimesUseCase
+import com.survivalcoding.stopwatch.domain.stopwatch.use_case.InsertLapTimeUseCase
+import com.survivalcoding.stopwatch.domain.stopwatch.use_case.bundle.LapTimeRecordUseCaseBundle
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
