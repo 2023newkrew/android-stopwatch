@@ -8,7 +8,10 @@ import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
+import android.view.animation.DecelerateInterpolator
+import android.view.animation.LinearInterpolator
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -16,11 +19,15 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.transition.ChangeBounds
+import androidx.transition.Transition
+import androidx.transition.TransitionManager
 import com.survivalcoding.stopwatch.*
 import com.survivalcoding.stopwatch.databinding.FragmentStopWatchBinding
-import com.survivalcoding.stopwatch.presentation.util.TimeSplit
 import com.survivalcoding.stopwatch.presentation.main.MainViewModel
+import com.survivalcoding.stopwatch.presentation.util.TimeSplit
 import kotlinx.coroutines.launch
+
 
 class StopWatchFragment : Fragment() {
     private var _binding: FragmentStopWatchBinding? = null
@@ -88,8 +95,8 @@ class StopWatchFragment : Fragment() {
 
                     // update button image
                     binding.playButton.setImageResource(
-                        if (state.isRunning) R.drawable.icon_pause
-                        else R.drawable.icon_play
+                        if (state.isRunning) R.drawable.layer_list_pause_expand
+                        else R.drawable.layer_list_play
                     )
 
                     // update refresh button visibility
