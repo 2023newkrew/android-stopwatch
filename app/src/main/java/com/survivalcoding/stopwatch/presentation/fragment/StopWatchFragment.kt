@@ -14,8 +14,9 @@ import com.survivalcoding.stopwatch.MainViewModel
 import com.survivalcoding.stopwatch.R
 import com.survivalcoding.stopwatch.presentation.adapter.LaptimeRecordAdapter
 import com.survivalcoding.stopwatch.databinding.FragmentStopWatchBinding
+import dagger.hilt.android.AndroidEntryPoint
 import java.text.DecimalFormat
-
+@AndroidEntryPoint
 class StopWatchFragment : Fragment() {
 
     private var _binding: FragmentStopWatchBinding? = null
@@ -33,7 +34,7 @@ class StopWatchFragment : Fragment() {
 
         _binding = FragmentStopWatchBinding.inflate(inflater, container, false)
         val view = binding.root
-        viewModel.getLaptimeRecordList()
+        //viewModel.getLaptimeRecordList()
         laptimeRecordAdapter = LaptimeRecordAdapter(view.context)
         val linearLayoutManager = LinearLayoutManager(view.context)
         linearLayoutManager.reverseLayout = true

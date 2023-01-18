@@ -8,6 +8,6 @@ import org.intellij.lang.annotations.Flow
 @Entity
 data class LapTimeRecord(
     @PrimaryKey(autoGenerate = true) var rid: Int = 0,
-    @ColumnInfo(name = "elapsed_time") val elapsedTime: Int,
-    @ColumnInfo(name = "end_time") val endTime: Int,
+    val elapsedTime: Int,
+    val endTime: Int,
 )

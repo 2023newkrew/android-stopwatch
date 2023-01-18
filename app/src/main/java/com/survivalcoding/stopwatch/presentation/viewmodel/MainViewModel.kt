@@ -4,23 +4,29 @@ import android.app.Application
 import android.content.SharedPreferences
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.preference.PreferenceManager
-import com.survivalcoding.stopwatch.data.database.data_source.LaptimeDatabase
+import com.survivalcoding.stopwatch.data.database.LapTimeDatabase
 import com.survivalcoding.stopwatch.domain.model.LapTimeRecord
+import com.survivalcoding.stopwatch.domain.use_case.bundle.LapTimeUseCases
 import com.survivalcoding.stopwatch.presentation.ui_state.MainUiState
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.*
+import javax.inject.Inject
 
-class MainViewModel(application: Application) : AndroidViewModel(application) {
-    //    val db = Room.databaseBuilder(
-//        application,
-//        AppDatabase::class.java, "laptimerecord"
-//    ).build()
-    var isPaused = true // TODO 데이터 저장해야함
-    var isWorking = false // TODO 데이터 저장해야함
-    var standardLapTime = 0 // TODO 데이터 저장해야함
+@HiltViewModel
+class MainViewModel
+@Inject constructor(
+    application: StopWatchApplication,
+    private val lapTimeUseCases: LapTimeUseCases
+) : ViewModel() {
+
+    var isPaused = true
+    var isWorking = false
+    var standardLapTime = 0
     var exitTime = 0
     private var startLapTime = 0
     private val mPreferences: SharedPreferences =
@@ -39,10 +45,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    //종료시 마지막 시간 저장 안하면 필요 없을 듯
-    //private var lastEndTime = 0
 
-    val laptimeRecordDao = LaptimeDatabase.getDatabase(application).laptimeRecordDao()
 
     private var timerWork: Timer? = null
     private var progressPercent = 0
@@ -53,12 +56,6 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     val liveProgressPercent = MutableLiveData(progressPercent)
     val liveRecordList = MutableLiveData(recordList)
 
-    fun getLaptimeRecordList() {
-        CoroutineScope(Dispatchers.IO).launch {
-            recordList = laptimeRecordDao.getAll()
-            liveRecordList.postValue(recordList)
-        }
-    }
 
     fun start() {
         isPaused = false
@@ -95,7 +92,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         recordList.add(laptimeRecord)
         liveRecordList.value = recordList
         CoroutineScope(Dispatchers.IO).launch {
-            laptimeRecordDao.insert(laptimeRecord)
+            lapTimeUseCases.addLapTimeUseCase(laptimeRecord)
         }
     }
 
@@ -114,7 +111,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
         // TODO laptime 기록 삭제
         CoroutineScope(Dispatchers.IO).launch {
-            laptimeRecordDao.deleteAll()
+            lapTimeRecordDao.deleteAll()
         }
         // TODO 화면 초기화
     }

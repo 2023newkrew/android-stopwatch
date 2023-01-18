@@ -1,21 +1,19 @@
-package com.survivalcoding.stopwatch.data.database.data_source
+package com.survivalcoding.stopwatch.data.dao
 
 import androidx.room.Dao
-import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import com.survivalcoding.stopwatch.domain.model.LapTimeRecord
-import java.util.concurrent.Flow
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface LapTimeRecordDao {
     @Query("SELECT * FROM laptimerecord")
-    suspend fun getAll(): List<LapTimeRecord>
+    fun selectAll(): Flow<List<LapTimeRecord>>
 
     @Insert
-    suspend fun insert(laptimeRecord: LapTimeRecord)
+    suspend fun insert(laptimerecord: LapTimeRecord)
 
     @Query("DELETE FROM laptimerecord")
     suspend fun deleteAll()
-    // TODO: suspend 함수 물어보기
 }
