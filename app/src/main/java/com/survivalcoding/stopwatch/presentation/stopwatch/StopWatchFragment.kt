@@ -10,23 +10,22 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.survivalcoding.stopwatch.R
-import com.survivalcoding.stopwatch.StopWatchApplication
 import com.survivalcoding.stopwatch.databinding.FragmentStopWatchBinding
-import com.survivalcoding.stopwatch.viewmodel.MainViewModel
-import com.survivalcoding.stopwatch.viewmodel.MainViewModelFactory
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
-
+@AndroidEntryPoint
 class StopWatchFragment : Fragment() {
 
 
     private var _binding: FragmentStopWatchBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: MainViewModel by activityViewModels {
-        MainViewModelFactory((requireActivity().application as StopWatchApplication))
-    }
-
+    private val viewModel: StopWatchViewModel by viewModels()
 
     private val blinkAnim: Animation by lazy {
         AnimationUtils.loadAnimation(this.context, R.anim.blink_animation)
@@ -68,11 +67,16 @@ class StopWatchFragment : Fragment() {
             )
         }
 
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel
+            }
+        }
+
 
         viewModel.milSecLiveData.observe(this.viewLifecycleOwner) { milSec ->
             binding.milSecondTextView.text = String.format("%02d", (milSec % 1000) / 10)
             binding.secondTextView.text = secFormatLambda(milSec / 1000)
-            viewModel.saveLatestMilSec()
         }
 
         viewModel.allLabTimes.observe(this.viewLifecycleOwner) { labTimes ->
@@ -102,7 +106,7 @@ class StopWatchFragment : Fragment() {
             updateUI()
         }
         binding.initButtonView.setOnClickListener {
-            viewModel.init()
+            viewModel.clear()
             updateUI()
         }
         binding.recordButtonView.setOnClickListener {
@@ -145,6 +149,11 @@ class StopWatchFragment : Fragment() {
             binding.motionLayout.transitionToStart()
         }
 
+    }
+
+    override fun onPause() {
+        super.onPause()
+        viewModel.saveLatestMilSec()
     }
 
     override fun onDestroyView() {
