@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/alarm">
+
+    <fragment
+        android:id="@+id/alarm"
+        android:name="com.survivalcoding.stopwatch.presentation.fragment.AlarmFragment"
+        android:label="Alarm"
+        tools:layout="@layout/fragment_alarm" />
+    <fragment
+        android:id="@+id/clock"
+        android:name="com.survivalcoding.stopwatch.presentation.fragment.ClockFragment"
+        android:label="Clock"
+        tools:layout="@layout/fragment_clock" />
+    <fragment
+        android:id="@+id/timer"
+        android:name="com.survivalcoding.stopwatch.presentation.fragment.TimerFragment"
+        android:label="Timer"
+        tools:layout="@layout/fragment_timer" />
+    <fragment
+        android:id="@+id/stopwatch"
+        android:name="com.survivalcoding.stopwatch.presentation.fragment.StopWatchFragment"
+        android:label="Stopwatch"
+        tools:layout="@layout/fragment_stop_watch" />
+    <fragment
+        android:id="@+id/bedtime"
+        android:name="com.survivalcoding.stopwatch.presentation.fragment.BedtimeFragment"
+        android:label="Bedtime"
+        tools:layout="@layout/fragment_bedtime" />
+</navigation>
