@@ -1,5 +1,6 @@
-package com.survivalcoding.stopwatch.presentation.fragment
+package com.survivalcoding.stopwatch.presentation.stopwatch
 
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,9 +16,8 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.survivalcoding.stopwatch.R
 import com.survivalcoding.stopwatch.databinding.FragmentStopWatchBinding
-import com.survivalcoding.stopwatch.presentation.adapter.LaptimeRecordAdapter
-import com.survivalcoding.stopwatch.presentation.state.MainUiState
-import com.survivalcoding.stopwatch.presentation.viewmodel.StopWatchViewModel
+import com.survivalcoding.stopwatch.presentation.stopwatch.adapter.LaptimeRecordAdapter
+import com.survivalcoding.stopwatch.presentation.stopwatch.state.MainUiState
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.text.DecimalFormat
@@ -100,7 +100,11 @@ class StopWatchFragment : Fragment() {
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.progressPercentState.collect {
-                    binding.progressiveTimerButton.progress = it.percent
+                    if (Build.VERSION.SDK_INT >= 24) {
+                        binding.progressiveTimerButton.setProgress(it.percent, true)
+                    } else {
+                        binding.progressiveTimerButton.progress = it.percent
+                    }
                 }
             }
         }
