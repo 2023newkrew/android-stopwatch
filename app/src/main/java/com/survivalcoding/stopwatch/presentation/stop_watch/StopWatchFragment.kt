@@ -1,4 +1,4 @@
-package com.survivalcoding.stopwatch.presentation.fragment
+package com.survivalcoding.stopwatch.presentation.stop_watch
 
 import android.content.Context.MODE_PRIVATE
 import android.os.Bundle
@@ -16,15 +16,10 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import com.survivalcoding.stopwatch.Config.Companion.KEY_BACKUP_TIME
-import com.survivalcoding.stopwatch.Config.Companion.KEY_PREFS
-import com.survivalcoding.stopwatch.Config.Companion.KEY_PROGRESS_MAX
-import com.survivalcoding.stopwatch.Config.Companion.KEY_TIME
-import com.survivalcoding.stopwatch.PrefsController
-import com.survivalcoding.stopwatch.R
+import com.survivalcoding.stopwatch.*
 import com.survivalcoding.stopwatch.databinding.FragmentStopWatchBinding
 import com.survivalcoding.stopwatch.presentation.util.TimeSplit
-import com.survivalcoding.stopwatch.presentation.viewmodel.MainViewModel
+import com.survivalcoding.stopwatch.presentation.main.MainViewModel
 import kotlinx.coroutines.launch
 
 class StopWatchFragment : Fragment() {

@@ -1,8 +1,8 @@
-package com.survivalcoding.stopwatch.presentation.viewmodel
+package com.survivalcoding.stopwatch.presentation.main
 
 import androidx.lifecycle.ViewModel
-import com.survivalcoding.stopwatch.Config
-import com.survivalcoding.stopwatch.Config.Companion.PERIOD_TIMER
+import com.survivalcoding.stopwatch.PERIOD_TIMER
+import com.survivalcoding.stopwatch.THICK_CHECKER
 import com.survivalcoding.stopwatch.presentation.util.TimeSplit
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -111,7 +111,7 @@ class MainViewModel : ViewModel() {
         } else {
             _state.value = state.value.copy(
                 checkBackProgress = timeProgress,
-                checkFrontProgress = timeProgress - (timeProgressMax * Config.THICK_CHECKER).toInt(),
+                checkFrontProgress = timeProgress - (timeProgressMax * THICK_CHECKER).toInt(),
                 timeProgress = 0
             )
         }

@@ -1,4 +1,4 @@
-package com.survivalcoding.stopwatch.presentation.fragment
+package com.survivalcoding.stopwatch.presentation
 
 import androidx.fragment.app.Fragment
 
