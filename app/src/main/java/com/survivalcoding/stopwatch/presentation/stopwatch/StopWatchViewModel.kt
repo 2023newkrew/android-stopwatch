@@ -1,4 +1,4 @@
-package com.survivalcoding.stopwatch.presentation.viewmodel
+package com.survivalcoding.stopwatch.presentation.stopwatch
 
 import android.app.Application
 import android.content.SharedPreferences
@@ -7,9 +7,9 @@ import androidx.lifecycle.viewModelScope
 import androidx.preference.PreferenceManager
 import com.survivalcoding.stopwatch.domain.model.LapTimeRecord
 import com.survivalcoding.stopwatch.domain.use_case.bundle.LapTimeRecordUseCaseBundle
-import com.survivalcoding.stopwatch.presentation.state.MainUiState
-import com.survivalcoding.stopwatch.presentation.state.ProgressBarState
-import com.survivalcoding.stopwatch.presentation.state.StopWatchState
+import com.survivalcoding.stopwatch.presentation.stopwatch.state.MainUiState
+import com.survivalcoding.stopwatch.presentation.stopwatch.state.ProgressBarState
+import com.survivalcoding.stopwatch.presentation.stopwatch.state.StopWatchState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow

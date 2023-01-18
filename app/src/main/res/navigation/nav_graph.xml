@@ -7,27 +7,27 @@
 
     <fragment
         android:id="@+id/alarm"
-        android:name="com.survivalcoding.stopwatch.presentation.fragment.AlarmFragment"
+        android:name="com.survivalcoding.stopwatch.presentation.alarm.AlarmFragment"
         android:label="Alarm"
         tools:layout="@layout/fragment_alarm" />
     <fragment
         android:id="@+id/clock"
-        android:name="com.survivalcoding.stopwatch.presentation.fragment.ClockFragment"
+        android:name="com.survivalcoding.stopwatch.presentation.clock.ClockFragment"
         android:label="Clock"
         tools:layout="@layout/fragment_clock" />
     <fragment
         android:id="@+id/timer"
-        android:name="com.survivalcoding.stopwatch.presentation.fragment.TimerFragment"
+        android:name="com.survivalcoding.stopwatch.presentation.timer.TimerFragment"
         android:label="Timer"
         tools:layout="@layout/fragment_timer" />
     <fragment
         android:id="@+id/stopwatch"
-        android:name="com.survivalcoding.stopwatch.presentation.fragment.StopWatchFragment"
+        android:name="com.survivalcoding.stopwatch.presentation.stopwatch.StopWatchFragment"
         android:label="Stopwatch"
         tools:layout="@layout/fragment_stop_watch" />
     <fragment
         android:id="@+id/bedtime"
-        android:name="com.survivalcoding.stopwatch.presentation.fragment.BedtimeFragment"
+        android:name="com.survivalcoding.stopwatch.presentation.bedtime.BedtimeFragment"
         android:label="Bedtime"
         tools:layout="@layout/fragment_bedtime" />
 </navigation>

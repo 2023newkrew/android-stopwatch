@@ -1,4 +1,4 @@
-package com.survivalcoding.stopwatch.presentation.state
+package com.survivalcoding.stopwatch.presentation.stopwatch.state
 
 data class MainUiState(
     val hour: Int = 0,
