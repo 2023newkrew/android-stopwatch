@@ -20,5 +20,4 @@ interface LapTimeRecordDao {
 
     @Query("DELETE FROM laptimerecord")
     suspend fun deleteAll()
-    // TODO: suspend 함수 물어보기
 }
