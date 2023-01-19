@@ -1,16 +1,14 @@
 package com.survivalcoding.stopwatch.domain.use_case
 
-import android.content.SharedPreferences
 import com.survivalcoding.stopwatch.domain.model.StopWatchRecord
+import com.survivalcoding.stopwatch.domain.repository.LocalStorageRepository
 
-class SaveStopWatchRecordUseCase(private val sharedPreferences: SharedPreferences) {
+class SaveStopWatchRecordUseCase(private val localStorageRepository: LocalStorageRepository) {
     operator fun invoke(stopWatchRecord: StopWatchRecord) {
-        val editor = sharedPreferences.edit()
-        editor.putBoolean("isPaused", stopWatchRecord.isPaused)
-        editor.putBoolean("isWorking", stopWatchRecord.isWorking)
-        editor.putInt("standardLapTime", stopWatchRecord.standardLapTime)
-        editor.putInt("startLapTime", stopWatchRecord.startLapTime)
-        editor.putInt("exitTime", stopWatchRecord.exitTime)
-        editor.apply()
+        localStorageRepository.putBoolean("isPaused", stopWatchRecord.isPaused)
+        localStorageRepository.putBoolean("isWorking", stopWatchRecord.isWorking)
+        localStorageRepository.putInt("standardLapTime", stopWatchRecord.standardLapTime)
+        localStorageRepository.putInt("startLapTime", stopWatchRecord.startLapTime)
+        localStorageRepository.putInt("exitTime", stopWatchRecord.exitTime)
     }
 }

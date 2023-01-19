@@ -1,6 +1,6 @@
 package com.survivalcoding.stopwatch.data.repository
 
-import com.survivalcoding.stopwatch.data.dao.LapTimeRecordDao
+import com.survivalcoding.stopwatch.data.data_source.dao.LapTimeRecordDao
 import com.survivalcoding.stopwatch.domain.model.LapTimeRecord
 import com.survivalcoding.stopwatch.domain.repository.StopWatchRepository
 import kotlinx.coroutines.flow.Flow

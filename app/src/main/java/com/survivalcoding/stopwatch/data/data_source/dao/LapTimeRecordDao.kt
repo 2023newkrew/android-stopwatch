@@ -1,4 +1,4 @@
-package com.survivalcoding.stopwatch.data.dao
+package com.survivalcoding.stopwatch.data.data_source.dao
 
 import androidx.room.Dao
 import androidx.room.Insert

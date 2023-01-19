@@ -1,10 +1,10 @@
-package com.survivalcoding.stopwatch
+package com.survivalcoding.stopwatch.di
 
 import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.room.Room
-import com.survivalcoding.stopwatch.data.database.LapTimeDatabase
+import com.survivalcoding.stopwatch.data.data_source.database.LapTimeDatabase
 import com.survivalcoding.stopwatch.data.repository.StopWatchRepositoryImpl
 import com.survivalcoding.stopwatch.domain.repository.StopWatchRepository
 import com.survivalcoding.stopwatch.domain.use_case.*
