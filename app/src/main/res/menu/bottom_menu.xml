@@ -1,34 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/alarm"
-        android:enabled="true"
         android:icon="@drawable/ic_baseline_access_alarm_24"
-        android:title="Alarm"
-        app:showAsAction="always" />
+        android:title="Alarm" />
     <item
         android:id="@+id/clock"
-        android:enabled="true"
         android:icon="@drawable/ic_baseline_access_time_24"
-        android:title="Clock"
-        app:showAsAction="always" />
+        android:title="Clock" />
     <item
         android:id="@+id/timer"
-        android:enabled="true"
         android:icon="@drawable/ic_baseline_hourglass_bottom_24"
-        android:title="Timer"
-        app:showAsAction="always" />
+        android:title="Timer" />
     <item
         android:id="@+id/stopwatch"
-        android:enabled="true"
         android:icon="@drawable/ic_outline_timer_24"
-        android:title="Stopwatch"
-        app:showAsAction="always" />
+        android:title="Stopwatch" />
     <item
         android:id="@+id/bedtime"
-        android:enabled="true"
         android:icon="@drawable/ic_baseline_hotel_24"
-        android:title="Bedtime"
-        app:showAsAction="always" />
+        android:title="Bedtime" />
 </menu>
