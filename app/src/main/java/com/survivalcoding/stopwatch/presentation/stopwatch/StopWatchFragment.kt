@@ -71,7 +71,7 @@ class StopWatchFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         // 일시정지 시에 blink(깜빡임) 애니메이션 적용
-        recover(blinkAnim)
+        //recover(blinkAnim)
 
         // lapTime 가져오기
         lifecycleScope.launch {
@@ -105,6 +105,15 @@ class StopWatchFragment : Fragment() {
                     } else {
                         binding.progressiveTimerButton.progress = it.percent
                     }
+                }
+            }
+        }
+
+        // recover를 isWorking flow를 보고 작동하도록 설정
+        lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.isWorkingFlow().collect { isWorking ->
+                    recover(blinkAnim, isWorking ?: false)
                 }
             }
         }
@@ -191,8 +200,8 @@ class StopWatchFragment : Fragment() {
         _binding = null
     }
 
-    private fun recover(blinkAnim: Animation) {
-        if (viewModel.stopWatchState.isWorking) {
+    private fun recover(blinkAnim: Animation, isWorking: Boolean) {
+        if (isWorking) {
             viewModel.initTime()
             binding.resetButton.isVisible = true
             if (!viewModel.stopWatchState.isPaused) {
@@ -207,7 +216,5 @@ class StopWatchFragment : Fragment() {
                 binding.startPauseMotion?.transitionToStart()
             }
         }
-
-
     }
 }

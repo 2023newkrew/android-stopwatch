@@ -1,10 +1,15 @@
 package com.survivalcoding.stopwatch.di
 
 import android.content.Context
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
 import com.survivalcoding.stopwatch.data.stopwatch.data_source.dao.LapTimeRecordDao
 import com.survivalcoding.stopwatch.data.stopwatch.data_source.database.AppDatabase
+import com.survivalcoding.stopwatch.data.stopwatch.data_source.datastore.dataStore
 import com.survivalcoding.stopwatch.data.stopwatch.repository.LapTimeRepositoryImpl
+import com.survivalcoding.stopwatch.data.stopwatch.repository.StopWatchStateRepositoryImpl
 import com.survivalcoding.stopwatch.domain.stopwatch.repository.LapTimeRepository
+import com.survivalcoding.stopwatch.domain.stopwatch.repository.StopWatchStateRepository
 import com.survivalcoding.stopwatch.domain.stopwatch.use_case.DeleteAllLapTimesUseCase
 import com.survivalcoding.stopwatch.domain.stopwatch.use_case.DeleteLapTimeUseCase
 import com.survivalcoding.stopwatch.domain.stopwatch.use_case.GetLapTimesUseCase
@@ -16,7 +21,6 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
-
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -39,6 +43,18 @@ object AppModule {
     fun provideLapTimeRecordRepository(lapTimeRecordDao: LapTimeRecordDao): LapTimeRepository {
         return LapTimeRepositoryImpl(lapTimeRecordDao)
     }
+
+    @Provides
+    @Singleton
+    fun provideStopWatchStateDataStore(@ApplicationContext appContext: Context): DataStore<Preferences> =
+        appContext.dataStore
+
+    @Provides
+    @Singleton
+    fun provideStopWatchStateRepository(dataStore: DataStore<Preferences>): StopWatchStateRepository {
+        return StopWatchStateRepositoryImpl(dataStore)
+    }
+
 
     @Provides
     @Singleton

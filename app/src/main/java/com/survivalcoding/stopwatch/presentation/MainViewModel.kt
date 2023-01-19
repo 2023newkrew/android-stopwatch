@@ -11,8 +11,10 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val application: Application,
-    savedState: SavedStateHandle
+    private val savedState: SavedStateHandle
 ) : ViewModel() {
+
+
     private val mPreferences: SharedPreferences =
         PreferenceManager.getDefaultSharedPreferences(application)
     private val editor: SharedPreferences.Editor = mPreferences.edit()
