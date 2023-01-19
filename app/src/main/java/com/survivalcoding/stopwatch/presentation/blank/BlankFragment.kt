@@ -1,4 +1,4 @@
-package com.survivalcoding.stopwatch.fragment
+package com.survivalcoding.stopwatch.presentation.blank
 
 import android.os.Bundle
 import android.view.LayoutInflater

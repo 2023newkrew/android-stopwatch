@@ -1,9 +1,9 @@
-package com.survivalcoding.stopwatch.dao
+package com.survivalcoding.stopwatch.data.data_source
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
-import com.survivalcoding.stopwatch.entity.LabTime
+import com.survivalcoding.stopwatch.domain.model.LabTime
 import kotlinx.coroutines.flow.Flow
 
 @Dao

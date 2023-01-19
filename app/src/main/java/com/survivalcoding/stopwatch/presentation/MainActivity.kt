@@ -1,4 +1,4 @@
-package com.survivalcoding.stopwatch.activity
+package com.survivalcoding.stopwatch.presentation
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -7,9 +7,11 @@ import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 import com.survivalcoding.stopwatch.R
 import com.survivalcoding.stopwatch.databinding.ActivityMainBinding
-import com.survivalcoding.stopwatch.fragment.BlankFragment
-import com.survivalcoding.stopwatch.fragment.StopWatchFragment
+import com.survivalcoding.stopwatch.presentation.blank.BlankFragment
+import com.survivalcoding.stopwatch.presentation.stopwatch.StopWatchFragment
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private val binding: ActivityMainBinding by lazy {
