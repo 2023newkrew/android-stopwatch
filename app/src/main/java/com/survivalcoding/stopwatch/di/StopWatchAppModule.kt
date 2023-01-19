@@ -5,7 +5,9 @@ import android.content.Context
 import android.content.SharedPreferences
 import androidx.room.Room
 import com.survivalcoding.stopwatch.data.data_source.database.LapTimeDatabase
+import com.survivalcoding.stopwatch.data.repository.LocalStorageRepositoryImpl
 import com.survivalcoding.stopwatch.data.repository.StopWatchRepositoryImpl
+import com.survivalcoding.stopwatch.domain.repository.LocalStorageRepository
 import com.survivalcoding.stopwatch.domain.repository.StopWatchRepository
 import com.survivalcoding.stopwatch.domain.use_case.*
 import com.survivalcoding.stopwatch.domain.use_case.bundle.LapTimeUseCases
@@ -58,14 +60,33 @@ object StopWatchAppModule {
 
     @Provides
     @Singleton
-    fun provideGetStopWatchRecordUseCase(sharedPreferences: SharedPreferences): GetStopWatchRecordUseCase{
-        return GetStopWatchRecordUseCase(sharedPreferences)
+    fun provideLocalStorageRepository(sharedPreferences: SharedPreferences):LocalStorageRepository{
+        return LocalStorageRepositoryImpl(sharedPreferences)
+    }
+
+
+    @Provides
+    @Singleton
+    fun provideGetStopWatchRecordUseCase(localStorageRepository: LocalStorageRepository): GetStopWatchStateUseCase{
+        return GetStopWatchStateUseCase(localStorageRepository)
     }
 
     @Provides
     @Singleton
-    fun provideSaveStopWatchRecordUseCase(sharedPreferences: SharedPreferences): SaveStopWatchRecordUseCase {
-        return SaveStopWatchRecordUseCase(sharedPreferences)
+    fun provideSaveStopWatchRecordUseCase(localStorageRepository: LocalStorageRepository): SaveStopWatchStateUseCase {
+        return SaveStopWatchStateUseCase(localStorageRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideGetStopWatchTimeUseCase(localStorageRepository: LocalStorageRepository): GetStopWatchTimeUseCase{
+        return GetStopWatchTimeUseCase(localStorageRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideSaveStopWatchTimeUseCase(localStorageRepository: LocalStorageRepository): SaveStopWatchTimeUseCase{
+        return SaveStopWatchTimeUseCase(localStorageRepository)
     }
 
 }

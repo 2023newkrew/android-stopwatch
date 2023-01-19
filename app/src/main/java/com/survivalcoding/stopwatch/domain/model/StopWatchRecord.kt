@@ -4,12 +4,10 @@ data class StopWatchRecord(
     var isPaused: Boolean = true,
     var isWorking: Boolean = false,
     var standardLapTime: Int = 0,
-    var exitTime: Int = 0,
     var startLapTime: Int = 0,
 ){
     fun reset(){
         standardLapTime = 0
-        exitTime = 0
         startLapTime = 0
         isPaused = true
         isWorking = false
