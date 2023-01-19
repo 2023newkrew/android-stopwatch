@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">스톱워치</string>
+
+    <string name="description_play_button">재생 버튼</string>
+    <string name="description_refresh_button">새로고침 버튼</string>
+    <string name="description_lap_button">랩 타임 버튼</string>
+
+    <string name="menu_alarm">알람</string>
+    <string name="menu_clock">시계</string>
+    <string name="menu_timer">타이머</string>
+    <string name="menu_stopwatch">스톱워치</string>
+    <string name="menu_bedtime">취침시간</string>
+</resources>
