@@ -1,4 +1,4 @@
-package com.survivalcoding.stopwatch.ui.fragment
+package com.survivalcoding.stopwatch.presentation.view.fragment
 
 import android.content.Context.MODE_PRIVATE
 import android.os.Bundle
@@ -20,7 +20,8 @@ import com.survivalcoding.stopwatch.Config.Companion.THICK_CHECKER
 import com.survivalcoding.stopwatch.PrefsController
 import com.survivalcoding.stopwatch.R
 import com.survivalcoding.stopwatch.databinding.FragmentStopWatchBinding
-import com.survivalcoding.stopwatch.ui.MainViewModel
+import com.survivalcoding.stopwatch.domain.usecase.*
+import com.survivalcoding.stopwatch.presentation.viewmodel.MainViewModel
 
 class StopWatchFragment : Fragment() {
     private var _binding: FragmentStopWatchBinding? = null
@@ -45,18 +46,8 @@ class StopWatchFragment : Fragment() {
         viewModel.logArrayList = PrefsController(requireContext()).restoreLogArrayList()
         if (viewModel.logArrayList.size > 0) binding.scrollView.isVisible = true
         for (i in viewModel.logArrayList.indices) {
-            val time = viewModel.logArrayList[i]
-            val splitRight = splitTime(time)
-            val logRight = String.format("%01d %02d.%02d", splitRight.minute, splitRight.second, splitRight.milliSecond / 10)
-            val logLeft =
-                if (i == 0) {
-                    logRight
-                } else {
-                    val gap = time - viewModel.logArrayList[i - 1]
-                    val splitLeft = splitTime(gap)
-                    String.format("%01d %02d.%02d", splitLeft.minute, splitLeft.second, splitLeft.milliSecond / 10)
-                }
-            val log = "# ${String.format("%02d", i + 1)}   $logLeft   $logRight"
+            val timeList = viewModel.logArrayList
+            val log = GetTimeLogUseCase(i, timeList)
             val textView = TextView(requireContext()).apply {
                 setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
                 text = log
@@ -67,12 +58,8 @@ class StopWatchFragment : Fragment() {
         }
 
         viewModel.timeLiveData.observe(viewLifecycleOwner) { time ->
-            val split = splitTime(time)
-            binding.secTextView.text =
-                if (split.hour > 0) String.format("%d:%02d:%02d", split.hour, split.minute, split.second)
-                else if (split.minute > 0) String.format("%02d:%02d", split.minute, split.second)
-                else split.second.toString()
-            binding.milliSecTextView.text = String.format("%02d", split.milliSecond / 10)
+            binding.secTextView.text = GetSecStringUseCase(time)
+            binding.milliSecTextView.text = GetMilliSecStringUseCase(time)
 
             viewModel.backupTime?.let {
                 binding.timeProgressBar?.progress = (binding.timeProgressBar?.max ?: 0).coerceAtMost((time - it).toInt())
@@ -117,11 +104,11 @@ class StopWatchFragment : Fragment() {
             prefs.edit().clear().apply()
         }
         binding.lapButton.setOnClickListener {
-            viewModel.timeLiveData.value?.let {
+            viewModel.timeLiveData.value?.let {nowTime ->
                 if (viewModel.backupTime == null) {
-                    binding.timeProgressBar?.max = it.toInt()
-                    binding.checkBackProgressBar?.max = it.toInt()
-                    binding.checkFrontProgressBar?.max = it.toInt()
+                    binding.timeProgressBar?.max = nowTime.toInt()
+                    binding.checkBackProgressBar?.max = nowTime.toInt()
+                    binding.checkFrontProgressBar?.max = nowTime.toInt()
                     binding.scrollView.isVisible = true
                 } else {
                     val progress = binding.timeProgressBar?.progress ?: 0
@@ -131,21 +118,10 @@ class StopWatchFragment : Fragment() {
                     binding.checkFrontProgressBar?.progress = progress - (max * THICK_CHECKER).toInt()
                     binding.timeProgressBar?.progress = 0
                 }
-                viewModel.backupTime = it
+                viewModel.backupTime = nowTime
 
-                viewModel.logArrayList.add(it)
-                val index = viewModel.logArrayList.size
-                val splitRight = splitTime(it)
-                val logRight = String.format("%01d %02d.%02d", splitRight.minute, splitRight.second, splitRight.milliSecond / 10)
-                val logLeft =
-                    if (index == 1) {
-                        logRight
-                    } else {
-                        val gap = it - viewModel.logArrayList[index - 2]
-                        val splitLeft = splitTime(gap)
-                        String.format("%01d %02d.%02d", splitLeft.minute, splitLeft.second, splitLeft.milliSecond / 10)
-                    }
-                val log = "# ${String.format("%02d", index)}   $logLeft   $logRight"
+                viewModel.logArrayList.add(nowTime)
+                val log = GetLastTimeLogUseCase(nowTime, viewModel.logArrayList)
                 val textView = TextView(requireContext()).apply {
                     setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
                     text = log
@@ -177,14 +153,5 @@ class StopWatchFragment : Fragment() {
         _binding = null
     }
 
-    private fun splitTime(time: Long): TimeSplit {
-        return TimeSplit(
-            time % 1000,
-            (time / 1000) % 60,
-            (time / (1000 * 60)) % 60,
-            (time / (1000 * 60 * 60)) % 24
-        )
-    }
 
-    data class TimeSplit(val milliSecond: Long, val second: Long, val minute: Long, val hour: Long)
 }

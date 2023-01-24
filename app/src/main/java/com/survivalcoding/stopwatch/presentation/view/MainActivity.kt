@@ -1,4 +1,4 @@
-package com.survivalcoding.stopwatch.ui
+package com.survivalcoding.stopwatch.presentation.view
 
 import android.graphics.drawable.ColorDrawable
 import android.os.Build
