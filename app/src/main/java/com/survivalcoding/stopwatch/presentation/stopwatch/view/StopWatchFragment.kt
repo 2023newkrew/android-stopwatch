@@ -99,11 +99,12 @@ class StopWatchFragment : Fragment(R.layout.fragment_stop_watch) {
                         if (it.isPaused) {
                             startAnimation(blinkAnim)
                             binding.startPauseButton.setImageResource(R.drawable.ic_baseline_play_arrow_24)
+                            binding.recordButton.isVisible = false
                         } else {
                             stopAnimation()
                             binding.startPauseButton.setImageResource(R.drawable.ic_baseline_pause_24)
+                            binding.recordButton.isVisible = true
                         }
-                        binding.recordButton.isVisible = true
                         binding.resetButton.isVisible = true
                     }
                     else{
