@@ -1,5 +1,6 @@
 package com.survivalcoding.stopwatch.presentation.stopwatch.view
 
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -89,6 +90,19 @@ class StopWatchFragment : Fragment(R.layout.fragment_stop_watch) {
                     }
                     binding.secondText.text = df00.format(state.getSec())
                     binding.millisecondText.text = df00.format(state.getMilliSec())
+
+                    if(stopWatchViewModel.stopWatchRecord.standardLapTime>0){
+                        val progress = (state.time - stopWatchViewModel.stopWatchRecord.startLapTime) * 100 / stopWatchViewModel.stopWatchRecord.standardLapTime
+                        if(Build.VERSION.SDK_INT >= 24){
+                            binding.progressiveTimerButton.setProgress(progress, true)
+                        }
+                        else
+                            binding.progressiveTimerButton.progress = progress
+                    }
+                    else{
+                        binding.progressiveTimerButton.progress = 0
+                    }
+
                 }
 
             }
