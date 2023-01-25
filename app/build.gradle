@@ -39,6 +39,9 @@ android {
     kapt {
         correctErrorTypes true
     }
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
 }
 
 dependencies {
@@ -70,6 +73,23 @@ dependencies {
     // hilt
     implementation "com.google.dagger:hilt-android:2.44"
     kapt "com.google.dagger:hilt-compiler:2.44"
+
+    // hilt test
+    // For Robolectric tests.
+    testImplementation 'com.google.dagger:hilt-android-testing:2.44'
+    // ...with Kotlin.
+    kaptTest 'com.google.dagger:hilt-android-compiler:2.44'
+    // For instrumented tests.
+    androidTestImplementation 'com.google.dagger:hilt-android-testing:2.44'
+    // ...with Kotlin.
+    kaptAndroidTest 'com.google.dagger:hilt-android-compiler:2.44'
+
+    // mockito
+    androidTestImplementation 'org.mockito:mockito-android:4.0.0'
+    testImplementation 'org.mockito:mockito-inline:4.5.1'
+
+    // coroutine test
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4"
 
     // Preferences DataStore
     implementation "androidx.datastore:datastore-preferences:1.0.0"
