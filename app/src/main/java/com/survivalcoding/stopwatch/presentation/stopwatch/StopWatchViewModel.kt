@@ -45,7 +45,7 @@ class StopWatchViewModel @Inject constructor(
             _stopWatchState = stopWatchState.copy(
                 isPaused = getStopWatchStateUseCase.isPausedFlow().first() ?: true,
                 isWorking = getStopWatchStateUseCase.isWorkingFlow().first() ?: false,
-                standardLapTime = getStopWatchStateUseCase.startLapTime().first() ?: 0,
+                standardLapTime = getStopWatchStateUseCase.standardLapTime().first() ?: 0,
                 startLapTime = getStopWatchStateUseCase.startLapTime().first() ?: 0,
                 exitTime = getStopWatchStateUseCase.exitTime().first() ?: 0,
             )
