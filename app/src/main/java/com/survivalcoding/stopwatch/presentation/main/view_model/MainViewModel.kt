@@ -26,7 +26,7 @@ class MainViewModel
     private val _mainUiState = MutableStateFlow(MainUiState(getStopWatchTimeUseCase()))
     val mainUiState = _mainUiState.asStateFlow()
 
-    private val stopWatchUiState = getStopWatchStateUseCase()
+    val stopWatchUiState = getStopWatchStateUseCase()
 
     private var timerWork: Timer? = null
     init {

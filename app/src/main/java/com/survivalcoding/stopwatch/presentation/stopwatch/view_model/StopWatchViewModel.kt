@@ -36,6 +36,7 @@ class StopWatchViewModel
     val lapTimeList: Flow<List<LapTimeRecord>> = lapTimeUseCases.getAllLapTimesUseCase()
 
 
+
     fun lapTime(time: Int) {
         val elapsedTime = if (stopWatchRecord.standardLapTime == 0) {
             stopWatchRecord.standardLapTime = time
@@ -63,6 +64,7 @@ class StopWatchViewModel
     }
 
     fun pause() {
+        stopWatchRecord.pause()
         _stopWatchUiState.value = stopWatchUiState.value.copy(
             isPaused = true,
             isWorking = true
@@ -70,10 +72,16 @@ class StopWatchViewModel
     }
 
     fun start() {
+        stopWatchRecord.start()
         _stopWatchUiState.value = stopWatchUiState.value.copy(
             isPaused = false,
             isWorking = true
         )
+    }
 
+    fun onStoppedAction() {
+        println(stopWatchRecord.isPaused)
+        println(stopWatchRecord.isWorking)
+        saveStopWatchStateUseCase(stopWatchRecord)
     }
 }

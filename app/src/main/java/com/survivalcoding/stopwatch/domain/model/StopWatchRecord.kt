@@ -12,4 +12,14 @@ data class StopWatchRecord(
         isPaused = true
         isWorking = false
     }
+
+    fun pause(){
+        isPaused = true
+        isWorking = true
+    }
+
+    fun start(){
+        isPaused = false
+        isWorking = true
+    }
 }

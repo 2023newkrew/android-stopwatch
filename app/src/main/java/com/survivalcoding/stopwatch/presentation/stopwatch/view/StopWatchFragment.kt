@@ -1,7 +1,6 @@
 package com.survivalcoding.stopwatch.presentation.stopwatch.view
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -52,6 +51,10 @@ class StopWatchFragment : Fragment(R.layout.fragment_stop_watch) {
         binding.recordRecyclerView.setHasFixedSize(true)
 
         val blinkAnim = AnimationUtils.loadAnimation(context, R.anim.blink_animation)
+
+        if(mainViewModel.stopWatchUiState.isWorking && !mainViewModel.stopWatchUiState.isPaused){
+            toggleButtonAnimation()
+        }
 
 
         viewLifecycleOwner.lifecycleScope.launch {
@@ -116,9 +119,9 @@ class StopWatchFragment : Fragment(R.layout.fragment_stop_watch) {
         }
 
 
+
         binding.startPauseButton.setOnClickListener {
             if(stopWatchViewModel.stopWatchUiState.value.isPaused){
-                println("paused")
                 stopWatchViewModel.start()
                 mainViewModel.timerStart()
             }
@@ -126,11 +129,7 @@ class StopWatchFragment : Fragment(R.layout.fragment_stop_watch) {
                 stopWatchViewModel.pause()
                 mainViewModel.timerPause()
             }
-            if (binding.startPauseMotion?.progress == 0.0F) {
-                binding.startPauseMotion?.transitionToEnd()
-            } else {
-                binding.startPauseMotion?.transitionToStart()
-            }
+            toggleButtonAnimation()
         }
         binding.resetButton.setOnClickListener {
             stopAnimation()
@@ -161,6 +160,18 @@ class StopWatchFragment : Fragment(R.layout.fragment_stop_watch) {
         binding.millisecondText.clearAnimation()
     }
 
+    private fun toggleButtonAnimation(){
+        if (binding.startPauseMotion?.progress == 0.0F) {
+            binding.startPauseMotion?.transitionToEnd()
+        } else {
+            binding.startPauseMotion?.transitionToStart()
+        }
+    }
+
+    override fun onStop() {
+        stopWatchViewModel.onStoppedAction()
+        super.onStop()
+    }
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
