@@ -85,7 +85,7 @@ dependencies {
     kaptAndroidTest 'com.google.dagger:hilt-android-compiler:2.44'
 
     // mockito
-    androidTestImplementation 'org.mockito:mockito-android:4.0.0'
+    androidTestImplementation 'org.mockito:mockito-android:4.5.1'
     testImplementation 'org.mockito:mockito-inline:4.5.1'
 
     // coroutine test
