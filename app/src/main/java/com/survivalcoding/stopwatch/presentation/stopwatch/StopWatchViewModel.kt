@@ -14,7 +14,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 import java.util.*
 import javax.inject.Inject
@@ -40,18 +40,33 @@ class StopWatchViewModel @Inject constructor(
     private val _progressPercentState = MutableStateFlow(ProgressBarState())
     val progressPercentState = _progressPercentState.asStateFlow()
 
+    private val _state: Flow<StopWatchState> =
+        combine(
+            getStopWatchStateUseCase.isPausedFlow(),
+            getStopWatchStateUseCase.isWorkingFlow(),
+            getStopWatchStateUseCase.standardLapTime(),
+            getStopWatchStateUseCase.startLapTime(),
+            getStopWatchStateUseCase.exitTime(),
+        ) { isPaused, isWorking, standardLapTime, startLapTime, exitTime ->
+            stopWatchState.copy(
+                isPaused = isPaused ?: true,
+                isWorking = isWorking ?: false,
+                standardLapTime = standardLapTime ?: 0,
+                startLapTime = startLapTime ?: 0,
+                exitTime = exitTime ?: 0
+            )
+        }
+
     init {
         viewModelScope.launch {
-            _stopWatchState = stopWatchState.copy(
-                isPaused = getStopWatchStateUseCase.isPausedFlow().first() ?: true,
-                isWorking = getStopWatchStateUseCase.isWorkingFlow().first() ?: false,
-                standardLapTime = getStopWatchStateUseCase.standardLapTime().first() ?: 0,
-                startLapTime = getStopWatchStateUseCase.startLapTime().first() ?: 0,
-                exitTime = getStopWatchStateUseCase.exitTime().first() ?: 0,
-            )
-            time = stopWatchState.exitTime
-            if (!stopWatchState.isPaused) {
-                stopWatchStart()
+            println("MainViewModel: $stopWatchState")
+            _state.collect { state ->
+                _stopWatchState = state
+                println("MainViewModel: $stopWatchState")
+                time = stopWatchState.exitTime
+                if (!stopWatchState.isPaused) {
+                    stopWatchStart()
+                }
             }
         }
     }
