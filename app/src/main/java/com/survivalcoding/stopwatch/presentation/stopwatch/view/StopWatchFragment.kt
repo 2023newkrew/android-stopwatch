@@ -132,8 +132,6 @@ class StopWatchFragment : Fragment(R.layout.fragment_stop_watch) {
             }
         }
 
-
-
         binding.startPauseButton.setOnClickListener {
             if(stopWatchViewModel.stopWatchUiState.value.isPaused){
                 stopWatchViewModel.start()

@@ -19,7 +19,7 @@ import javax.inject.Inject
 class StopWatchViewModel
 @Inject constructor(
     private val lapTimeUseCases: LapTimeUseCases,
-    private val getStopWatchStateUseCase: GetStopWatchStateUseCase,
+    getStopWatchStateUseCase: GetStopWatchStateUseCase,
     private val saveStopWatchStateUseCase: SaveStopWatchStateUseCase
 ) : ViewModel() {
 
