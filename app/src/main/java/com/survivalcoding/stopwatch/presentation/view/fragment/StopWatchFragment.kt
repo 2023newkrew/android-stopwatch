@@ -1,5 +1,6 @@
 package com.survivalcoding.stopwatch.presentation.view.fragment
 
+import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,7 +12,6 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import com.survivalcoding.stopwatch.Config.Companion.KEY_BACKUP_TIME
 import com.survivalcoding.stopwatch.Config.Companion.KEY_PREFS
 import com.survivalcoding.stopwatch.Config.Companion.KEY_PROGRESS_MAX
@@ -20,15 +20,26 @@ import com.survivalcoding.stopwatch.Config.Companion.THICK_CHECKER
 import com.survivalcoding.stopwatch.PrefsController
 import com.survivalcoding.stopwatch.R
 import com.survivalcoding.stopwatch.databinding.FragmentStopWatchBinding
+import com.survivalcoding.stopwatch.di.component.StopWatchFragmentComponent
 import com.survivalcoding.stopwatch.domain.usecase.*
+import com.survivalcoding.stopwatch.presentation.view.MainActivity
 import com.survivalcoding.stopwatch.presentation.viewmodel.MainViewModel
+import javax.inject.Inject
 
 class StopWatchFragment : Fragment() {
     private var _binding: FragmentStopWatchBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: MainViewModel by activityViewModels()
+    @Inject
+    lateinit var fragmentComponent: StopWatchFragmentComponent
+    @Inject
+    lateinit var viewModel: MainViewModel
 
+    override fun onAttach(context: Context) {
+        fragmentComponent = (activity as MainActivity).mainComponent.stopWatchFragmentComponent().create()
+        fragmentComponent.inject(this)
+        super.onAttach(context)
+    }
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentStopWatchBinding.inflate(inflater, container, false)
         val root: View = binding.root

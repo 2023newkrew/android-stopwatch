@@ -4,9 +4,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.survivalcoding.stopwatch.Config.Companion.PERIOD_TIMER
 import java.util.*
+import javax.inject.Inject
 import kotlin.concurrent.timer
 
-class MainViewModel : ViewModel() {
+class MainViewModel @Inject constructor() : ViewModel() {
     private var timer: Timer? = null
 
     var runningLiveData = MutableLiveData(false)

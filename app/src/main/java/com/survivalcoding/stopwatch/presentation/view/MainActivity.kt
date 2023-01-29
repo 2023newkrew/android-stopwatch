@@ -11,10 +11,14 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.survivalcoding.stopwatch.R
+import com.survivalcoding.stopwatch.di.StopWatchApplication
+import com.survivalcoding.stopwatch.di.component.MainActivityComponent
 
 class MainActivity : AppCompatActivity() {
-    // branch test
+    lateinit var mainComponent: MainActivityComponent
     override fun onCreate(savedInstanceState: Bundle?) {
+        mainComponent = (applicationContext as StopWatchApplication).appComponent.mainActivityComponent().create()
+        mainComponent.inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
