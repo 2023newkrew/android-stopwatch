@@ -1,11 +1,11 @@
 package com.survivalcoding.stopwatch.presentation.stopwatch
 
 import android.app.Application
-import android.content.SharedPreferences
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.preference.PreferenceManager
 import com.survivalcoding.stopwatch.domain.stopwatch.model.LapTimeRecord
+import com.survivalcoding.stopwatch.domain.stopwatch.use_case.GetStopWatchStateUseCase
+import com.survivalcoding.stopwatch.domain.stopwatch.use_case.SaveStopWatchStateUseCase
 import com.survivalcoding.stopwatch.domain.stopwatch.use_case.bundle.LapTimeRecordUseCaseBundle
 import com.survivalcoding.stopwatch.presentation.stopwatch.state.MainUiState
 import com.survivalcoding.stopwatch.presentation.stopwatch.state.ProgressBarState
@@ -14,23 +14,18 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
-import kotlinx.serialization.decodeFromString
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
 import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
 class StopWatchViewModel @Inject constructor(
-    private val application: Application,
-    private val lapTimeRecordUseCaseBundle: LapTimeRecordUseCaseBundle
+    application: Application,
+    private val lapTimeRecordUseCaseBundle: LapTimeRecordUseCaseBundle,
+    private val getStopWatchStateUseCase: GetStopWatchStateUseCase,
+    private val saveStopWatchStateUseCase: SaveStopWatchStateUseCase,
 ) : ViewModel() {
-    // SharedPreference
-    private val mPreferences: SharedPreferences =
-        PreferenceManager.getDefaultSharedPreferences(application)
-
-    private val editor: SharedPreferences.Editor = mPreferences.edit() // 에디터 객체 얻기
 
     private var time = 0
     private var timerWork: Timer? = null
@@ -45,24 +40,34 @@ class StopWatchViewModel @Inject constructor(
     private val _progressPercentState = MutableStateFlow(ProgressBarState())
     val progressPercentState = _progressPercentState.asStateFlow()
 
-    init {
-        val tempState =
-            mPreferences.getString(
-                "stopWatchState", Json.encodeToString(StopWatchState())
-            )?.let { Json.decodeFromString<StopWatchState>(it) }
-        if (tempState != null) {
-            _stopWatchState = stopWatchState.copy(
-                isPaused = tempState.isPaused,
-                isWorking = tempState.isWorking,
-                standardLapTime = tempState.standardLapTime,
-                startLapTime = tempState.startLapTime,
-                exitTime = tempState.exitTime
+    private val _state: Flow<StopWatchState> =
+        combine(
+            getStopWatchStateUseCase.isPausedFlow(),
+            getStopWatchStateUseCase.isWorkingFlow(),
+            getStopWatchStateUseCase.standardLapTime(),
+            getStopWatchStateUseCase.startLapTime(),
+            getStopWatchStateUseCase.exitTime(),
+        ) { isPaused, isWorking, standardLapTime, startLapTime, exitTime ->
+            stopWatchState.copy(
+                isPaused = isPaused ?: true,
+                isWorking = isWorking ?: false,
+                standardLapTime = standardLapTime ?: 0,
+                startLapTime = startLapTime ?: 0,
+                exitTime = exitTime ?: 0
             )
-            time = stopWatchState.exitTime
         }
 
-        if (!stopWatchState.isPaused) {
-            stopWatchStart()
+    init {
+        viewModelScope.launch {
+            println("MainViewModel: $stopWatchState")
+            _state.collect { state ->
+                _stopWatchState = state
+                println("MainViewModel: $stopWatchState")
+                time = stopWatchState.exitTime
+                if (!stopWatchState.isPaused) {
+                    stopWatchStart()
+                }
+            }
         }
     }
 
@@ -71,6 +76,9 @@ class StopWatchViewModel @Inject constructor(
             isWorking = isWorking
         )
     }
+
+    fun isWorkingFlow(): Flow<Boolean?> =
+        getStopWatchStateUseCase.isWorkingFlow()
 
     fun getLapTimeRecords(): Flow<List<LapTimeRecord>> =
         lapTimeRecordUseCaseBundle.getLapTimesUseCase()
@@ -166,7 +174,10 @@ class StopWatchViewModel @Inject constructor(
             exitTime = time
         )
         // 현재 기록 데이터 저장
-        editor.putString("stopWatchState", Json.encodeToString(stopWatchState))
-        editor.apply()
+//        editor.putString("stopWatchState", Json.encodeToString(stopWatchState))
+//        editor.apply()
+        viewModelScope.launch {
+            saveStopWatchStateUseCase(stopWatchState)
+        }
     }
 }
