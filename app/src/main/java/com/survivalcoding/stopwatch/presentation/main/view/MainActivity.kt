@@ -56,9 +56,4 @@ class MainActivity : AppCompatActivity() {
         super.onStop()
     }
 
-    override fun onDestroy() {
-        //viewModel.onDestroyAction()
-        println("onDestory 호출")
-        super.onDestroy()
-    }
 }

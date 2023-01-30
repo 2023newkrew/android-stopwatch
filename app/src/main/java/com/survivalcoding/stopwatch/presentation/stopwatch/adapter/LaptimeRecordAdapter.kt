@@ -16,12 +16,10 @@ class LaptimeRecordAdapter(val context: Context) :
 
     companion object {
         val diffUtil = object : DiffUtil.ItemCallback<LapTimeRecord>() {
-            // 아이디가 같은가? => 같으면 areContentsTheSame 으로, 다르면 갱신
             override fun areItemsTheSame(oldItem: LapTimeRecord, newItem: LapTimeRecord): Boolean {
                 return oldItem.endTime == newItem.endTime
             }
 
-            // 모든 속성이 같은가? => 다르면 갱신
             override fun areContentsTheSame(
                 oldItem: LapTimeRecord,
                 newItem: LapTimeRecord
@@ -50,7 +48,6 @@ class LaptimeRecordAdapter(val context: Context) :
         return ViewHolder(view)
     }
 
-    // Replace the contents of a view (invoked by the layout manager)
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
         viewHolder.recordIdTextview.text =
             context.getString(R.string.laptime_record_id_format, position + 1)
@@ -68,11 +65,6 @@ class LaptimeRecordAdapter(val context: Context) :
         )
     }
 
-    // Return the size of your dataset (invoked by the layout manager)
     override fun getItemCount() = currentList.size
 
-//    override fun submitList(list: List<LaptimeRecord>?) {
-//        println("[디버그 Adapter] current: $currentList  new: $list")
-//        super.submitList(list?.let { ArrayList(it) })
-//    }
 }
